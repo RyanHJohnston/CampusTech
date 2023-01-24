@@ -1,0 +1,29 @@
+/*
+ * Dummy decoration
+ * We will decorate this later 
+ */
+:root {
+    --dark0_hard: #1d2021;
+    --dark0: #282828;
+    --dark0_soft: #32302f;
+
+    --blue: #458588;
+    --yellow: #fabd2f;
+    --white: #ebdbb2;
+}
+
+body {
+    background-color: var(--dark0);
+}
+
+h1 {
+    color: var(--blue);
+    text-align: center;
+    font-family: Helvetica;
+}
+
+p {
+    color: var(--white);
+    text-align: center;
+    font-family: Helvetica;
+}
