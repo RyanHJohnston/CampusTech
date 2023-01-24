@@ -1,6 +1,6 @@
 ### How to install
-Assuming you are in a bash shell.
-`git clone https://github.com/RyanHJohnston/soft-eng-project.git`
-`cd soft-eng-project`
-`mvn spring-boot:run`
+Assuming you are in a bash shell. **Enter**
+`git clone https://github.com/RyanHJohnston/soft-eng-project.git` **Enter**
+`cd soft-eng-project` **Enter**
+`mvn spring-boot:run` **Enter**
 
