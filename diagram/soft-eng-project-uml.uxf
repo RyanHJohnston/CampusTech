@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.0.0">
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>352</x>
+      <y>24</y>
+      <w>296</w>
+      <h>296</h>
+    </coordinates>
+    <panel_attributes>*product: Product*
+--
+Package::com.techstore.Model
+--
+-id: Long
+-description: String
+-price: Double
+-quantity: Integer
+-image: Image
+-vendor: String
+--
++getId(): Long
++setId(name): void
++getDescription(): String
++setDescription(description): void
++getPrice(): Double
++setPrice(price): void
++getQuantity(): Integer
++setQuantity(quantity): void
++getImage(): Image
++setImage(image): void
++getVendor(): String
++setVendor(vendor): String</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>456</x>
+      <y>400</y>
+      <w>360</w>
+      <h>352</h>
+    </coordinates>
+    <panel_attributes>*shoppingCart: ShoppingCart*
+--
+-products: ArrayList&lt;Product&gt;
+-totalAmount: Double
+-payableAmount: Double
+-discount: Double
+-tax: Double
+-coupon: String
+--
++addToCart(Product product): void
++showCart(): void
++removeFromCart(Product product): void
++applyCoupon(coupon): void
++getPayableAmount(): Double
++printInvoice(): void
++getProducts(): ArrayList&lt;Product&gt;
++getTotalAmount(): Double
++setTotalAmount(totalAmount): void
++getPayableAmount(): Double
++setPayableAmount(payableAmount): void
++getDiscount(): Double
++setDiscount(discount): void
++getCoupon(): String
++setCoupon(coupon): void
++getTax(): Double
++setTax(tax): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
