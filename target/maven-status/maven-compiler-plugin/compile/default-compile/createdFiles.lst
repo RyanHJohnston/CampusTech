@@ -1,2 +1,4 @@
 com/example/softengproject/DemoApplication.class
+com/example/softengproject/Model/User.class
 com/example/softengproject/Controller/DemoController.class
+com/example/softengproject/Model/ShoppingCart.class
