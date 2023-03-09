@@ -21,6 +21,30 @@
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-data-jpa</artifactId>
   </dependency>
+
+  <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-devtools -->
+  <!-- Spring Boot Developer Tools
+       Comes with auto app restart with any codes changes,
+       Auto browser refresh when browser-destined resources (such as templates,
+       javascript, styles, and so on) change, 
+       auto disable of template caches,
+       and built-in h2 console if the h2 is in use-->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-devtools</artifactId>
+    <version>3.0.4</version>
+  </dependency>
+  
+  <!-- Lombok is a java library tool used to minimize/remove boilerplate code 
+        and save development time by just using simple annotations.
+        aka, it automatically generates helper methods during runtime -->
+	<dependency>
+		<groupId>org.projectlombok</groupId>
+		<artifactId>lombok</artifactId>
+		<version>1.18.26</version>
+		<scope>provided</scope>
+	</dependency>
+
   <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -41,6 +65,17 @@
     <artifactId>spring-boot-starter-test</artifactId>
     <scope>test</scope>
   </dependency>
+
+
+  <!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
+  <!-- Used for testing  -->
+  <dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-test</artifactId>
+    <version>6.0.6</version>
+    <scope>test</scope>
+  </dependency>
+
 
   <dependency>
     <groupId>javax.validation</groupId>

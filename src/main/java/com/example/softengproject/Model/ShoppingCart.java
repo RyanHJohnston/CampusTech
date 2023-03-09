@@ -1,37 +1,38 @@
 package com.example.softengproject.Model;
 
 import java.util.ArrayList;
-import org.hibernate.annotations.NotFound;
-import jakarta.annotation.Nonnull;
+import javax.validation.constraints.NotBlank;
 import jakarta.persistence.Entity;
+import lombok.Data;
+import javax.validation.constraints.NotNull;
 
 @Entity
+@Data
 public class ShoppingCart {
-
-  @Nonnull
-  @NotFound
+  
+  @NotBlank(message = "ArrayList of Products cannot be empty")
+  @NotNull(message = "ArrayList of Products cannot be NULL") 
   private ArrayList<Product> products;
-
-  @Nonnull
-  @NotFound
+  
+  @NotBlank(message = "Product totalAmount cannot be empty")
+  @NotNull(message = "Product totalAmount cannot be NULL")
   private Double totalAmount;
-
-  @Nonnull
-  @NotFound
+  
+  @NotBlank(message = "Product payableAmount cannot be empty")
+  @NotNull(message = "Product payableAmount cannot be NULL")
   private Double payableAmount;
-
-  @Nonnull
-  @NotFound
+  
+  @NotBlank(message = "Product tax amount cannot be empty")
+  @NotNull(message = "Product tax ammount cannot be NULL")
   private Double tax;
-
-  @Nonnull
-  @NotFound
+  
+  @NotBlank(message = "Product coupon cannot be empty")
+  @NotNull(message = "Product message cannot be NULL")
   private Double coupon;
-
-  @Nonnull
-  @NotFound
+  
+  @NotBlank(message = "Product deliveryLocation cannot be empty")
+  @NotNull(message = "Product deliveryLocation cannot be NULL")
   private String deliveryLocation;
-
 
   public ShoppingCart() {}
 
@@ -46,26 +47,41 @@ public class ShoppingCart {
   }
 
   public void addToCart(Product product) {
-    /* Write code here */
+    ShoppingCart shoppingCart = new ShoppingCart();
+    shoppingCart.products.add(product);
   }
 
-  public void showChart() {
-    /* Write code here */
+  public void showShoppingChart() {
+    this.products.toString(); 
   }
 
   public void removeFromCart(Product product) {
-    /* Write code here */
+    this.products.remove(product);
   }
 
-  public void applyCoupon(Double coupon) {
-    /* Write code here */
+  public void applyCoupon(Double coupon) throws Exception {
+    Double discount;    
+    
+    /* coupon percentage cannot exceed 60% nor can it be less than 0 */
+    try {
+      if (coupon < 0 || coupon > 0.60) {
+        System.err.println("ERROR: coupon percentage");
+        System.exit(1);  
+      }
+
+    setCoupon(coupon);
+    discount = this.totalAmount - (this.totalAmount * coupon);
+    setPayableAmount(discount);
+    } catch(Exception exception) {
+      exception.printStackTrace(); 
+    }
   }
 
   public void printInvoice() {
-    /* Write code here */
+    System.out.println(this.products.toString());
   }
 
-  public ArrayList<Product> getProducts() {
+    public ArrayList<Product> getProducts() {
     return products;
   }
 
@@ -88,7 +104,7 @@ public class ShoppingCart {
   public String getDeliveryLocation() {
     return deliveryLocation;
   }
-
+  
   public void setProducts(ArrayList<Product> products) {
     this.products = products;
   }
@@ -101,6 +117,10 @@ public class ShoppingCart {
     this.payableAmount = payableAmount;
   }
 
+  public void setTax(Double tax) {
+    this.tax = tax;
+  }
+
   public void setCoupon(Double coupon) {
     this.coupon = coupon;
   }
@@ -108,4 +128,5 @@ public class ShoppingCart {
   public void setDeliveryLocation(String deliveryLocation) {
     this.deliveryLocation = deliveryLocation;
   }
+
 }

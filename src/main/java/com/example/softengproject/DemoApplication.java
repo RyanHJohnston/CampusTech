@@ -1,6 +1,7 @@
 package com.example.softengproject;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
@@ -10,6 +11,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  *  excluded in the SpringBootAppplication annotation
  */
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+@AutoConfiguration
 public class DemoApplication {
 
     /**
@@ -21,5 +23,4 @@ public class DemoApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
 	}
-
 }

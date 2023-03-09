@@ -12,27 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
  */
 
 @Controller
-
 public class DemoController {
   
-  /**
-   * Getter method using @GetMapping annotation
-   * Return String value is 'index'
-   * That is the name of the Thymeleaf template 'index.html'
-   *
-   * @param name String name of the model
-   * @param model Model object of given class model 
-   *
-   * @return Template name using the {@link Model)
-   *         If no name is given, default value is 'World'
-   *         It's a Hello world test
-   */
-  @GetMapping(value = "/index")
-  public String getTemplate(
-      @RequestParam(name="name", required=false, defaultValue="World"
-      ) String name, Model model) {
-
-    model.addAttribute("name", name);
-    return "index";
+  @GetMapping("/")
+  public String home() { 
+    return "home";
   }
+
 }
