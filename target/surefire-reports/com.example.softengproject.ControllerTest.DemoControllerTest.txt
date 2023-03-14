@@ -1,0 +1,8 @@
+-------------------------------------------------------------------------------
+Test set: com.example.softengproject.ControllerTest.DemoControllerTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 1.777 s <<< FAILURE! - in com.example.softengproject.ControllerTest.DemoControllerTest
+testHomePage  Time elapsed: 0.502 s  <<< FAILURE!
+java.lang.AssertionError: View name expected:<home> but was:<index>
+	at com.example.softengproject.ControllerTest.DemoControllerTest.testHomePage(DemoControllerTest.java:25)
+
