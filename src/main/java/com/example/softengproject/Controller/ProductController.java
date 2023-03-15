@@ -19,11 +19,10 @@ import lombok.extern.slf4j.Slf4j;
                     // automatically create an instance of the controller as a bean in the Spring
                     // Application context
 @RequestMapping("/product") // temporary for testing
-@SessionAttributes("") // find out what this means
 public class ProductController {
   
-  @GetMapping
-  public String showDesignForm(Model model) {
+  @GetMapping("/product")
+  public String showProductTemplate(Model model) {
     model.addAttribute("product", new Product()); 
     return "product";
   }

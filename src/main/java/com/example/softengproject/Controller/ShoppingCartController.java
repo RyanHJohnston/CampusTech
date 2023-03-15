@@ -21,9 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @SessionAttributes("")
 public class ShoppingCartController {
   
-  
-
-  @GetMapping 
+  @GetMapping("/shopping-cart") 
   public String showShoppingCartTemplate(Model model) {
     model.addAttribute("shopping-cart", new ShoppingCart()); 
     return "shopping-cart";
