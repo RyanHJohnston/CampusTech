@@ -1,5 +1,4 @@
-package com.example.softengproject.Controller;
-
+package com.example.softengproject.controller;
 import java.util.Arrays;
 import java.util.List;
 import java.util.*;
@@ -10,8 +9,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.example.softengproject.Model.Product;
-import com.example.softengproject.Model.ShoppingCart;
+import com.example.softengproject.entity.Product;
+import com.example.softengproject.entity.ShoppingCart;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,5 +1,5 @@
 
-<!-- HOME PAGE -->
+<!-- DESKTOPS PRODUCT LIST PAGE -->
 
 <!DOCTYPE>
 <html xmlns:th="http://www.thymeleaf.org">
@@ -9,7 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" 
         <!-- media="all" th:href="@{/index.css}" -->
-        <title>Student Technology Store</title>
+        <title>Desktops</title>
         <!-- THIS IS NEEDED IN EVERY HTML HEADER FOR BOOTSTRAP AND JQUERY TO WORK
         -->
         <link rel="stylesheet"
@@ -55,6 +55,7 @@
             </div>
         </nav>
 
+        <h3>Desktop info: <span th:text="${desktopAttribute}"></span></h3>
 
         <!-- NEEDED IN EVERY HTML FILE FOR BOOTSTRAP AND JQUERY TO WORK -->
         <!-- Optional JavaScript -->
@@ -73,4 +74,3 @@
 
     </body>
 </html>
-

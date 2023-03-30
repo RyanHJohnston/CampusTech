@@ -1,4 +1,4 @@
-package com.example.softengproject.Model;
+package com.example.softengproject.entity;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

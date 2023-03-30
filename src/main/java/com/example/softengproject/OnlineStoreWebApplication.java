@@ -4,6 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /* 
  * Executes the entire web application
@@ -12,7 +14,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  */
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @AutoConfiguration
-public class DemoApplication {
+public class OnlineStoreWebApplication implements WebMvcConfigurer{
 
     /**
      * Executes the main application
@@ -20,7 +22,17 @@ public class DemoApplication {
      *
      * @param args Default String argument for main method
      */
-	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(OnlineStoreWebApplication.class, args);
+    }
+     
+    /**
+     * Makes home.html the default page
+     * Easier than creating a separate config class
+     *
+     * @param registry ViewControllerRegistry object 
+     */
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/").setViewName("home");
+    }
 }

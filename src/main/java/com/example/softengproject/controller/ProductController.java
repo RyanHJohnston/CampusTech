@@ -1,5 +1,4 @@
-package com.example.softengproject.Controller;
-
+package com.example.softengproject.controller;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.example.softengproject.Model.Product;
+import com.example.softengproject.entity.Product;
 
 import lombok.extern.slf4j.Slf4j;
 

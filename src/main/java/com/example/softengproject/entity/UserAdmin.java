@@ -1,9 +1,8 @@
-package com.example.softengproject.Model;
+package com.example.softengproject.entity;
 
 import org.hibernate.annotations.NotFound;
 import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
-import com.example.softengproject.Model.*;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
