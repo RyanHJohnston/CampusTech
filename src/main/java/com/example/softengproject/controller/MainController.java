@@ -1,16 +1,7 @@
 package com.example.softengproject.controller;
 
-import java.text.DateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.validation.Valid;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
 
 import com.example.softengproject.entity.Product.Type;
 import com.example.softengproject.entity.Product;
@@ -65,25 +56,27 @@ public class MainController {
         return "home";
     }
     
-    @RequestMapping(value = "/desktops") 
+    @RequestMapping(value = "/desktops", method = RequestMethod.GET)
     public String redirectToDesktopsTemplate(Model model) {
-        model.addAttribute("desktopAttribute", "test"); 
+        model.addAttribute("productTypeDesktopData", "Deskto products load here");
         return "desktops";
     }
     
-    @GetMapping("/laptops")
+    @RequestMapping(value = "/laptops", method = RequestMethod.GET)
     public String redirectToLaptopsTemplate(Model model) {
-        model.addAttribute("laptopTimeAccessed", DateFormat.getDateInstance().toString());
+        model.addAttribute("productTypeLaptopData", "Laptop products load here");
         return "laptops";
     } 
     
-    @RequestMapping(value = "/phones") 
+    @RequestMapping(value = "phones", method = RequestMethod.GET)
     public String redirectToPhonesTemplate(Model model) {
+        model.addAttribute("productTypePhonesData", "Phone products load here");
         return "phones";
     }
 
-    @RequestMapping(value = "/accessories")
+    @RequestMapping(value = "/accessories", method = RequestMethod.GET)
     public String redirectToAccessoriesTemplate(Model model) {
+        model.addAttribute("productTypeAccessoriesData", "Accessory products load here");
         return "accessories";
     }
 
