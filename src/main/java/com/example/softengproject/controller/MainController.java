@@ -1,5 +1,10 @@
 package com.example.softengproject.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -16,11 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
-/* Initiates thymeleaf template (index.html) 
- * This is where we will manipulate the data in the frontend
- * We can modify the name of the controller class later
- */
 
 /* 
  * A simple controller class must do the following:
@@ -39,13 +39,6 @@ public class MainController {
     
     private Product product;
     
-    public void addProductsToProductList() {   
-        Product product = new Product("Gaming PC", Type.DESKTOP, "Gaming PC for sale", 
-                450.00, 15, "Intel");
-        ProductList productList = new ProductList();
-        productList.add(product);
-    }
-
     @RequestMapping("/403") 
     public String accessDenied() {
         return "/403";
@@ -56,9 +49,14 @@ public class MainController {
         return "home";
     }
     
+    /*
+     * This is where the data will be rendered into the Thymeleaf template
+     * this method sends a GET request to render the new data from the Model
+     */
     @RequestMapping(value = "/desktops", method = RequestMethod.GET)
     public String redirectToDesktopsTemplate(Model model) {
-        model.addAttribute("productTypeDesktopData", "Deskto products load here");
+        model.addAttribute("productList", loadProductTypeDesktopList());
+        model.addAttribute("productTypeDesktopData", "Desktop data from attribute");  
         return "desktops";
     }
     
@@ -73,7 +71,7 @@ public class MainController {
         model.addAttribute("productTypePhonesData", "Phone products load here");
         return "phones";
     }
-
+    
     @RequestMapping(value = "/accessories", method = RequestMethod.GET)
     public String redirectToAccessoriesTemplate(Model model) {
         model.addAttribute("productTypeAccessoriesData", "Accessory products load here");
@@ -84,6 +82,38 @@ public class MainController {
     public String redirectToAboutTemplate(Model model) {
         return "home";
     }
- 
+      
+    /* For each productLoad method,
+     * the data will be loaded from the database,
+     * in the mean time, it will just be loaded from a csv file,
+     * the csv files will be primarly used for testing 
+     */
+    @ModelAttribute
+    private ArrayList<Product> loadProductTypeDesktopList() {
+        ArrayList<Product> productList = new ArrayList<Product>();
+        productList.add(new Product(
+            "Lenovo 4500 XT",
+            Type.DESKTOP,
+            "Gaming PC for college students",
+            1200.00,
+            15,
+            "Lenovo Inc.")
+        );
 
+        return productList;
+    }
+
+    private void loadProductTypeLaptopList() {
+        // write code here 
+    }
+    
+    private void loadProductTypePhoneList() {
+        // write code here
+    }
+
+    private void loadProductTypeAccessoriesList() {
+        // write code here
+    }
+    
 }
+

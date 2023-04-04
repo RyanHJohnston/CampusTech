@@ -27,7 +27,7 @@ public class Product implements Serializable {
     public enum Type {
         DESKTOP, LAPTOP, PHONE, ACCESSORY
     }
-    
+
     @NotNull(message = "Product name cannot be null")
     @NotBlank(message = "Product name cannot be empty")
     private String name;
@@ -54,8 +54,8 @@ public class Product implements Serializable {
 
     public Product() {}
 
-    public Product(String name, Type type, String description, Double price, Integer quantity, 
-            String vendor) {
+    public Product(String name, Type type, String description, Double price, 
+            Integer quantity, String vendor) {
         this.name = name;
         this.type = type;
         this.description = description;
@@ -64,7 +64,7 @@ public class Product implements Serializable {
         this.vendor = vendor;
     }
 
-    
+
     public String getName() {
         return name;
     }
