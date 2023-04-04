@@ -56,7 +56,7 @@ public class MainController {
     @RequestMapping(value = "/desktops", method = RequestMethod.GET)
     public String redirectToDesktopsTemplate(Model model) {
         model.addAttribute("productList", loadProductTypeDesktopList());
-        model.addAttribute("productTypeDesktopData", "Desktop data from attribute");  
+        // model.addAttribute("productTypeDesktopData", "Desktop data from attribute");  
         return "desktops";
     }
     
@@ -97,9 +97,11 @@ public class MainController {
             "Gaming PC for college students",
             1200.00,
             15,
-            "Lenovo Inc.")
+            "Lenovo Inc.",
+            4
+            )
         );
-
+        
         return productList;
     }
 

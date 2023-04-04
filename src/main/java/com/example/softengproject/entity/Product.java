@@ -3,6 +3,8 @@ package com.example.softengproject.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -19,10 +21,6 @@ public class Product implements Serializable {
     @Id 
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    private Date createdAt = new Date();
-
-    private Date placedAt = new Date();
 
     public enum Type {
         DESKTOP, LAPTOP, PHONE, ACCESSORY
@@ -52,18 +50,24 @@ public class Product implements Serializable {
     @NotNull(message = "Product Vendor cannot be NULL")
     private String vendor;
 
+    @NotBlank(message = "Product Rating cannot be empty")
+    @NotNull(message = "Product Rating cannot be empty")
+    @Min(value=1, message = "Product rating cannot be less than 1")
+    @Max(value=5, message = "Product rating cannot be more than 5")
+    private Integer rating;
+
     public Product() {}
 
     public Product(String name, Type type, String description, Double price, 
-            Integer quantity, String vendor) {
+            Integer quantity, String vendor, Integer rating) {
         this.name = name;
         this.type = type;
         this.description = description;
         this.price = price;
         this.quantity = quantity;
         this.vendor = vendor;
+        this.rating = rating;
     }
-
 
     public String getName() {
         return name;

@@ -12,117 +12,102 @@ import jakarta.persistence.Id;
 @Entity
 public class UserAdmin {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-  @Nonnull
-  @NotFound
-  private String firstName;
+    @Nonnull
+    @NotFound
+    private String firstName;
 
-  @Nonnull
-  @NotFound
-  private String lastName;
+    @Nonnull
+    @NotFound
+    private String lastName;
 
-  @Nonnull
-  @NotFound
-  private String email;
+    @Nonnull
+    @NotFound
+    private String email;
 
-  @Nonnull
-  @NotFound
-  private String password; // We need to encrypt this somehow
+    @Nonnull
+    @NotFound
+    private String password; // We need to encrypt this somehow
 
-  @NonNull
-  @NotFound
-  private Long dateOfBirth;
+    public UserAdmin() {}
 
+    public UserAdmin(String firstName, String lastName, String email, String password, Long dateOfBirth) {
+        /* Validate this later (use annotations) */
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+    }
 
-  public UserAdmin() {}
+    /**
+     * Shows the order history of the user
+     *
+     * @param shoppingCart ShoppingCart object, supplies method with data of order
+     * history
+     */
+    public void showOrderHistory(ShoppingCart shoppingCart) {
+        /* Write code here */
+    }
 
-  public UserAdmin(String firstName, String lastName, String email, String password, Long dateOfBirth) {
-    /* Validate this later (use annotations) */
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.email = email;
-    this.password = password;
-    this.dateOfBirth = dateOfBirth;
-  }
+    public void modifyProduct(Product product) {
+        /* Write code here */
+    }
 
+    public void createDiscountCode() {
+        /* Write code here */
+    }
 
-  /**
-   * Shows the order history of the user
-   *
-   * @param shoppingCart ShoppingCart object, supplies method with data of order
-   * history
-   */
-  public void showOrderHistory(ShoppingCart shoppingCart) {
-    /* Write code here */
-  }
+    public void createSalesProduct() {
+        /* Write code here */
+    }
 
-  public void modifyProduct(Product product) {
-    /* Write code here */
-  }
+    public void modifyUser(User user) {
+        /* Write code here */
+    }
 
-  public void createDiscountCode() {
-    /* Write code here */
-  }
+    // Getters and setters
+    public Long getId() {
+        return id;
+    } 
 
-  public void createSalesProduct() {
-    /* Write code here */
-  }
+    public String getFirstName() {
+        return firstName;
+    }
 
-  public void modifyUser(User user) {
-    /* Write code here */
-  }
+    public String getLastName() {
+        return lastName;
+    }
 
-  // Getters and setters
-  public Long getId() {
-    return id;
-  } 
+    public String getEmail() {
+        return email;
+    }
 
-  public String getFirstName() {
-    return firstName;
-  }
+    public String getPassword() {
+        return password;
+    }
 
-  public String getLastName() {
-    return lastName;
-  }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-  public String getEmail() {
-    return email;
-  }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-  public String getPassword() {
-    return password;
-  }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-  public Long getDateOfBirth() {
-    return dateOfBirth;
-  }
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
-  }
-
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public void setDateOfBirth(Long dateOfBirth) {
-    this.dateOfBirth = dateOfBirth;
-  }
-
-  @Override
-  public String toString() {
-    return super.toString();
-  }
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 
 }
