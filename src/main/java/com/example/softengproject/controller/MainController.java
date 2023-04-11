@@ -103,17 +103,7 @@ public class MainController {
     private ArrayList<Product> loadProductTypeDesktopList() throws Exception {
         ArrayList<Product> productList = new ArrayList<Product>();
         try {
-            productList.add(new Product(
-                        12345678,
-                        "Lenovo 4500 XT",
-                        Type.DESKTOP,
-                        "Gaming PC for college students",
-                        1200.00,
-                        15,
-                        "Lenovo Inc.",
-                        4
-                        )
-                    ); 
+            
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -131,6 +121,46 @@ public class MainController {
 
     private void loadProductTypeAccessoriesList() {
         // load csv file data here
+    }
+
+    private static ArrayList<Product> readFromCSVFile(String filename) {
+        ArrayList<Product> productList = new ArrayList<Product>();
+        File readFile = new File(filename);
+        String absoluteFilePath = readFile.getAbsolutePath();
+        String line = "";
+        String splitBy = ","; 
+        
+        Integer id;
+        String name;
+        Type type;
+        String description;
+        Double price;
+        Integer quantity;
+        String vendor;
+        Integer rating;
+         
+
+        try (BufferedReader reader = new BufferedReader(
+                    new FileReader(absoluteFilePath))) {
+            while ( (line = reader.readLine()) != null) {
+                String[] product = line.split(splitBy);
+                productList.add(new Product(
+                            id = Integer.valueOf(product[0]), 
+                            name = product[1].toString(), 
+                            type = Type.valueOf(product[2]), 
+                            description = product[3].toString(), 
+                            price = Double.valueOf(product[4]), 
+                            quantity = Integer.valueOf(product[5]), 
+                            vendor = product[6].toString(),
+                            rating = Integer.valueOf(product[7])
+                            )
+                        );
+            }
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+
+        return productList;
     }
 }
 

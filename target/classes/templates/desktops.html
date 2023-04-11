@@ -49,10 +49,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="accessories">Accessories</a>
                     </li>
-                    <li>
-                        <a class="nav-link" href="invoice">Shopping
-                            Cart</a>
-                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="home">About</a>
                     </li>
@@ -63,7 +60,6 @@
         
         <!-- List of the product's attributes -->
         <ol th:each="product: ${productList}">
-            <li th:text="${product.id}"></li>
             <li th:text="${product.name}"></li>
             <li th:text="${product.type}"></li>
             <li th:text="${product.description}"></li>
