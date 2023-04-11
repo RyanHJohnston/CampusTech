@@ -1,31 +1,21 @@
 package com.example.softengproject.controller;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOError;
-import java.io.IOException;
-import java.lang.reflect.Field;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Scanner;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
-import com.example.softengproject.entity.Product.Type;
 import com.example.softengproject.entity.Product;
 import com.example.softengproject.entity.ProductList;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 /* 
@@ -62,7 +52,6 @@ public class MainController {
     @RequestMapping(value = "/desktops", method = RequestMethod.GET)
     public String redirectToDesktopsTemplate(Model model) throws Exception {
         model.addAttribute("productList", loadProductTypeDesktopList());
-        // model.addAttribute("productTypeDesktopData", "Desktop data from attribute");  
         return "desktops";
     }
 
@@ -102,15 +91,16 @@ public class MainController {
     @ModelAttribute
     private ArrayList<Product> loadProductTypeDesktopList() throws Exception {
         ArrayList<Product> productList = new ArrayList<Product>();
+        String filename = "src/main/java/com/example/softengproject/data/desktops.csv";
         try {
-            
+            productList = readFile(filename);
         } catch (Exception exception) {
             exception.printStackTrace();
         }
         return productList;
     }
-    
-    
+
+
     private void loadProductTypeLaptopList() {
         // load csv file data here
     }
@@ -122,14 +112,14 @@ public class MainController {
     private void loadProductTypeAccessoriesList() {
         // load csv file data here
     }
-
-    private static ArrayList<Product> readFromCSVFile(String filename) {
+/*
+    private static ArrayList<Product> readFromCSVFile(String filename) throws FileNotFoundException{
         ArrayList<Product> productList = new ArrayList<Product>();
         File readFile = new File(filename);
         String absoluteFilePath = readFile.getAbsolutePath();
         String line = "";
         String splitBy = ","; 
-        
+
         Integer id;
         String name;
         Type type;
@@ -138,7 +128,7 @@ public class MainController {
         Integer quantity;
         String vendor;
         Integer rating;
-         
+
 
         try (BufferedReader reader = new BufferedReader(
                     new FileReader(absoluteFilePath))) {
@@ -156,11 +146,33 @@ public class MainController {
                             )
                         );
             }
-        } catch (IOException exception) {
+        } catch (FileNotFoundException exception) {
             exception.printStackTrace();
         }
 
         return productList;
-    }
+    } */
+
+    private ArrayList<Product> readFile(String filename) {
+        ArrayList<Product> productList = new ArrayList<Product>();
+        File readFile = new File(filename);
+        String absoluteFilePath = readFile.getAbsolutePath();
+        String line = "";
+        String splitBy = ",";  
+
+        try {
+            Scanner reader = new Scanner(readFile);
+            while (reader.hasNextLine()) {
+                String[] product = line.split(splitBy);
+                // write code to fill array  
+            }
+            reader.close();
+        } catch (FileNotFoundException e) {
+            System.err.println("File "+filename+" did NOT open");
+            e.printStackTrace();
+        }
+
+        return productList;
+    } 
 }
 
