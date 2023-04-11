@@ -57,8 +57,48 @@
             </div>
         </nav>
 
-        
+
         <!-- List of the product's attributes -->
+        <ol th:each="product: ${productList}">
+            <li th:text="${product.name}"></li>
+            <li th:text="${product.type}"></li>
+            <li th:text="${product.description}"></li>
+            <li th:text="${product.price}"></li>
+            <li th:text="${product.quantity}"></li>
+            <li th:text="${product.vendor}"></li>
+            <li th:text="${product.rating}" id="productId"></li>
+        </ol>
+
+        <ol th:each="product: ${productList}">
+            <li th:text="${product.name}"></li>
+            <li th:text="${product.type}"></li>
+            <li th:text="${product.description}"></li>
+            <li th:text="${product.price}"></li>
+            <li th:text="${product.quantity}"></li>
+            <li th:text="${product.vendor}"></li>
+            <li th:text="${product.rating}" id="productId"></li>
+        </ol>
+
+        <ol th:each="product: ${productList}">
+            <li th:text="${product.name}"></li>
+            <li th:text="${product.type}"></li>
+            <li th:text="${product.description}"></li>
+            <li th:text="${product.price}"></li>
+            <li th:text="${product.quantity}"></li>
+            <li th:text="${product.vendor}"></li>
+            <li th:text="${product.rating}" id="productId"></li>
+        </ol>
+
+        <ol th:each="product: ${productList}">
+            <li th:text="${product.name}"></li>
+            <li th:text="${product.type}"></li>
+            <li th:text="${product.description}"></li>
+            <li th:text="${product.price}"></li>
+            <li th:text="${product.quantity}"></li>
+            <li th:text="${product.vendor}"></li>
+            <li th:text="${product.rating}" id="productId"></li>
+        </ol>
+
         <ol th:each="product: ${productList}">
             <li th:text="${product.name}"></li>
             <li th:text="${product.type}"></li>

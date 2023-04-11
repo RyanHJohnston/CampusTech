@@ -1,15 +1,18 @@
 package com.example.softengproject.controller;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import com.example.softengproject.entity.Product;
 import com.example.softengproject.entity.ProductList;
+import com.example.softengproject.entity.Product.Type;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -82,18 +85,20 @@ public class MainController {
     public String redirectToAboutTemplate(Model model) throws Exception {
         return "home";
     }
-
-    /* For each productLoad method,
-     * the data will be loaded from the database,
-     * in the mean time, it will just be loaded from a csv file,
-     * the csv files will be primarly used for testing 
+    
+    /**
+     * Loads data from desktops.csv into an ArrayList of Product objects
+     *
+     * @return ArrayList<Product> productList
+     *
+     * @throws Exception 
      */
     @ModelAttribute
     private ArrayList<Product> loadProductTypeDesktopList() throws Exception {
         ArrayList<Product> productList = new ArrayList<Product>();
         String filename = "src/main/java/com/example/softengproject/data/desktops.csv";
         try {
-            productList = readFile(filename);
+            productList = readCSVFile(productList, filename);
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -111,85 +116,49 @@ public class MainController {
     private void loadProductTypeAccessoriesList() {
         // load csv file data here
     }
-/*
-    private static ArrayList<Product> readFromCSVFile(String filename) throws FileNotFoundException{
-        ArrayList<Product> productList = new ArrayList<Product>();
-        File readFile = new File(filename);
-        String absoluteFilePath = readFile.getAbsolutePath();
+  
+
+    /**
+     * Reads product CSV files line by line and stores the info into an array of
+     * Product objects
+     *
+     * @param filename The file name to best read
+     *
+     * @return An array list of Product objects with updated info
+     */
+    private ArrayList<Product> readCSVFile(ArrayList<Product> productList, String filename) {
+        File readFileObj = new File(filename);
         String line = "";
-        String splitBy = ","; 
-
-        Integer id;
-        String name;
-        Type type;
-        String description;
-        Double price;
-        Integer quantity;
-        String vendor;
-        Integer rating;
-
+        String splitBy = ",";
 
         try (BufferedReader reader = new BufferedReader(
-                    new FileReader(absoluteFilePath))) {
+                    new FileReader(readFileObj))) {
+            System.out.println("Reading file: " + filename);
+            reader.readLine();
             while ( (line = reader.readLine()) != null) {
-                String[] product = line.split(splitBy);
-                productList.add(new Product(
-                            id = Integer.valueOf(product[0]), 
-                            name = product[1].toString(), 
-                            type = Type.valueOf(product[2]), 
-                            description = product[3].toString(), 
-                            price = Double.valueOf(product[4]), 
-                            quantity = Integer.valueOf(product[5]), 
-                            vendor = product[6].toString(),
-                            rating = Integer.valueOf(product[7])
-                            )
-                        );
+                String[] columns = line.split(splitBy);
+                
+                Integer id = Integer.parseInt(columns[0]);
+                String name = columns[1];
+                Type type = Type.valueOf(columns[2].replaceAll("\\s+", "").replaceAll("\"", ""));
+                String description = columns[3];
+                Double price = Double.parseDouble(columns[4]);
+                Integer quantity = Integer.parseInt(columns[5]);
+                String vendor = columns[6];
+                Integer rating = Integer.parseInt(columns[7]);
+                
+                productList.add(new Product(id, name, type, description, price, quantity, vendor, rating));
             }
-        } catch (FileNotFoundException exception) {
-            exception.printStackTrace();
+
+        } catch (FileNotFoundException e1) {
+            System.err.println(filename + " NOT found");
+            System.exit(0);
+        } catch (IOException e2) {
+            System.err.println(filename + " CANNOT be read");
         }
 
         return productList;
-    } */
+    }
 
-    private ArrayList<Product> readFile(String filename) {
-        ArrayList<Product> productList = new ArrayList<Product>();
-        File readFile = new File(filename);
-        String absoluteFilePath = readFile.getAbsolutePath();
-        String line = "";
-        String splitBy = ",";  
-
-        Integer id;
-        String name;
-        Type type;
-        String description;
-        Double price;
-        Integer quantity;
-        String vendor;
-        Integer rating;
-
-        try {
-            Scanner reader = new Scanner(readFile);
-            while (reader.hasNextLine()) {
-                String[] product = line.split(splitBy);
-                productList.add(new Product(
-                            id = Integer.valueOf(product[0]), 
-                            name = product[1].toString(), 
-                            type = Type.valueOf(product[2]), 
-                            description = product[3].toString(), 
-                            price = Double.valueOf(product[4]), 
-                            quantity = Integer.valueOf(product[5]), 
-                            vendor = product[6].toString(),
-                            rating = Integer.valueOf(product[7])
-                            )  
-            }
-            reader.close();
-        } catch (FileNotFoundException e) {
-            System.err.println("File "+filename+" did NOT open");
-            e.printStackTrace();
-        }
-
-        return productList;
-    } 
 }
 

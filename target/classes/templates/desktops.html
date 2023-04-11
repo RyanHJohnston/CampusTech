@@ -57,18 +57,6 @@
             </div>
         </nav>
 
-        
-        <!-- List of the product's attributes -->
-        <ol th:each="product: ${productList}">
-            <li th:text="${product.name}"></li>
-            <li th:text="${product.type}"></li>
-            <li th:text="${product.description}"></li>
-            <li th:text="${product.price}"></li>
-            <li th:text="${product.quantity}"></li>
-            <li th:text="${product.vendor}"></li>
-            <li th:text="${product.rating}" id="productId"></li>
-        </ol>
-
         <!------------------ PRODUCT CARD ------------------------------>
         <div class="container d-flex justify-content-center" th:each="product: ${productList}">
             <figure class="card card-product-grid card-lg"> <a href="#" class="img-wrap" data-abc="true"> <img src="https://i.imgur.com/MPqUt62.jpg"> </a>
