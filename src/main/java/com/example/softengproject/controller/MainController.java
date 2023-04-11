@@ -85,7 +85,7 @@ public class MainController {
     public String redirectToAboutTemplate(Model model) throws Exception {
         return "home";
     }
-    
+
     /**
      * Loads data from desktops.csv into an ArrayList of Product objects
      *
@@ -104,7 +104,8 @@ public class MainController {
         }
         return productList;
     }
-
+    
+    @ModelAttribute
     private ArrayList<Product> loadProductTypeLaptopList() throws Exception {
         // load csv file data here
         ArrayList<Product> productList = new ArrayList<Product>();
@@ -116,7 +117,8 @@ public class MainController {
         }
         return productList;
     }
-
+    
+    @ModelAttribute
     private ArrayList<Product> loadProductTypePhoneList() throws Exception{
         // load csv file data here
         ArrayList<Product> productList = new ArrayList<Product>();
@@ -128,7 +130,8 @@ public class MainController {
         }
         return productList;
     }
-
+    
+    @ModelAttribute
     private ArrayList<Product> loadProductTypeAccessoriesList() throws Exception{
         // load csv file data here
         ArrayList<Product> productList = new ArrayList<Product>();
@@ -140,7 +143,7 @@ public class MainController {
         }
         return productList;
     }
-  
+
 
     /**
      * Reads product CSV files line by line and stores the info into an array of
@@ -161,24 +164,24 @@ public class MainController {
             reader.readLine();
             while ( (line = reader.readLine()) != null) {
                 String[] columns = line.split(splitBy);
-                
+
                 Integer id = Integer.parseInt(columns[0]);
-                String name = columns[1];
+                String name = columns[1].replaceAll("\"", "");
                 Type type = Type.valueOf(columns[2].replaceAll("\\s+", "").replaceAll("\"", ""));
-                String description = columns[3];
+                String description = columns[3].replaceAll("\"", "");
                 Double price = Double.parseDouble(columns[4]);
                 Integer quantity = Integer.parseInt(columns[5]);
-                String vendor = columns[6];
+                String vendor = columns[6].replaceAll("\"", "");
                 Integer rating = Integer.parseInt(columns[7]);
-                
+
                 productList.add(new Product(id, name, type, description, price, quantity, vendor, rating));
             }
 
         } catch (FileNotFoundException e1) {
-            System.err.println(filename + " NOT found");
+            System.err.println(filename + " not found");
             System.exit(0);
         } catch (IOException e2) {
-            System.err.println(filename + " CANNOT be read");
+            System.err.println(filename + " is not read");
         }
 
         return productList;
