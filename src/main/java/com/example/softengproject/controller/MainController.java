@@ -160,11 +160,29 @@ public class MainController {
         String line = "";
         String splitBy = ",";  
 
+        Integer id;
+        String name;
+        Type type;
+        String description;
+        Double price;
+        Integer quantity;
+        String vendor;
+        Integer rating;
+
         try {
             Scanner reader = new Scanner(readFile);
             while (reader.hasNextLine()) {
                 String[] product = line.split(splitBy);
-                // write code to fill array  
+                productList.add(new Product(
+                            id = Integer.valueOf(product[0]), 
+                            name = product[1].toString(), 
+                            type = Type.valueOf(product[2]), 
+                            description = product[3].toString(), 
+                            price = Double.valueOf(product[4]), 
+                            quantity = Integer.valueOf(product[5]), 
+                            vendor = product[6].toString(),
+                            rating = Integer.valueOf(product[7])
+                            )  
             }
             reader.close();
         } catch (FileNotFoundException e) {
