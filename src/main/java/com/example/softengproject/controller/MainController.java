@@ -100,7 +100,6 @@ public class MainController {
         return productList;
     }
 
-
     private void loadProductTypeLaptopList() {
         // load csv file data here
     }
