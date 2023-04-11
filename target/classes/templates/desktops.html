@@ -55,11 +55,18 @@
                     </li>
                 </ul>
             </div>
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
         </nav>
 
         <!------------------ PRODUCT CARD ------------------------------>
         <div class="container d-flex justify-content-center" th:each="product: ${productList}">
-            <figure class="card card-product-grid card-lg"> <a href="#" class="img-wrap" data-abc="true"> <img src="https://i.imgur.com/MPqUt62.jpg"> </a>
+            <figure class="card card-product-grid card-lg"> <a href="#"
+                    class="img-wrap" data-abc="true"> <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Desktop.jpg/930px-Desktop.jpg"
+                    width="465" height="384"> </a>
                 <figcaption class="info-wrap">
                     <div class="row">
                         <div class="col-md-9 col-xs-9"> <a href="#" class="title"
