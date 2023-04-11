@@ -105,16 +105,40 @@ public class MainController {
         return productList;
     }
 
-    private void loadProductTypeLaptopList() {
+    private ArrayList<Product> loadProductTypeLaptopList() throws Exception {
         // load csv file data here
+        ArrayList<Product> productList = new ArrayList<Product>();
+        String filename = "src/main/java/com/example/softengproject/data/laptops.csv";
+        try {
+            productList = readCSVFile(productList, filename);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return productList;
     }
 
-    private void loadProductTypePhoneList() {
+    private ArrayList<Product> loadProductTypePhoneList() throws Exception{
         // load csv file data here
+        ArrayList<Product> productList = new ArrayList<Product>();
+        String filename = "src/main/java/com/example/softengproject/data/phones.csv";
+        try {
+            productList = readCSVFile(productList, filename);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return productList;
     }
 
-    private void loadProductTypeAccessoriesList() {
+    private ArrayList<Product> loadProductTypeAccessoriesList() throws Exception{
         // load csv file data here
+        ArrayList<Product> productList = new ArrayList<Product>();
+        String filename = "src/main/java/com/example/softengproject/data/accessories.csv";
+        try {
+            productList = readCSVFile(productList, filename);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return productList;
     }
   
 
