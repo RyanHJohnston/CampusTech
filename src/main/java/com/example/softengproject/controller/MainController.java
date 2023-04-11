@@ -1,5 +1,11 @@
 package com.example.softengproject.controller;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOError;
+import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -36,86 +42,95 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class MainController {
 
     private ProductList productList;
-    
+
     private Product product;
-    
+
     @RequestMapping("/403") 
     public String accessDenied() {
         return "/403";
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET) 
-    public String showHomeTemplate() {
+    public String showHomeTemplate() throws Exception {
         return "home";
     }
-    
+
     /*
      * This is where the data will be rendered into the Thymeleaf template
      * this method sends a GET request to render the new data from the Model
      */
     @RequestMapping(value = "/desktops", method = RequestMethod.GET)
-    public String redirectToDesktopsTemplate(Model model) {
+    public String redirectToDesktopsTemplate(Model model) throws Exception {
         model.addAttribute("productList", loadProductTypeDesktopList());
         // model.addAttribute("productTypeDesktopData", "Desktop data from attribute");  
         return "desktops";
     }
-    
+
     @RequestMapping(value = "/laptops", method = RequestMethod.GET)
-    public String redirectToLaptopsTemplate(Model model) {
+    public String redirectToLaptopsTemplate(Model model) throws Exception {
         model.addAttribute("productTypeLaptopData", "Laptop products load here");
         return "laptops";
     } 
-    
-    @RequestMapping(value = "phones", method = RequestMethod.GET)
-    public String redirectToPhonesTemplate(Model model) {
+
+    @RequestMapping(value = "/phones", method = RequestMethod.GET)
+    public String redirectToPhonesTemplate(Model model) throws Exception {
         model.addAttribute("productTypePhonesData", "Phone products load here");
         return "phones";
     }
-    
+
     @RequestMapping(value = "/accessories", method = RequestMethod.GET)
-    public String redirectToAccessoriesTemplate(Model model) {
+    public String redirectToAccessoriesTemplate(Model model) throws Exception {
         model.addAttribute("productTypeAccessoriesData", "Accessory products load here");
         return "accessories";
     }
 
+    @RequestMapping(value = "/invoice", method = RequestMethod.GET)
+    public String redirectToShoppingCartTemplate(Model model) throws Exception {
+        return "invoice";
+    }
+
     @RequestMapping(value = "/home")
-    public String redirectToAboutTemplate(Model model) {
+    public String redirectToAboutTemplate(Model model) throws Exception {
         return "home";
     }
-      
+
     /* For each productLoad method,
      * the data will be loaded from the database,
      * in the mean time, it will just be loaded from a csv file,
      * the csv files will be primarly used for testing 
      */
     @ModelAttribute
-    private ArrayList<Product> loadProductTypeDesktopList() {
+    private ArrayList<Product> loadProductTypeDesktopList() throws Exception {
         ArrayList<Product> productList = new ArrayList<Product>();
-        productList.add(new Product(
-            "Lenovo 4500 XT",
-            Type.DESKTOP,
-            "Gaming PC for college students",
-            1200.00,
-            15,
-            "Lenovo Inc.",
-            4
-            )
-        );
-        
+        try {
+            productList.add(new Product(
+                        12345678,
+                        "Lenovo 4500 XT",
+                        Type.DESKTOP,
+                        "Gaming PC for college students",
+                        1200.00,
+                        15,
+                        "Lenovo Inc.",
+                        4
+                        )
+                    ); 
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
         return productList;
     }
-
-    private void loadProductTypeLaptopList() {
-        // write code here 
-    }
     
+    
+    private void loadProductTypeLaptopList() {
+        // load csv file data here
+    }
+
     private void loadProductTypePhoneList() {
-        // write code here
+        // load csv file data here
     }
 
     private void loadProductTypeAccessoriesList() {
-        // write code here
+        // load csv file data here
     }
-    
 }
 

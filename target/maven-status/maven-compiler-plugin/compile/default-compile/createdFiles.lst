@@ -4,6 +4,7 @@ com/example/softengproject/controller/ShoppingCartController.class
 com/example/softengproject/entity/User.class
 com/example/softengproject/entity/ProductList.class
 com/example/softengproject/controller/ProductListController.class
+com/example/softengproject/entity/Invoice.class
 com/example/softengproject/controller/UserController.class
 com/example/softengproject/OnlineStoreWebApplication.class
 com/example/softengproject/controller/ProductController.class

@@ -20,7 +20,7 @@ public class Product implements Serializable {
 
     @Id 
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Integer id;
 
     public enum Type {
         DESKTOP, LAPTOP, PHONE, ACCESSORY
@@ -58,15 +58,62 @@ public class Product implements Serializable {
 
     public Product() {}
 
-    public Product(String name, Type type, String description, Double price, 
-            Integer quantity, String vendor, Integer rating) {
-        this.name = name;
-        this.type = type;
-        this.description = description;
-        this.price = price;
-        this.quantity = quantity;
-        this.vendor = vendor;
-        this.rating = rating;
+    public Product(Integer id, String name, Type type, String description, Double price, 
+            Integer quantity, String vendor, Integer rating) throws IllegalArgumentException {
+        try {
+
+            if (id.equals(null) || id.toString().length() != 8) {
+                throw new IllegalArgumentException(
+                        "Product ID cannot be null and can only be 8 characters");
+            }
+
+            if (name.equals(null) || name.equals("")) {
+                throw new IllegalArgumentException(
+                        "Product name cannot be null or empty");
+            }
+
+            if (type.equals(null)) { 
+                throw new IllegalArgumentException(
+                        "Product Type cannot be null or empty");
+            }
+
+            if (description.equals(null) || description.equals("")) {
+                throw new IllegalArgumentException(
+                        "Product description cannot be null or empty");
+            }
+
+            if (price.equals(null) || price < 0.00) {
+                throw new IllegalArgumentException(
+                        "Product price cannot be null or less than 0.00");
+            }
+
+            if (quantity.equals(null) || quantity < 0) {
+                throw new IllegalArgumentException(
+                        "Product quantity cannot be null or less than 0");
+            }
+
+            if (vendor.equals(null) || vendor.equals("")) {
+                throw new IllegalArgumentException(
+                        "Product vendor cannot be null or less than 0");
+            }
+
+            if (rating.equals(null) || rating < 1 || rating > 5) {
+                throw new IllegalArgumentException(
+                        "Product rating cannot be null, less than 1, or greater than 5");
+            }
+            
+            this.id = id;
+            this.name = name;
+            this.type = type;
+            this.description = description;
+            this.price = price;
+            this.quantity = quantity;
+            this.vendor = vendor;
+            this.rating = rating;
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
     }
 
     public String getName() {
@@ -93,7 +140,7 @@ public class Product implements Serializable {
         return vendor;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
