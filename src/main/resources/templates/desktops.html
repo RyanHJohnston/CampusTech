@@ -57,90 +57,52 @@
             </div>
         </nav>
 
-
         <!-- List of the product's attributes -->
-        <ol th:each="product: ${productList}">
-            <li th:text="${product.name}"></li>
-            <li th:text="${product.type}"></li>
-            <li th:text="${product.description}"></li>
-            <li th:text="${product.price}"></li>
-            <li th:text="${product.quantity}"></li>
-            <li th:text="${product.vendor}"></li>
-            <li th:text="${product.rating}" id="productId"></li>
-        </ol>
+        <ul th:each="product: ${productList}">
+            <li>ID: <span th:text="${product.id}"></span></li>
+            <li>Name: <span th:text="${product.name}"></span></li>
+            <li>Type: <span th:text="${product.type}"></span></li>
+            <li>Description: <span th:text="${product.description}"></span></li>
+            <li>Price: <span th:text="${product.price}"></span></li>
+            <li>Quantity: <span th:text="${product.quantity}"></span></li>
+            <li>Vendor: <span th:text="${product.vendor}"></span></li>
+            <li>Rating: <span th:text="${product.rating}"></span>/5</li>
+        </ul>
 
-        <ol th:each="product: ${productList}">
-            <li th:text="${product.name}"></li>
-            <li th:text="${product.type}"></li>
-            <li th:text="${product.description}"></li>
-            <li th:text="${product.price}"></li>
-            <li th:text="${product.quantity}"></li>
-            <li th:text="${product.vendor}"></li>
-            <li th:text="${product.rating}" id="productId"></li>
-        </ol>
-
-        <ol th:each="product: ${productList}">
-            <li th:text="${product.name}"></li>
-            <li th:text="${product.type}"></li>
-            <li th:text="${product.description}"></li>
-            <li th:text="${product.price}"></li>
-            <li th:text="${product.quantity}"></li>
-            <li th:text="${product.vendor}"></li>
-            <li th:text="${product.rating}" id="productId"></li>
-        </ol>
-
-        <ol th:each="product: ${productList}">
-            <li th:text="${product.name}"></li>
-            <li th:text="${product.type}"></li>
-            <li th:text="${product.description}"></li>
-            <li th:text="${product.price}"></li>
-            <li th:text="${product.quantity}"></li>
-            <li th:text="${product.vendor}"></li>
-            <li th:text="${product.rating}" id="productId"></li>
-        </ol>
-
-        <ol th:each="product: ${productList}">
-            <li th:text="${product.name}"></li>
-            <li th:text="${product.type}"></li>
-            <li th:text="${product.description}"></li>
-            <li th:text="${product.price}"></li>
-            <li th:text="${product.quantity}"></li>
-            <li th:text="${product.vendor}"></li>
-            <li th:text="${product.rating}" id="productId"></li>
-        </ol>
-
-        <!------------------ PRODUCT CARD ------------------------------>
-        <div class="container d-flex justify-content-center" th:each="product: ${productList}">
+        <!----------------------------  PRODUCT CARD -------------------------->
+        <!--
+            <div class="container d-flex justify-content-center" th:each="product: ${productList}">
             <figure class="card card-product-grid card-lg"> <a href="#" class="img-wrap" data-abc="true"> <img src="https://i.imgur.com/MPqUt62.jpg"> </a>
-                <figcaption class="info-wrap">
-                    <div class="row">
-                        <div class="col-md-9 col-xs-9"> <a href="#" class="title"
-                                data-abc="true"><p
-                                th:text="${product.name}"></p></a> <span
-                                class="rated"><p th:text="${product.type}"></p></span> </div>
-                        <div class="col-md-3 col-xs-3">
-                            <div class="rating text-right"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <span class="rated">Rated 4.0/5</span> </div>
-                        </div>
-                    </div>
-                </figcaption>
-                <div class="bottom-wrap-payment">
-                    <figcaption class="info-wrap">
-                        <div class="row">
-                            <div class="col-md-9 col-xs-9"> <a href="#"
-                                    class="title" data-abc="true"><p
-                                    th:text="${product.price}"></p></a> <span
-                                    class="rated"><p th:text="${product.vendor}"></p></span> </div>
-                            <div class="col-md-3 col-xs-3">
-                                <div class="rating text-right"> #### 8787 </div>
-                            </div>
-                        </div>
-                    </figcaption>
-                </div>
-                <div class="bottom-wrap"> <a href="#" class="btn btn-primary float-right" data-abc="true"> Buy now </a>
-                    <div class="price-wrap"> <a href="#" class="btn btn-warning float-left" data-abc="true"> Cancel </a> </div>
-                </div>
+            <figcaption class="info-wrap">
+            <div class="row">
+            <div class="col-md-9 col-xs-9"> <a href="#" class="title"
+            data-abc="true"><p
+            th:text="${product.name}"></p></a> <span
+            class="rated"><p th:text="${product.type}"></p></span> </div>
+            <div class="col-md-3 col-xs-3">
+            <div class="rating text-right"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <span class="rated">Rated 4.0/5</span> </div>
+            </div>
+            </div>
+            </figcaption>
+            <div class="bottom-wrap-payment">
+            <figcaption class="info-wrap">
+            <div class="row">
+            <div class="col-md-9 col-xs-9"> <a href="#"
+            class="title" data-abc="true"><p
+            th:text="${product.price}"></p></a> <span
+            class="rated"><p th:text="${product.vendor}"></p></span> </div>
+            <div class="col-md-3 col-xs-3">
+            <div class="rating text-right"> #### 8787 </div>
+            </div>
+            </div>
+            </figcaption>
+            </div>
+            <div class="bottom-wrap"> <a href="#" class="btn btn-primary float-right" data-abc="true"> Buy now </a>
+            <div class="price-wrap"> <a href="#" class="btn btn-warning float-left" data-abc="true"> Cancel </a> </div>
+            </div>
             </figure>
-        </div> 
+            </div> 
+        -->
 
         <!-- NEEDED IN EVERY HTML FILE FOR BOOTSTRAP AND JQUERY TO WORK -->
         <!-- Optional JavaScript -->
