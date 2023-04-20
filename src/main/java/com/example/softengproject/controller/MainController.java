@@ -1,9 +1,11 @@
 package com.example.softengproject.controller;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -12,6 +14,7 @@ import org.springframework.ui.Model;
 
 import com.example.softengproject.entity.Product;
 import com.example.softengproject.entity.ProductList;
+import com.example.softengproject.entity.ShoppingCart;
 import com.example.softengproject.entity.Product.Type;
 
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +22,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 /* 
@@ -34,9 +40,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/")
 public class MainController {
 
-    private ProductList productList;
+    Product product;
 
-    private Product product;
+    ShoppingCart shoppingCart;
 
     @RequestMapping("/403") 
     public String accessDenied() {
@@ -49,36 +55,69 @@ public class MainController {
     }
 
     /*
+     * Fetch index of item
+     * Get the values from the item
+     * Add the product object to array list of products in shopping cart class
+     * Populate csv file with product data
+     * Load shopping-cart.html with shopping-cart.csv data
+     * Subtract 1 from product quantity in desktops.html
+     * Give notification that item has been added to cart
+     */
+    @RequestMapping(value="/desktops", method=RequestMethod.POST)
+    public String addProductToShoppingCart(
+            @ModelAttribute Product productDTO, Model model, 
+            final RedirectAttributes redirectAttributes) throws Exception {
+
+        System.out.println("\nAdding product to cart: \n\n"
+                + "ID: " + productDTO.getId() + "\n"
+                + "Name: " + productDTO.getName() + "\n"
+                + "Type: " + productDTO.getType() + "\n"
+                + "Description: " + productDTO.getDescription() + "\n"
+                + "Price: " + productDTO.getPrice() + "\n"
+                + "Quantity: " + productDTO.getQuantity() + "\n"
+                + "Vendor: " + productDTO.getVendor() + "\n"
+                + "Rating: " + productDTO.getRating() + "/5\n");
+
+
+        redirectAttributes.addFlashAttribute(productDTO);
+        model.addAttribute("productList", loadProductTypeDesktopList());
+        model.addAttribute("productDTO", product);
+        appendShoppingCartCSV(productDTO);
+        return "desktops";
+            }
+
+    /*
      * This is where the data will be rendered into the Thymeleaf template
      * this method sends a GET request to render the new data from the Model
      */
     @RequestMapping(value = "/desktops", method = RequestMethod.GET)
-    public String redirectToDesktopsTemplate(Model model) throws Exception {
+    public String showDesktopTemplate(Model model) throws Exception {
         model.addAttribute("productList", loadProductTypeDesktopList());
+        model.addAttribute("productDTO", product); 
         return "desktops";
     }
 
     @RequestMapping(value = "/laptops", method = RequestMethod.GET)
-    public String redirectToLaptopsTemplate(Model model) throws Exception {
-        model.addAttribute("productTypeLaptopData", "Laptop products load here");
+    public String showLaptopTemplate(Model model) throws Exception {
+        model.addAttribute("productList", "Laptop products load here");
         return "laptops";
     } 
 
     @RequestMapping(value = "/phones", method = RequestMethod.GET)
-    public String redirectToPhonesTemplate(Model model) throws Exception {
-        model.addAttribute("productTypePhonesData", "Phone products load here");
+    public String showPhoneTemplate(Model model) throws Exception {
+        model.addAttribute("productList", "Phone products load here");
         return "phones";
     }
 
     @RequestMapping(value = "/accessories", method = RequestMethod.GET)
-    public String redirectToAccessoriesTemplate(Model model) throws Exception {
-        model.addAttribute("productTypeAccessoriesData", "Accessory products load here");
+    public String showAccessoriesTemplate(Model model) throws Exception {
+        model.addAttribute("productList", "Accessory products load here");
         return "accessories";
     }
 
-    @RequestMapping(value = "/invoice", method = RequestMethod.GET)
-    public String redirectToShoppingCartTemplate(Model model) throws Exception {
-        return "invoice";
+    @RequestMapping(value = "/shopping-cart", method = RequestMethod.GET)
+    public String showShoppingCartTemplate(Model model) throws Exception {
+        return "shopping-cart";
     }
 
     @RequestMapping(value = "/home")
@@ -104,7 +143,7 @@ public class MainController {
         }
         return productList;
     }
-    
+
     @ModelAttribute
     private ArrayList<Product> loadProductTypeLaptopList() throws Exception {
         ArrayList<Product> productList = new ArrayList<Product>();
@@ -116,7 +155,7 @@ public class MainController {
         }
         return productList;
     }
-    
+
     @ModelAttribute
     private ArrayList<Product> loadProductTypePhoneList() throws Exception{
         ArrayList<Product> productList = new ArrayList<Product>();
@@ -128,7 +167,7 @@ public class MainController {
         }
         return productList;
     }
-    
+
     @ModelAttribute
     private ArrayList<Product> loadProductTypeAccessoriesList() throws Exception{
         ArrayList<Product> productList = new ArrayList<Product>();
@@ -182,6 +221,42 @@ public class MainController {
         }
 
         return productList;
+    }
+
+
+    /**
+     * Appends shopping-cart.csv with Product data
+     *
+     * @param product Product object
+     *
+     * @throws IOException Input/Output exception
+     */
+    private void appendShoppingCartCSV(Product product) 
+            throws IOException {
+
+            final String filename = "src/main/java/com/example/softengproject/data/shopping-cart.csv";
+            try {        
+                FileWriter fileWriter = new FileWriter(filename, true);
+                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+                System.out.println("\nAppending shopping-cart.csv...\n\n");
+
+                bufferedWriter.write(
+                        product.getId().toString() + "," +
+                        "\"" + product.getName() + "\"" + "," +
+                        "\"" + product.getType().toString() + "\"" + "," + 
+                        product.getDescription() + "," +
+                        product.getPrice().toString() + "," +
+                        product.getQuantity().toString() + "," +
+                        "\"" + product.getVendor() + "\"" + "," +
+                        product.getRating().toString() + "\n");
+
+
+                bufferedWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
     }
 
 }

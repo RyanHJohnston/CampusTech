@@ -115,6 +115,10 @@ public class Product implements Serializable {
             exception.printStackTrace();
         }
     }
+    
+    public Integer getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
@@ -138,6 +142,10 @@ public class Product implements Serializable {
 
     public String getVendor() {
         return vendor;
+    }
+
+    public Integer getRating() {
+        return rating;
     }
 
     public void setId(Integer id) {
