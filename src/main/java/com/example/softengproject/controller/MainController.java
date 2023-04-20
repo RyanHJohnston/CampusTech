@@ -107,7 +107,6 @@ public class MainController {
     
     @ModelAttribute
     private ArrayList<Product> loadProductTypeLaptopList() throws Exception {
-        // load csv file data here
         ArrayList<Product> productList = new ArrayList<Product>();
         String filename = "src/main/java/com/example/softengproject/data/laptops.csv";
         try {
@@ -120,7 +119,6 @@ public class MainController {
     
     @ModelAttribute
     private ArrayList<Product> loadProductTypePhoneList() throws Exception{
-        // load csv file data here
         ArrayList<Product> productList = new ArrayList<Product>();
         String filename = "src/main/java/com/example/softengproject/data/phones.csv";
         try {
@@ -133,7 +131,6 @@ public class MainController {
     
     @ModelAttribute
     private ArrayList<Product> loadProductTypeAccessoriesList() throws Exception{
-        // load csv file data here
         ArrayList<Product> productList = new ArrayList<Product>();
         String filename = "src/main/java/com/example/softengproject/data/accessories.csv";
         try {
