@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -98,11 +97,11 @@ public class MainController {
         System.out.println("\nRemoving "+productRemoved.getId()+" from shopping cart.\n");
 
         redirectAttributes.addFlashAttribute(productRemoved);
+        model.addAttribute("shoppingCartProductList", loadShoppingCartProductList());
         model.addAttribute("productRemoved", productRemoved);
         removeProductFromShoppingCartCSV(productRemoved);
-        model.addAttribute("shoppingCartProductList", loadShoppingCartProductList());
         return "shopping-cart";
-    }
+            }
 
     /*
      * This is where the data will be rendered into the Thymeleaf template
@@ -114,42 +113,6 @@ public class MainController {
         model.addAttribute("productDTO", product); 
         return "desktops";
     }
-
-//New
-@RequestMapping(value = "/desktops", method = RequestMethod.GET)
-public String showDesktopTemplate(Model model, @RequestParam(name="searchTerm", required=false) String searchTerm) throws Exception {
-    ArrayList<Product> productList = loadProductTypeDesktopList();
-
-    if (searchTerm != null && !searchTerm.isEmpty()) {
-        List<Product> searchResults = searchProductList(productList, searchTerm);
-        model.addAttribute("productList", searchResults);
-        model.addAttribute("productDTO", product);
-    }
-    else{
-        
-        model.addAttribute("productList", productList);
-        model.addAttribute("productDTO", product); 
-    }
-    
-    return "desktops";
-}
-
-/* Searches through Product List if search button is enabled */
-private List<Product> searchProductList(ArrayList<Product> productList, String searchTerm) {
-    List<Product> searchResults = new ArrayList<>();
-    for (Product product : productList) {
-        if (product.getName().toLowerCase().contains(searchTerm.toLowerCase()) || 
-        product.getDescription().toLowerCase().contains(searchTerm.toLowerCase()) || 
-        product.getVendor().toLowerCase().contains(searchTerm.toLowerCase())) 
-        {
-            searchResults.add(product);
-        }
-    
-    }
-    return searchResults;
-}
-    
-
 
     @RequestMapping(value = "/laptops", method = RequestMethod.GET)
     public String showLaptopTemplate(Model model) throws Exception {
@@ -172,7 +135,6 @@ private List<Product> searchProductList(ArrayList<Product> productList, String s
     @RequestMapping(value = "/shopping-cart", method = RequestMethod.GET)
     public String showShoppingCartTemplate(Model model) throws Exception {
         model.addAttribute("shoppingCartProductList", loadShoppingCartProductList());
-        model.addAttribute("productRemoved", product);
         return "shopping-cart";
     }
 
@@ -247,6 +209,7 @@ private List<Product> searchProductList(ArrayList<Product> productList, String s
         }
         return productList; 
     }
+
 
     /**
      * Reads product CSV files line by line and stores the info into an array of
@@ -332,41 +295,68 @@ private List<Product> searchProductList(ArrayList<Product> productList, String s
         final String filenameTemp = "src/main/java/com/example/softengproject/data/shopping-cart-temp.csv";
 
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(filename));
-            BufferedWriter writer = new BufferedWriter(new FileWriter(filenameTemp));
-            StringBuilder sb = new StringBuilder();
+            File inputFile = new File(filename);
+            File tempFile = new File(filenameTemp);
+
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(filename));
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filenameTemp));
 
             String productToRemove = product.getId().toString();
             String currentLine = "";
-            String splitBy = ",";
 
-            System.out.println("\nAbout to read shopping-cart.csv\n\n");
+            System.out.println("\nRemoving " + product.getId() + " from shopping cart.\n\n");
 
-            while ( (currentLine = reader.readLine()) != null) {
-                // trim newline when comparing with productToRemove
-                String[] columns = currentLine.split(splitBy);
-
-                String checkProductId = columns[0].toString();
-                
-                System.out.println("\nReading shopping-cart.csv\n\n");
-
-                if (!checkProductId.equals(productToRemove)) {
-                    System.out.println("ID found: " + checkProductId);
-                    sb.append(currentLine).append("\n");
-                } else {
-                    System.out.println("ID not found: " + checkProductId);
-                }
+            while (currentLine != bufferedReader.readLine()) {
+                String trimmedLine = currentLine.trim();
+                if (trimmedLine.equals(productToRemove)) continue;
+                bufferedWriter.write(currentLine + System.getProperty("line.separator"));
             }
-            
-            reader.close();
-            writer.close();
 
-            FileWriter fileWriter = new FileWriter(filename);
-            fileWriter.write(sb.toString());
-            fileWriter.close();
+            bufferedReader.close();
+            bufferedWriter.close();
+            Boolean successful = tempFile.renameTo(inputFile);
+
+            if (!successful) {
+                System.err.println(
+                        "Temporary file "+filenameTemp+" was unsuccessful in renaming it to "+filename);
+                System.exit(1);
+            }
+
         } catch (IOException e) {
-            System.err.println("\nFILE NOT FOUND\n\n");
             e.printStackTrace();
         }
     }
+
+
+    private void remoteFromShoppingCartTest(Product product) {
+        
+        
+        final String filename = "src/main/java/com/example/softengproject/data/shopping-cart.csv";
+ 
+        try {
+            // Read in the file
+            File inputFile = new File(filename);
+            FileInputStream inputStream = new FileInputStream(inputFile);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            StringBuilder sb = new StringBuilder();
+            String line;
+            int currentLineNumber = 1;
+            while ((line = reader.readLine()) != null) {
+                // Skip the line to be removed
+                if (currentLineNumber != lineNumber) {
+                    sb.append(line).append("\n");
+                }
+                currentLineNumber++;
+            }
+            reader.close();
+
+            // Rewrite the file with the remaining data
+            FileWriter writer = new FileWriter(filePath);
+            writer.write(sb.toString());
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
 }
+
