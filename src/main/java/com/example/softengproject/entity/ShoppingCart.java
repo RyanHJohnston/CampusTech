@@ -1,6 +1,8 @@
 package com.example.softengproject.entity;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.validation.constraints.NotBlank;
 import jakarta.persistence.Entity;
 import lombok.Data;
@@ -86,7 +88,11 @@ public class ShoppingCart implements Serializable {
     }
 
     public Double getTotalAmount() {
-        return totalAmount;
+        Double total = 0.00; 
+        for (Product index : getProducts()) {
+            total += index.getPrice();
+        }
+        return total;
     }
 
     public Double getPayableAmount() {
@@ -129,4 +135,21 @@ public class ShoppingCart implements Serializable {
         this.deliveryLocation = deliveryLocation;
     }
 
+    public Integer getProductQuantityByProduct(Product product) {
+        HashMap<Integer, Product> map = new HashMap<Integer, Product>(); 
+        Integer quantity = 0;
+
+        for (Product index : getProducts()) {
+            map.put(index.getId(), index);
+            if (index.getId().equals(product.getId())) {
+                ++quantity;
+            }
+        }
+
+        return quantity;
+    }
+    
+    public Double calculateTax() {
+        return getTotalAmount() * getTax();
+    }
 }

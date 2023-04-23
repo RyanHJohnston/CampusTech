@@ -20,6 +20,7 @@ import com.example.softengproject.entity.ProductList;
 import com.example.softengproject.entity.ShoppingCart;
 import com.example.softengproject.entity.Product.Type;
 
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -45,7 +46,12 @@ public class MainController {
 
     Product product;
 
-    ShoppingCart shoppingCart;
+    public ShoppingCart shoppingCart;
+    
+    @PostConstruct
+    public void initialize() throws Exception {
+        this.shoppingCart = new ShoppingCart(loadShoppingCartProductList(), 0.00, 0.00, 0.00, 0.00, "null");
+    }
 
     @RequestMapping("/403") 
     public String accessDenied() {
@@ -66,10 +72,13 @@ public class MainController {
      * Subtract 1 from product quantity in desktops.html
      * Give notification that item has been added to cart
      */
-    @RequestMapping(value="/desktops", method=RequestMethod.POST)
+    @RequestMapping(value={"/desktops", "/laptops", "/phones", "/accessories"}, method=RequestMethod.POST)
     public String addProductToShoppingCart(
             @ModelAttribute Product productDTO, Model model, 
-            final RedirectAttributes redirectAttributes) throws Exception {
+            final RedirectAttributes redirectAttributes) throws Exception { 
+        
+        ArrayList<Product> loadProductList = new ArrayList<Product>();
+        String redirectPage = "";
 
         System.out.println("\nAdding product to cart: \n\n"
                 + "ID: " + productDTO.getId() + "\n"
@@ -81,13 +90,41 @@ public class MainController {
                 + "Vendor: " + productDTO.getVendor() + "\n"
                 + "Rating: " + productDTO.getRating() + "/5\n");
 
-
-        redirectAttributes.addFlashAttribute(productDTO);
-        model.addAttribute("productList", loadProductTypeDesktopList());
-        model.addAttribute("productDTO", product);
-        appendShoppingCartCSV(productDTO);
-        return "desktops";
+        switch (productDTO.getType().toString()) {
+            case "DESKTOP":
+                redirectPage = "desktops";
+                loadProductList = loadProductTypeDesktopList();
+                break;
+            case "LAPTOP":
+                redirectPage = "laptops";
+                loadProductList = loadProductTypeLaptopList(); 
+                break;
+            case "PHONE":
+                redirectPage = "phones";
+                loadProductList = loadProductTypePhoneList();
+                break;
+            case "ACCESSORY":
+                redirectPage = "accessories";
+                loadProductList = loadProductTypeAccessoriesList();
+                break;
+            default:
+                System.err.println("\nERROR: Product TYPE could not be determined in MainController\n\n");
+                break;
             }
+
+        System.out.println("Product of type "+productDTO.getType().toString()); 
+        
+        this.shoppingCart.getProducts().add(productDTO);
+        redirectAttributes.addFlashAttribute(productDTO);
+        model.addAttribute("productList", loadProductList);
+        model.addAttribute("productDTO", product);
+        model.addAttribute("shoppingCartTotalPrice", Double.toString(Math.round(this.shoppingCart.getTotalAmount())));
+        model.addAttribute("shoppingCartProductListQuantity", Integer.toString(this.shoppingCart.getProducts().size()));
+
+        appendShoppingCartCSV(productDTO);
+
+        return redirectPage;
+    }
 
     @RequestMapping(value="/shopping-cart", method=RequestMethod.POST) 
     public String removeProductFromShopping(
@@ -95,13 +132,16 @@ public class MainController {
             final RedirectAttributes redirectAttributes) throws Exception {
 
         System.out.println("\nRemoving "+productRemoved.getId()+" from shopping cart.\n");
-
+        
+        this.shoppingCart.getProducts().remove(productRemoved);
         redirectAttributes.addFlashAttribute(productRemoved);
         model.addAttribute("productRemoved", productRemoved);
         removeProductFromShoppingCartCSV(productRemoved);
+        model.addAttribute("shoppingCartTotalPrice", this.shoppingCart.getTotalAmount().toString());
+        model.addAttribute("shoppingCartProductListQuantity", Integer.toString(this.shoppingCart.getProducts().size()));
         model.addAttribute("shoppingCartProductList", loadShoppingCartProductList());
         return "shopping-cart";
-    }
+            }
 
     /*
      * This is where the data will be rendered into the Thymeleaf template
@@ -136,6 +176,9 @@ public class MainController {
     public String showShoppingCartTemplate(Model model) throws Exception {
         model.addAttribute("shoppingCartProductList", loadShoppingCartProductList());
         model.addAttribute("productRemoved", product);
+        
+        model.addAttribute("shoppingCartTotalPrice", Double.toString(Math.round(this.shoppingCart.getTotalAmount())));
+        model.addAttribute("shoppingCartProductListQuantity", Integer.toString(this.shoppingCart.getProducts().size()));
         return "shopping-cart";
     }
 
@@ -227,7 +270,7 @@ public class MainController {
         try (BufferedReader reader = new BufferedReader(
                     new FileReader(readFileObj))) {
             System.out.println("Reading file: " + filename);
-            reader.readLine();
+            // reader.readLine();
             while ( (line = reader.readLine()) != null) {
                 String[] columns = line.split(splitBy);
 
@@ -310,7 +353,7 @@ public class MainController {
                 String[] columns = currentLine.split(splitBy);
 
                 String checkProductId = columns[0].toString();
-                
+
                 System.out.println("\nReading shopping-cart.csv\n\n");
 
                 if (!checkProductId.equals(productToRemove)) {
@@ -320,7 +363,7 @@ public class MainController {
                     System.out.println("ID not found: " + checkProductId);
                 }
             }
-            
+
             reader.close();
             writer.close();
 
@@ -332,4 +375,5 @@ public class MainController {
             e.printStackTrace();
         }
     }
+
 }
