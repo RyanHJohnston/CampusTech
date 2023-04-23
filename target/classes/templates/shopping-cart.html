@@ -73,6 +73,9 @@
             <li>Vendor: <span th:text="${product.vendor}"></span></li>
             <li>Rating: <span th:text="${product.rating}"></span>/5</li>
             <li>Index: <span th:text="${iter.index}"></span></li>
+
+            
+
             <form action="#" th:action="@{/shopping-cart}" th:object="${productRemoved}"
                 method="post">
                 <input type="hidden" th:attr="name='id'" th:value="${product.id}">

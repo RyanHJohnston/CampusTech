@@ -288,6 +288,48 @@ public class MainController {
                 e.printStackTrace();
             }
     }
-    
-}
 
+    private void removeProductFromShoppingCartCSV(Product product) throws IOException {
+
+        final String filename = "src/main/java/com/example/softengproject/data/shopping-cart.csv";
+        final String filenameTemp = "src/main/java/com/example/softengproject/data/shopping-cart-temp.csv";
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(filename));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(filenameTemp));
+            StringBuilder sb = new StringBuilder();
+
+            String productToRemove = product.getId().toString();
+            String currentLine = "";
+            String splitBy = ",";
+
+            System.out.println("\nAbout to read shopping-cart.csv\n\n");
+
+            while ( (currentLine = reader.readLine()) != null) {
+                // trim newline when comparing with productToRemove
+                String[] columns = currentLine.split(splitBy);
+
+                String checkProductId = columns[0].toString();
+                
+                System.out.println("\nReading shopping-cart.csv\n\n");
+
+                if (!checkProductId.equals(productToRemove)) {
+                    System.out.println("ID found: " + checkProductId);
+                    sb.append(currentLine).append("\n");
+                } else {
+                    System.out.println("ID not found: " + checkProductId);
+                }
+            }
+            
+            reader.close();
+            writer.close();
+
+            FileWriter fileWriter = new FileWriter(filename);
+            fileWriter.write(sb.toString());
+            fileWriter.close();
+        } catch (IOException e) {
+            System.err.println("\nFILE NOT FOUND\n\n");
+            e.printStackTrace();
+        }
+    }
+}
