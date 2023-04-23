@@ -25,7 +25,7 @@
         </div>
 
         <!-------------------------------- NAVIGATION BAR ------------------------->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a class="navbar-brand" href="#">Navbar</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -56,49 +56,57 @@
                     </li>
                 </ul>
             </div>
-            <!--
-                <<<<<<< HEAD
-            -->            
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-        </nav> 
-        <!--
-            =======
             <form class="d-flex" method="GET">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="searchTerm" required>
-            <button class="btn btn-outline-success" type="submit">Search</button>
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="searchTerm" required>
+                <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
             </form>
-            </nav>
-            >>>>>>> 17fd57bec1e5e7abdc9b40cafeffe39c4e6679ec
-        -->
-
-        <ul th:each="product,iter: ${productList}">
-            <li>ID: <span th:text="${product.id}"></span></li>
-            <li>Name: <span th:text="${product.name}"></span></li>
-            <li>Type: <span th:text="${product.type}"></span></li>
-            <li>Description: <span th:text="${product.description}"></span></li>
-            <li>Price: <span th:text="${product.price}"></span></li>
-            <li>Quantity: <span th:text="${product.quantity}"></span></li>
-            <li>Vendor: <span th:text="${product.vendor}"></span></li>
-            <li>Rating: <span th:text="${product.rating}"></span>/5</li>
-            <li>Index: <span th:text="${iter.index}"></span></li>
-
-            <form action="#" th:action="@{/desktops}" th:object="${productDTO}"
-                method="post">
-                <input type="hidden" th:attr="name='id'" th:value="${product.id}">
-                <input type="hidden" th:attr="name='name'" th:value="${product.name}">
-                <input type="hidden" th:attr="name='type'" th:value="${product.type}">
-                <input type="hidden" th:attr="name='description'" th:value="${product.description}">
-                <input type="hidden" th:attr="name='price'" th:value="${product.price}">
-                <input type="hidden" th:attr="name='quantity'" th:value="${product.quantity}">
-                <input type="hidden" th:attr="name='vendor'" th:value="${product.vendor}">
-                <input type="hidden" th:attr="name='rating'" th:value="${product.rating}">
-
-                <input type="submit" name="Submit"/>    
-            </form>
-        </ul>
+        </nav>
+        
+        <div class="row">
+            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                <ul th:each="product,iter: ${productList}" style="list-style-type: none;">
+                    <li>
+                      <div class="row">
+                        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                          <!-- product details -->
+                          <ul>
+                            <li style="list-style-type: none;"><b><span th:text="${product.name}"></span></b></li>
+                            <li>ID: <span th:text="${product.id}"></span></li>
+                            <li>Type: <span th:text="${product.type}"></span></li>
+                            <li>Price: <span th:text="${product.price}"></span></li>
+                            <li>Quantity: <span th:text="${product.quantity}"></span></li>
+                            <li>Vendor: <span th:text="${product.vendor}"></span></li>
+                            <li>Rating: <span th:text="${product.rating}"></span>/5</li>
+                            <li>Index: <span th:text="${iter.index}"></span></li>
+                            <li>Description: <span th:text="${product.description}"></span></li>
+                            
+                              <form action="#" th:action="@{/desktops}" th:object="${productDTO}" method="post">
+                                <input type="hidden" th:attr="name='id'" th:value="${product.id}">
+                                <input type="hidden" th:attr="name='name'" th:value="${product.name}">
+                                <input type="hidden" th:attr="name='type'" th:value="${product.type}">
+                                <input type="hidden" th:attr="name='description'" th:value="${product.description}">
+                                <input type="hidden" th:attr="name='price'" th:value="${product.price}">
+                                <input type="hidden" th:attr="name='quantity'" th:value="${product.quantity}">
+                                <input type="hidden" th:attr="name='vendor'" th:value="${product.vendor}">
+                                <input type="hidden" th:attr="name='rating'" th:value="${product.rating}">
+                                <button type="submit" class="btn btn-primary" name="Submit">Add to Cart</button>
+                              </form>
+                            
+                          </ul>
+                        </div>
+                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="display: flex; align-items: center;">
+                          <!-- product image -->
+                          <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1170&amp;q=80" width="100%" height="auto" alt="Temp Picture" title="Temp Picture">
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                  
+                  
+    </div>
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="border: 1px solid lightgrey;">
+        <h4>TODO: Add Browse and Sort Functionality Here</h4><!-- new code for the column on the right goes here -->
+    </div>
 
         <script type="text/javascript" th:inline="javascript">
             // Keeps the current scroll position after page reload

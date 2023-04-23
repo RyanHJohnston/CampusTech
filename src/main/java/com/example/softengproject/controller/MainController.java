@@ -8,6 +8,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+<<<<<<< HEAD
+=======
+import java.util.Scanner;
+import java.util.List;
+>>>>>>> 0199db10d7889f9e0c5425b88f72130ed311cd76
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -141,12 +146,49 @@ public class MainController {
      * This is where the data will be rendered into the Thymeleaf template
      * this method sends a GET request to render the new data from the Model
      */
+    /*
     @RequestMapping(value = "/desktops", method = RequestMethod.GET)
     public String showDesktopTemplate(Model model) throws Exception {
         model.addAttribute("productList", loadProductTypeDesktopList());
         model.addAttribute("productDTO", product); 
         return "desktops";
     }
+*/
+//New
+@RequestMapping(value = "/desktops", method = RequestMethod.GET)
+public String showDesktopTemplate(Model model, @RequestParam(name="searchTerm", required=false) String searchTerm) throws Exception {
+    ArrayList<Product> productList = loadProductTypeDesktopList();
+
+    if (searchTerm != null && !searchTerm.isEmpty()) {
+        List<Product> searchResults = searchProductList(productList, searchTerm);
+        model.addAttribute("productList", searchResults);
+        model.addAttribute("productDTO", product);
+    }
+    else{
+        
+        model.addAttribute("productList", productList);
+        model.addAttribute("productDTO", product); 
+    }
+    
+    return "desktops";
+}
+
+/* Searches through Product List if search button is enabled */
+private List<Product> searchProductList(ArrayList<Product> productList, String searchTerm) {
+    List<Product> searchResults = new ArrayList<>();
+    for (Product product : productList) {
+        if (product.getName().toLowerCase().contains(searchTerm.toLowerCase()) || 
+        product.getDescription().toLowerCase().contains(searchTerm.toLowerCase()) || 
+        product.getVendor().toLowerCase().contains(searchTerm.toLowerCase())) 
+        {
+            searchResults.add(product);
+        }
+    
+    }
+    return searchResults;
+}
+    
+
 
     @RequestMapping(value = "/laptops", method = RequestMethod.GET)
     public String showLaptopTemplate(Model model) throws Exception {
