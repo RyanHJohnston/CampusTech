@@ -104,18 +104,15 @@ public class MainController {
 public String showDesktopTemplate(Model model, @RequestParam(name="searchTerm", required=false) String searchTerm) throws Exception {
     ArrayList<Product> productList = loadProductTypeDesktopList();
 
-    System.out.println("Search term: " + searchTerm);
     if (searchTerm != null && !searchTerm.isEmpty()) {
         List<Product> searchResults = searchProductList(productList, searchTerm);
         model.addAttribute("productList", searchResults);
         model.addAttribute("productDTO", product);
-        System.out.println("Searched");
     }
     else{
         
         model.addAttribute("productList", productList);
         model.addAttribute("productDTO", product); 
-        System.out.println("Not Searched");
     }
     
     return "desktops";
