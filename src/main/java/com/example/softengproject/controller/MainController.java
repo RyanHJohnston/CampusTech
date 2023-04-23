@@ -108,13 +108,14 @@ public class MainController {
      * This is where the data will be rendered into the Thymeleaf template
      * this method sends a GET request to render the new data from the Model
      */
+    /*
     @RequestMapping(value = "/desktops", method = RequestMethod.GET)
     public String showDesktopTemplate(Model model) throws Exception {
         model.addAttribute("productList", loadProductTypeDesktopList());
         model.addAttribute("productDTO", product); 
         return "desktops";
     }
-
+*/
 //New
 @RequestMapping(value = "/desktops", method = RequestMethod.GET)
 public String showDesktopTemplate(Model model, @RequestParam(name="searchTerm", required=false) String searchTerm) throws Exception {
