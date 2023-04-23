@@ -1,4 +1,3 @@
-
 <!-- LAPTOPS PRODUCT LIST PAGE -->
 
 <!DOCTYPE>
@@ -48,8 +47,7 @@
                         <a class="nav-link" href="accessories">Accessories</a>
                     </li>
                     <li>
-                        <a class="nav-link" href="invoice">Shopping
-                            Cart</a>
+                        <a class="nav-link" href="shopping-cart">Shopping Cart</a>
                     </li>
 
                     <li class="nav-item">
@@ -63,9 +61,49 @@
             </form>
         </nav>
 
-        
-        <!-- SHOPPING CART DATA FOR EACH PRODUCT -->
 
+        <!-- SHOPPING CART DATA FOR EACH PRODUCT -->
+        <ul th:each="product,iter: ${shoppingCartProductList}">
+            <li>ID: <span th:text="${product.id}"></span></li>
+            <li>Name: <span th:text="${product.name}"></span></li>
+            <li>Type: <span th:text="${product.type}"></span></li>
+            <li>Description: <span th:text="${product.description}"></span></li>
+            <li>Price: <span th:text="${product.price}"></span></li>
+            <li>Quantity: <span th:text="${product.quantity}"></span></li>
+            <li>Vendor: <span th:text="${product.vendor}"></span></li>
+            <li>Rating: <span th:text="${product.rating}"></span>/5</li>
+            <li>Index: <span th:text="${iter.index}"></span></li>
+            <form action="#" th:action="@{/shopping-cart}" th:object="${productRemoved}"
+                method="post">
+                <input type="hidden" th:attr="name='id'" th:value="${product.id}">
+                <input type="hidden" th:attr="name='name'" th:value="${product.name}">
+                <input type="hidden" th:attr="name='type'" th:value="${product.type}">
+                <input type="hidden" th:attr="name='description'" th:value="${product.description}">
+                <input type="hidden" th:attr="name='price'" th:value="${product.price}">
+                <input type="hidden" th:attr="name='quantity'" th:value="${product.quantity}">
+                <input type="hidden" th:attr="name='vendor'" th:value="${product.vendor}">
+                <input type="hidden" th:attr="name='rating'" th:value="${product.rating}">
+
+                <button type="submit" th:onclick="alertProductRemoved([[${product.name}]])">Remove
+                    Item</button>
+
+            </form>
+        </ul>
+        <script type="text/javascript" th:inline="javascript">
+            // Keeps the current scroll position after page reload
+            document.addEventListener("DOMContentLoaded", function(event) {
+                var scrollPosition = localStorage.getItem('scrollPosition');
+                if (scrollPosition) window.scrollTo(0, scrollPosition);
+            });
+
+            window.onbeforeunload = function(e) {
+                localStorage.setItem("scrollPosition", window.scrollY);
+            };
+
+            function alertProductRemoved(name) {
+                alert("Product "+name+" removed.");
+            }
+        </script>
 
         <!-- NEEDED IN EVERY HTML FILE FOR BOOTSTRAP AND JQUERY TO WORK -->
         <!-- Optional JavaScript -->

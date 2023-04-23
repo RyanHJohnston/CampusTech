@@ -27,9 +27,7 @@
         <!-------------------------------- NAVIGATION BAR ------------------------->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">Navbar</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" 
-                data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" 
-                aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -49,15 +47,22 @@
                     <li class="nav-item">
                         <a class="nav-link" href="accessories">Accessories</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="shopping-cart">Shopping cart</a>
+                    <li>
+                        <a class="nav-link" href="shopping-cart">Shopping Cart</a>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="home">About</a>
                     </li>
                 </ul>
             </div>
-        </nav>
+            
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </nav> 
+            
 
         <ul th:each="product,iter: ${productList}">
             <li>ID: <span th:text="${product.id}"></span></li>
@@ -69,7 +74,7 @@
             <li>Vendor: <span th:text="${product.vendor}"></span></li>
             <li>Rating: <span th:text="${product.rating}"></span>/5</li>
             <li>Index: <span th:text="${iter.index}"></span></li>
-           
+
             <form action="#" th:action="@{/desktops}" th:object="${productDTO}"
                 method="post">
                 <input type="hidden" th:attr="name='id'" th:value="${product.id}">

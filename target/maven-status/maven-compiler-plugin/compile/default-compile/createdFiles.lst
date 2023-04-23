@@ -1,6 +1,5 @@
 com/example/softengproject/controller/MainController.class
 com/example/softengproject/entity/Product.class
-com/example/softengproject/controller/ShoppingCartController.class
 com/example/softengproject/entity/User.class
 com/example/softengproject/entity/ProductList.class
 com/example/softengproject/controller/ProductListController.class
