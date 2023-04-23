@@ -8,11 +8,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-<<<<<<< HEAD
-=======
 import java.util.Scanner;
 import java.util.List;
->>>>>>> 0199db10d7889f9e0c5425b88f72130ed311cd76
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
