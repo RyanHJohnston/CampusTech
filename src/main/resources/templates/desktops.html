@@ -56,21 +56,23 @@
                     </li>
                 </ul>
             </div>
-<<<<<<< HEAD
-            
+            <!--
+                <<<<<<< HEAD
+            -->            
             <form class="d-flex">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
         </nav> 
-            
-=======
+        <!--
+            =======
             <form class="d-flex" method="GET">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="searchTerm" required>
-                <button class="btn btn-outline-success" type="submit">Search</button>
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="searchTerm" required>
+            <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
-        </nav>
->>>>>>> 17fd57bec1e5e7abdc9b40cafeffe39c4e6679ec
+            </nav>
+            >>>>>>> 17fd57bec1e5e7abdc9b40cafeffe39c4e6679ec
+        -->
 
         <ul th:each="product,iter: ${productList}">
             <li>ID: <span th:text="${product.id}"></span></li>
