@@ -105,7 +105,38 @@
                   
     </div>
     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="border: 1px solid lightgrey;">
-        <h4>TODO: Add Browse and Sort Functionality Here</h4><!-- new code for the column on the right goes here -->
+        <div class="container">
+            <div class="card">
+                <div class="card-body">
+                    <h4>Filter</h4>
+                    <form class="form-inline">
+                        <label class="my-1 mr-2" for="inlineFormCustomSelectPref"><h6>Price $</h6></label>
+                        <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name="priceRange">
+                          <option selected>Choose...</option>
+                          <option value="1">$0 &nbsp; &nbsp; - $200</option>
+                          <option value="2">$200 - $400</option>
+                          <option value="3">$400 - $700</option>
+                          <option value="4">$700 - $1000</option>
+                          <option value="5">$1000+</option>
+                        </select>
+                        <button type="submit" class="btn btn-secondary my-1">Check</button>
+                      </form>
+
+                      <form class="form-inline">
+                        <label class="my-1 mr-2" for="inlineFormCustomSelectPref"><h6>Price $</h6></label>
+                        <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
+                          <option selected>Choose...</option>
+                          <option value="1">1 Star or More</option>
+                          <option value="2">2 Stars or More</option>
+                          <option value="3">3 Stars or More</option>
+                          <option value="4">4 Stars or More</option>
+                          <option value="5">5 Stars or More</option>
+                        </select>
+                        <button type="submit" class="btn btn-secondary my-1">Check</button>
+                      </form>
+                </div>
+            </div>
+        </div><!-- new code for the column on the right goes here -->
     </div>
 
         <script type="text/javascript" th:inline="javascript">

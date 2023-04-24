@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -154,26 +155,48 @@ public class MainController {
 */
 //New
 @RequestMapping(value = "/desktops", method = RequestMethod.GET)
-public String showDesktopTemplate(Model model, @RequestParam(name="searchTerm", required=false) String searchTerm) throws Exception {
+public String showDesktopTemplate(Model model, @RequestParam(name="searchTerm", required=false) String searchTerm, @RequestParam(name="priceRange", required=false) String priceRange) throws Exception {
     ArrayList<Product> productList = loadProductTypeDesktopList();
 
     if (searchTerm != null && !searchTerm.isEmpty()) {
-        List<Product> searchResults = searchProductList(productList, searchTerm);
-        model.addAttribute("productList", searchResults);
-        model.addAttribute("productDTO", product);
+        productList = searchProductList(productList, searchTerm);
     }
-    else{
+    if (priceRange != null && !priceRange.isEmpty()) {
+        int minPrice = 0;
+        int maxPrice = Integer.MAX_VALUE;
+        switch (priceRange) {
+            case "1":
+                maxPrice = 200;
+                break;
+            case "2":
+                minPrice = 200;
+                maxPrice = 400;
+                break;
+            case "3":
+                minPrice = 400;
+                maxPrice = 700;
+                break;
+            case "4":
+                minPrice = 700;
+                maxPrice = 1000;
+                break;
+            case "5":
+                minPrice = 1000;
+                break;
+        }
+        productList = filterProductListByPrice(priceRange, productList, minPrice, maxPrice);
+    }
+
         
         model.addAttribute("productList", productList);
         model.addAttribute("productDTO", product); 
-    }
     
     return "desktops";
 }
 
 /* Searches through Product List if search button is enabled */
-private List<Product> searchProductList(ArrayList<Product> productList, String searchTerm) {
-    List<Product> searchResults = new ArrayList<>();
+private ArrayList<Product>  searchProductList(ArrayList<Product> productList, String searchTerm) {
+    ArrayList<Product>  searchResults = new ArrayList<>();
     for (Product product : productList) {
         if (product.getName().toLowerCase().contains(searchTerm.toLowerCase()) || 
         product.getDescription().toLowerCase().contains(searchTerm.toLowerCase()) || 
@@ -186,7 +209,16 @@ private List<Product> searchProductList(ArrayList<Product> productList, String s
     return searchResults;
 }
     
+private ArrayList<Product>  filterProductListByPrice(String priceRange, ArrayList<Product> productList, int minPrice, int maxPrice) {
 
+    final int minP = minPrice;
+    final int maxP = maxPrice;
+
+    return productList.stream()
+    .filter(p -> p.getPrice() >= minP && p.getPrice() <= maxP)
+    .collect(Collectors.toCollection(ArrayList::new));
+
+}
 
     @RequestMapping(value = "/laptops", method = RequestMethod.GET)
     public String showLaptopTemplate(Model model) throws Exception {
