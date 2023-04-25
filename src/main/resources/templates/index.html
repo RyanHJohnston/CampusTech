@@ -17,13 +17,14 @@
   </head>
   <body>
 
-    <div class="container-fluid p-5 bg-primary text-white text-center">
-      <h1>Student Tech Store</h1>
-      <p>The best quality technology for college students just like you.</p>
-    </div>
+    <div class="container-fluid p-5 text-center" style="box-shadow: black;" th:style="'background: url(/images/blue.jpg) no-repeat center center fixed;'">
+      <h1 style = "color: #042359; font-weight: bold; text-shadow: black;" >Student Tech Store</h1>
+      <p style = "color: #042359;">The best quality technology for college students just like you.</p>
+  </div>
 
-    <!-------------------------------- NAVIGATION BAR ------------------------->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <!-------------------------------- NAVIGATION BAR ------------------------->
+  <nav class="navbar navbar-expand-lg navbar-light navbar-toggler" th:style="${'background-color: #b6cde9;'}">
+      <img th:src="@{/images/tech-store-logo.png}" style="width:80px;height:60px;">
   <a class="navbar-brand" href="#">Navbar</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
