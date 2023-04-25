@@ -8,7 +8,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" 
-        <!-- media="all" th:href="@{/index.css}" -->
+        <!-- media="all" th:href="@{/js/index.css}" -->
         <title>Desktops</title>
         <!-- THIS IS NEEDED IN EVERY HTML HEADER FOR BOOTSTRAP AND JQUERY TO WORK
         -->
@@ -62,15 +62,88 @@
                 <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
             </form>
         </nav>
-        
-        <div class="row">
-            <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
-                <ul th:each="product,iter: ${productList}" style="list-style-type: none;">
-                    <li>
-                      <div class="row">
+    <!---------------------s--------------product card------------------------------------------------------------>    
+
+    <div class="container mt-5 mb-5 d-flex">
+        <div class="d-flex row">
+            <div th:each="product,iter: ${productList}" style="list-style-type: none;">
+                <div class="row p-2 bg-white border rounded">
+                    <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1170&amp;q=80" width="100%" height="auto" alt="Temp Picture" title="Temp Picture"></div>
+                    <div class="col-md-6 mt-1">
+                        <h5 style="list-style-type: none;"><span th:text="${product.name}"></span></h5>
+                        <div class="d-flex flex-row">
+                            <div class="ratings mr-2 redtext"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>Rating: <span th:text="${product.rating}"></span>/5
+                        </div>
+                        <div class="text-success">
+                        <div class="mt-1 mb-1 spec-1"><span>Vendor: <span th:text="${product.vendor}"></span><span class="dot"></span><span>Type: <span th:text="${product.type}"></span><span class="dot"></span></div>
+                        <div class="mt-1 mb-1 spec-1"><span>ID: <span th:text="${product.id}"></span><span class="dot"></span>Quantity: <span th:text="${product.quantity}"></span></div>
+                        <div class="mt-1 mb-1 spec-1"><span>Description: <span th:text="${product.description}"></span></div>
+                        <div class="mt-1 mb-1 spec-1"><span>Index: <span th:text="${iter.index}"></span></div>
+                        </div>        
+                    </div>
+                    <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+                        <div class="d-flex flex-row align-items-center">
+                            <h4 class="mr-1">$<span th:text="${product.price}"></span></h4>
+                        </div>
+                        <h6 class="text-success">Free shipping</h6>
+                        <div class="d-flex flex-column mt-4"><button type="submit" class="btn btn-primary" name="Submit">Add to Cart</button></div>
+                    </div>
+                </div>
+                <form action="#" th:action="@{/desktops}" th:object="${productDTO}" method="post">
+                    <input type="hidden" th:attr="name='id'" th:value="${product.id}">
+                    <input type="hidden" th:attr="name='name'" th:value="${product.name}">
+                    <input type="hidden" th:attr="name='type'" th:value="${product.type}">
+                    <input type="hidden" th:attr="name='description'" th:value="${product.description}">
+                    <input type="hidden" th:attr="name='price'" th:value="${product.price}">
+                    <input type="hidden" th:attr="name='quantity'" th:value="${product.quantity}">
+                    <input type="hidden" th:attr="name='vendor'" th:value="${product.vendor}">
+                    <input type="hidden" th:attr="name='rating'" th:value="${product.rating}">
+                  </form> 
+            </div>
+        </div>
+        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="border: 1px solid rgb(255, 255, 255); margin-left: 30px;">
+            <div class="container">
+                <div class="card">
+                    <div class="card-body">
+                        <h4>Filter</h4>
+                        <form class="form-inline">
+                            <label class="my-1 mr-2" for="inlineFormCustomSelectPref"><h6>Price $</h6></label>
+                            <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name="priceRange">
+                              <option selected>Choose...</option>
+                              <option value="1">$0 &nbsp; &nbsp; - $200</option>
+                              <option value="2">$200 - $400</option>
+                              <option value="3">$400 - $700</option>
+                              <option value="4">$700 - $1000</option>
+                              <option value="5">$1000+</option>
+                            </select>
+                            <button type="submit" class="btn btn-secondary my-1">Check</button>
+                          </form>
+    
+                          <form class="form-inline">
+                            <label class="my-1 mr-2" for="inlineFormCustomSelectPref"><h6>Ratings</h6></label>
+                            <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
+                              <option selected>Choose...</option>
+                              <option value="1">1 Star or More</option>
+                              <option value="2">2 Stars or More</option>
+                              <option value="3">3 Stars or More</option>
+                              <option value="4">4 Stars or More</option>
+                              <option value="5">5 Stars or More</option>
+                            </select>
+                            <button type="submit" class="btn btn-secondary my-1">Check</button>
+                          </form>
+                    </div>
+                </div>
+            </div><!-- new code for the column on the right goes here -->
+        </div>
+    </div>  
+    <!--<div class="row">
+        <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+             <ul th:each="product,iter: ${productList}" style="list-style-type: none;">
+                <li>
+                    <div class="row">
                         <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
-                          <!-- product details -->
-                          <ul>
+                          
+                        <ul>
                             <li style="list-style-type: none;"><b><span th:text="${product.name}"></span></b></li>
                             <li>ID: <span th:text="${product.id}"></span></li>
                             <li>Type: <span th:text="${product.type}"></span></li>
@@ -92,19 +165,18 @@
                                 <input type="hidden" th:attr="name='rating'" th:value="${product.rating}">
                                 <button type="submit" class="btn btn-primary" name="Submit">Add to Cart</button>
                               </form>
-                            
-                          </ul>
+                        </ul> 
                         </div>
                         <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="display: flex; align-items: center;">
-                          <!-- product image -->
+                          
                           <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1170&amp;q=80" width="100%" height="auto" alt="Temp Picture" title="Temp Picture">
                         </div>
-                      </div>
-                    </li>
-                  </ul>
-                  
-                  
-    </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div> -->
+    <!------------------------------filter card-------------------------------------------------------------------->
     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="border: 1px solid lightgrey;">
         <div class="container">
             <div class="card">
