@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Comparator;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -139,7 +140,7 @@ public class MainController {
         model.addAttribute("shoppingCartProductListQuantity", Integer.toString(this.shoppingCart.getProducts().size()));
         model.addAttribute("shoppingCartProductList", loadShoppingCartProductList());
         return "shopping-cart";
-            }
+     }
 
     /*
      * This is where the data will be rendered into the Thymeleaf template
@@ -155,9 +156,37 @@ public class MainController {
 */
 //New
 @RequestMapping(value = "/desktops", method = RequestMethod.GET)
-public String showDesktopTemplate(Model model, @RequestParam(name="searchTerm", required=false) String searchTerm, @RequestParam(name="priceRange", required=false) String priceRange) throws Exception {
+public String showDesktopTemplate(Model model, @RequestParam(name="searchTerm", required=false) String searchTerm, 
+                                  @RequestParam(name="priceRange", required=false) String priceRange, 
+                                  @RequestParam(name="rating", required=false) String rating,
+                                  @RequestParam(name="sortOrder", required=false) String sortOrder) throws Exception {
     ArrayList<Product> productList = loadProductTypeDesktopList();
 
+
+    if (sortOrder != null && !sortOrder.isEmpty()) {
+        switch (sortOrder) {
+            case "nameAZ":
+                productList.sort(Comparator.comparing(Product::getName));
+                break;
+            case "nameZA":
+                productList.sort(Comparator.comparing(Product::getName).reversed());
+                break;
+            case "vendorAZ":
+                productList.sort(Comparator.comparing(Product::getVendor));
+                break;
+            case "vendorZA":
+                productList.sort(Comparator.comparing(Product::getVendor).reversed());
+                break;
+            case "priceLtoH":
+                productList.sort(Comparator.comparing(Product::getPrice));
+                break;
+            case "priceHtoL":
+                productList.sort(Comparator.comparing(Product::getPrice).reversed());
+                break;
+            default:
+                break;
+        }
+    }
     if (searchTerm != null && !searchTerm.isEmpty()) {
         productList = searchProductList(productList, searchTerm);
     }
@@ -184,9 +213,11 @@ public String showDesktopTemplate(Model model, @RequestParam(name="searchTerm", 
                 minPrice = 1000;
                 break;
         }
-        productList = filterProductListByPrice(priceRange, productList, minPrice, maxPrice);
+        productList = filterProductListByPrice(productList, minPrice, maxPrice);
     }
-
+    if (rating != null && !rating.isEmpty()) {
+        productList = filterProductListByRating(productList, Integer.parseInt(rating));
+    }
         
         model.addAttribute("productList", productList);
         model.addAttribute("productDTO", product); 
@@ -208,8 +239,19 @@ private ArrayList<Product>  searchProductList(ArrayList<Product> productList, St
     }
     return searchResults;
 }
+ 
+private ArrayList<Product>  filterProductListByRating(ArrayList<Product> productList, int rating) {
+    ArrayList<Product>  searchResults = new ArrayList<>();
+    for (Product product : productList) {
+        if (product.getRating()>=rating)
+        {
+            searchResults.add(product);
+        }
     
-private ArrayList<Product>  filterProductListByPrice(String priceRange, ArrayList<Product> productList, int minPrice, int maxPrice) {
+    }
+    return searchResults;
+}
+private ArrayList<Product>  filterProductListByPrice(ArrayList<Product> productList, int minPrice, int maxPrice) {
 
     final int minP = minPrice;
     final int maxP = maxPrice;

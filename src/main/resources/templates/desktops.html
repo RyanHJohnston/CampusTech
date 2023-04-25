@@ -7,7 +7,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" 
+        <link rel="stylesheet" type="text/css" >
         <!-- media="all" th:href="@{/index.css}" -->
         <title>Desktops</title>
         <!-- THIS IS NEEDED IN EVERY HTML HEADER FOR BOOTSTRAP AND JQUERY TO WORK
@@ -105,11 +105,10 @@
                   
     </div>
     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="border: 1px solid lightgrey;">
-        <div class="container">
             <div class="card">
                 <div class="card-body">
                     <h4>Filter</h4>
-                    <form class="form-inline">
+                    <form class="form-inline" >
                         <label class="my-1 mr-2" for="inlineFormCustomSelectPref"><h6>Price $</h6></label>
                         <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name="priceRange">
                           <option selected>Choose...</option>
@@ -123,8 +122,8 @@
                       </form>
 
                       <form class="form-inline">
-                        <label class="my-1 mr-2" for="inlineFormCustomSelectPref"><h6>Price $</h6></label>
-                        <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
+                        <label class="my-1 mr-2" for="inlineFormCustomSelectPref" ><h6>Rating</h6></label>
+                        <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name="rating">
                           <option selected>Choose...</option>
                           <option value="1">1 Star or More</option>
                           <option value="2">2 Stars or More</option>
@@ -136,8 +135,42 @@
                       </form>
                 </div>
             </div>
-        </div><!-- new code for the column on the right goes here -->
+            <div class="card">
+                <div class="card-body">
+                    <h4>Sort</h4>
+                    <form method="get" th:action="@{/desktops}">
+                        <div>
+                            <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="nameAZSortRadio" name="sortOrder" value="nameAZ" required>
+                            <label class="custom-control-label" for="nameAZSortRadio">Sort by Name (A-Z)</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" id="nameZASortRadio" name="sortOrder" value="nameZA" required>
+                                <label class="custom-control-label" for="nameZASortRadio">Sort by Name (Z-A)</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="vendorAZSortRadio" name="sortOrder" value="vendorAZ" required>
+                            <label class="custom-control-label" for="vendorAZSortRadio">Sort by Brand (A-Z)</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" id="vendorZASortRadio" name="sortOrder" value="vendorZA" required>
+                                <label class="custom-control-label" for="vendorZASortRadio">Sort by Brand (Z-A)</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                            <input type="radio" class="custom-control-input" id="priceLHSortRadio" name="sortOrder" value="priceLtoH" required>
+                            <label class="custom-control-label" for="priceLHSortRadio">Sort by Price (Lowest to Highest)</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" id="priceHLSortRadio" name="sortOrder" value="priceHtoL" required>
+                                <label class="custom-control-label" for="priceHLSortRadio">Sort by Price (Highest to Lowest)</label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-secondary my-1">Submit</button>
+                    </form>
+                </div>
+            </div>
     </div>
+
 
         <script type="text/javascript" th:inline="javascript">
             // Keeps the current scroll position after page reload
