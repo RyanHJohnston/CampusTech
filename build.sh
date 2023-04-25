@@ -7,7 +7,7 @@ printf "openjdk-17-doc - OpenJDK Development Kit Documentation\n";
 printf "openjdk-17-jdk - OpenJDK Development Kit (JDK)\n";
 printf "openjdk-17-jre - OpenJDK Java runtime, using Hotspot JIT\n";
 printf "maven - Java software project management and comprehension tool\n";
-
+printf "This is a test for the new branch\n";
 
 
 
