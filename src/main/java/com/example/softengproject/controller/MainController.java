@@ -212,6 +212,8 @@ public String showDesktopTemplate(Model model, @RequestParam(name="searchTerm", 
             case "5":
                 minPrice = 1000;
                 break;
+            default:
+                break;
         }
         productList = filterProductListByPrice(productList, minPrice, maxPrice);
     }
