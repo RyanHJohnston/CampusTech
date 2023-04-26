@@ -8,6 +8,7 @@ com/example/softengproject/controller/UserController.class
 com/example/softengproject/OnlineStoreWebApplication.class
 com/example/softengproject/controller/ProductController.class
 com/example/softengproject/config/WebConfiguration.class
+com/example/softengproject/controller/MainController$1.class
 com/example/softengproject/entity/ShoppingCart.class
 com/example/softengproject/entity/UserAdmin.class
 com/example/softengproject/entity/Product$Type.class

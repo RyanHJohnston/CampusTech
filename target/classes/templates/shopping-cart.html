@@ -1,5 +1,3 @@
-!-- SHOPPING CART LIST PAGE -->
-
 <!DOCTYPE>
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
@@ -61,37 +59,6 @@
             </form>
         </nav>
 
-
-        <!-- SHOPPING CART DATA FOR EACH PRODUCT -->
-        <ul th:each="product,iter: ${shoppingCartProductList}">
-            <li>ID: <span th:text="${product.id}"></span></li>
-            <li>Name: <span th:text="${product.name}"></span></li>
-            <li>Type: <span th:text="${product.type}"></span></li>
-            <li>Description: <span th:text="${product.description}"></span></li>
-            <li>Price: <span th:text="${product.price}"></span></li>
-            <li>Quantity: <span th:text="${product.quantity}"></span></li>
-            <li>Vendor: <span th:text="${product.vendor}"></span></li>
-            <li>Rating: <span th:text="${product.rating}"></span>/5</li>
-            <li>Index: <span th:text="${iter.index}"></span></li>
-
-
-
-            <form action="#" th:action="@{/shopping-cart}" th:object="${productRemoved}"
-                method="post">
-                <input type="hidden" th:attr="name='id'" th:value="${product.id}">
-                <input type="hidden" th:attr="name='name'" th:value="${product.name}">
-                <input type="hidden" th:attr="name='type'" th:value="${product.type}">
-                <input type="hidden" th:attr="name='description'" th:value="${product.description}">
-                <input type="hidden" th:attr="name='price'" th:value="${product.price}">
-                <input type="hidden" th:attr="name='quantity'" th:value="${product.quantity}">
-                <input type="hidden" th:attr="name='vendor'" th:value="${product.vendor}">
-                <input type="hidden" th:attr="name='rating'" th:value="${product.rating}">
-
-                <button type="submit" th:onclick="alertProductRemoved([[${product.name}]])">Remove
-                    Item</button>
-            </form>
-        </ul>
-
         <!-- CHECKOUT -->
         <div class="container">
             <div class="py-5 text-center">
@@ -115,7 +82,7 @@
                                 <span>$<span class="text-muted" th:text="${product.price}"></span></span>
                             </div>
                             <div>
-                                <form action="#" th:action="@{/desktops}" th:object="${productDTO}" method="post">
+                                <form action="#" th:action="@{/shopping-cart}" th:object="${productDTO}" method="post">
                                     <input type="hidden" th:attr="name='id'" th:value="${product.id}">
                                     <input type="hidden" th:attr="name='name'" th:value="${product.name}">
                                     <input type="hidden" th:attr="name='type'" th:value="${product.type}">
@@ -124,8 +91,13 @@
                                     <input type="hidden" th:attr="name='quantity'" th:value="${product.quantity}">
                                     <input type="hidden" th:attr="name='vendor'" th:value="${product.vendor}">
                                     <input type="hidden" th:attr="name='rating'" th:value="${product.rating}">
-
+                                   <button type="submit" class="btn btn-dark">+</button> 
                                 </form>
+                            </div>
+                            <div>
+                                <span th:text="${product.shoppingCartQuantity}"></span>
+                            </div> 
+                                <div>
                                 <form action="#" th:action="@{/shopping-cart}" th:object="${productRemoved}" method="post">
                                     <input type="hidden" th:attr="name='id'" th:value="${product.id}">
                                     <input type="hidden" th:attr="name='name'" th:value="${product.name}">
@@ -142,7 +114,7 @@
                         </li>
                         <li class="list-group-item d-flex justify-content-between">
                             <span>Total (USD)</span>
-                            <span>$<span th:text="${shoppingCartTotalPrice}"></span></span>
+                            <span>$<span th:text="${shoppingCartProductTotalPrice}"></span></span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between">
                             <span>Tax (USD)</span>
@@ -303,7 +275,8 @@
                             </div>
                         </div>
                         <hr class="mb-4">
-                        <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+                        <a href="invoice" ><button class="btn btn-primary btn-lg btn-block"
+                                type="button">Continue to checkout</button></a>
                     </form>
                 </div>
             </div>

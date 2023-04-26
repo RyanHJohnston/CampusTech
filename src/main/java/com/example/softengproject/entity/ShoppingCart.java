@@ -2,19 +2,19 @@ package com.example.softengproject.entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 import jakarta.persistence.Entity;
 import lombok.Data;
 import javax.validation.constraints.NotNull;
 
-@Entity
 @Data
 public class ShoppingCart implements Serializable {
 
     @NotBlank(message = "ArrayList of Products cannot be empty")
     @NotNull(message = "ArrayList of Products cannot be NULL") 
-    private ArrayList<Product> products;
+    private List<Product> products;
 
     @NotBlank(message = "Product totalAmount cannot be empty")
     @NotNull(message = "Product totalAmount cannot be NULL")
@@ -38,7 +38,7 @@ public class ShoppingCart implements Serializable {
 
     public ShoppingCart() {}
 
-    public ShoppingCart(ArrayList<Product> products, Double totalAmount,
+    public ShoppingCart(List<Product> products, Double totalAmount,
             Double payableAmount, Double tax, Double coupon, String deliveryLocation) {
         this.products = products;
         this.totalAmount = totalAmount;
@@ -83,7 +83,7 @@ public class ShoppingCart implements Serializable {
         System.out.println(this.products.toString());
     }
 
-    public ArrayList<Product> getProducts() {
+    public List<Product> getProducts() {
         return products;
     }
 
@@ -111,7 +111,7 @@ public class ShoppingCart implements Serializable {
         return deliveryLocation;
     }
 
-    public void setProducts(ArrayList<Product> products) {
+    public void setProducts(List<Product> products) {
         this.products = products;
     }
 

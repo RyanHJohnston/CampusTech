@@ -9,7 +9,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 
-@Entity
 @Data // SUPER IMPORTANT, it generates helper methods during runtime!!! 
 public class User {
 

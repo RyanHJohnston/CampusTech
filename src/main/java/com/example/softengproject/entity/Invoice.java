@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.lang.*;
 import java.sql.Date;
 
-@Entity
 @Data
 public class Invoice implements Serializable {
     

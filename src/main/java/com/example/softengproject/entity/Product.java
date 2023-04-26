@@ -14,7 +14,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 
-@Entity
 @Data
 public class Product implements Serializable {
 
@@ -55,6 +54,8 @@ public class Product implements Serializable {
     @Min(value=1, message = "Product rating cannot be less than 1")
     @Max(value=5, message = "Product rating cannot be more than 5")
     private Integer rating;
+    
+    private Integer shoppingCartQuantity;
 
     public Product() {}
 
@@ -148,8 +149,20 @@ public class Product implements Serializable {
         return rating;
     }
 
+    public Integer getShoppingCartQuantity() {
+        return shoppingCartQuantity;
+    }
+
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setType(String type) {
+        this.type = Type.valueOf(type);
     }
 
     public void setDescription(String description) {
@@ -166,6 +179,14 @@ public class Product implements Serializable {
 
     public void setVendor(String vendor) {
         this.vendor = vendor;
+    }
+    
+    public void setRating(Integer rating) {
+        this.rating = rating;
+    }
+
+    public void setShoppingCartQuantity(Integer quantity) {
+        this.shoppingCartQuantity = quantity;
     }
 
     @Override
