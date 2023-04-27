@@ -101,17 +101,12 @@
                             </div>
                         </li>
                         <li class="list-group-item d-flex justify-content-between">
-                            <span>Price (USD)</span>
+                            <span>Total (USD)</span>
                             <span>$<span th:text="${shoppingCartProductTotalPrice}"></span></span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between">
                             <span>Tax (USD)</span>
-                            <span>$<span th:text="${shoppingCartTax}"></span></span>
-
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Total (USD)</span>
-                            <span>$<span th:text="${shoppingCartTotalPriceWithTax}"></span></span>
+                            <span><span ></span></span>
 
                         </li>
                         <form class="card p-2">

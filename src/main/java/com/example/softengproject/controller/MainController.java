@@ -7,26 +7,26 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLSyntaxErrorException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Comparator;
 
 import org.hibernate.JDBCException;
-import org.hibernate.exception.internal.SQLExceptionTypeDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
+import com.example.softengproject.entity.Invoice;
 import com.example.softengproject.entity.Product;
 import com.example.softengproject.entity.ShoppingCart;
 import com.example.softengproject.entity.Product.Type;
@@ -86,11 +86,29 @@ public class MainController {
      * @throws Exception [TODO:description]
      */
     @RequestMapping(value="/invoice", method=RequestMethod.GET)
-    public String goToCheckout(@ModelAttribute Product product, Model model) throws Exception {
+    public String goToCheckout(Model model) throws Exception {
+
+        System.out.println("\nInvoice GET method reached\n\n");
+
+        String filename = "logs/purchases.txt";
+        String sql = "DELETE FROM Shopping_Cart_Items";
+        Integer result = 0;
+    
+        
+        model.addAttribute("invoice", new Invoice());
+        model.addAttribute("shoppingCartProductList", loadShoppingCartProductList());
+        model.addAttribute("shoppingCartTax", Double.toString(Math.round(getTotalShoppingCartPrice()*0.085)));
+        model.addAttribute("shoppingCartTotalPriceWithTax", Double.toString(Math.round((getTotalShoppingCartPrice()*0.085)+getTotalShoppingCartPrice())));
+        model.addAttribute("shoppingCartTotalPrice", Double.toString(Math.round(getTotalShoppingCartPrice())));
+        model.addAttribute("shoppingCartProductListQuantity", Integer.toString(getTotalShoppingCartProductQuantity()));
+        model.addAttribute("shoppingCartProductTotalPrice", Double.toString(Math.round(getTotalShoppingCartPrice())));
+
+        result = jdbcTemplate.update(sql);
+
         return "invoice";
     }
 
-    
+
     /**
      * Sends submitted data to Invoice
      *
@@ -101,11 +119,49 @@ public class MainController {
      *
      * @throws Exception [TODO:description]
      */
-    @RequestMapping(value="/invoice", method=RequestMethod.POST)
-    public String submitCheckout(@ModelAttribute Product product, Model model) throws Exception {
-        
+    @RequestMapping(value={"/invoice"}, method=RequestMethod.POST)
+    public String submitCheckout(@ModelAttribute Invoice invoice, Model model) throws Exception {
+        /*
+         *  String url = "jdbc:mysql://localhost:3306/mydatabase";
+         String user = "myuser";
+         String password = "mypassword";
 
-        return "invoice";
+         try (Connection conn = DriverManager.getConnection(url, user, password)) {
+         String sql = "INSERT INTO users (name, email) VALUES (?, ?)";
+         PreparedStatement statement = conn.prepareStatement(sql);
+         statement.setString(1, "John Smith");
+         statement.setString(2, "john.smith@example.com");
+         int rowsInserted = statement.executeUpdate();
+         if (rowsInserted > 0) {
+         System.out.println("A new user was inserted successfully!");
+         }
+         } catch (SQLException ex) {
+         System.out.println("An error occurred while inserting the user: " + ex.getMessage());
+         } */
+        String sql = "INSERT INTO Invoice (invoice_id, first_name, last_name, email) VALUES ('0000','Ryan','Johnston','@mail.com')";
+        String url = "jdbc:mysql://localhost:3306/CampusTech";
+        String user = "root";
+        String password = "praisethesun!!!";
+
+        try (Connection conn = DriverManager.getConnection(url, user, password)) {
+            PreparedStatement statement = conn.prepareStatement(sql);
+            Integer rowInserted = statement.executeUpdate();
+            if (rowInserted > 0) {
+                System.out.println("\nInsert into Invoice was successfull\n\n");
+            }
+        } catch (SQLException e) {
+            System.err.println("An error occurred while inserting into Invoice: " + e.getMessage());
+        }
+
+
+        System.out.println("\nGet Invoice name: "+invoice.getFirstName()+"\n\n");
+        model.addAttribute("invoice", invoice);
+        model.addAttribute("shoppingCartTotalPrice", Double.toString(getTotalShoppingCartPrice()));
+        model.addAttribute("shoppingCartProductListQuantity", Integer.toString(getTotalShoppingCartProductQuantity()));
+        model.addAttribute("shoppingCartProductList", loadShoppingCartProductList());
+        model.addAttribute("shoppingCartProductTotalPrice", Double.toString(getTotalShoppingCartPrice()));
+
+        return "redirect:/invoice";
     }
 
 
@@ -161,6 +217,7 @@ public class MainController {
         System.out.println("Product of type "+productDTO.getType().toString()); 
 
         this.shoppingCart.getProducts().add(productDTO);
+        model.addAttribute("invoice", new Invoice());
         redirectAttributes.addFlashAttribute(productDTO);
         model.addAttribute("productList", loadProductList);
         model.addAttribute("productDTO", productDTO);
@@ -176,20 +233,25 @@ public class MainController {
     @RequestMapping(value="/shopping-cart", method=RequestMethod.POST) 
     public String removeProductFromShoppingCart(
             @ModelAttribute Product productRemoved, Model model,
+            @ModelAttribute("invoice") Invoice invoice,
             final RedirectAttributes redirectAttributes) throws Exception {
 
         System.out.println("\nRemoving "+productRemoved.getId()+" from shopping cart.\n");
 
-        // this.shoppingCart.getProducts().remove(productRemoved);
-        // redirectAttributes.addFlashAttribute(productRemoved);
-        model.addAttribute("productRemoved", productRemoved);
-        model.addAttribute("shoppingCartTotalPrice", Double.toString(getTotalShoppingCartPrice()));
-        model.addAttribute("shoppingCartProductListQuantity", Integer.toString(getTotalShoppingCartProductQuantity()));
+        System.out.println("\nInvoice values: "+invoice.toString()+"\n\n");
+
+        model.addAttribute("invoice", new Invoice());
         model.addAttribute("shoppingCartProductList", loadShoppingCartProductList());
-        model.addAttribute("shoppingCartProductTotalPrice", Double.toString(getTotalShoppingCartPrice()));
+        model.addAttribute("productRemoved", productRemoved);
+        model.addAttribute("shoppingCartTax", Double.toString(Math.round(getTotalShoppingCartPrice()*0.085)));
+        model.addAttribute("shoppingCartTotalPriceWithTax", Double.toString(Math.round((getTotalShoppingCartPrice()*0.085)+getTotalShoppingCartPrice())));
+        model.addAttribute("shoppingCartTotalPrice", Double.toString(Math.round(getTotalShoppingCartPrice())));
+        model.addAttribute("shoppingCartProductListQuantity", Integer.toString(getTotalShoppingCartProductQuantity()));
+        model.addAttribute("shoppingCartProductTotalPrice", Double.toString(Math.round(getTotalShoppingCartPrice())));
         removeProductFromShoppingCart(productRemoved);
-        return "shopping-cart";
+        return "redirect:/shopping-cart";
             }
+
 
     /*
      * This is where the data will be rendered into the Thymeleaf template
@@ -331,11 +393,15 @@ public class MainController {
 
     @RequestMapping(value = "/shopping-cart", method = RequestMethod.GET)
     public String showShoppingCartTemplate(Model model, @ModelAttribute Product productRemoved) throws Exception {
+
+        model.addAttribute("invoice", new Invoice());
         model.addAttribute("shoppingCartProductList", loadShoppingCartProductList());
         model.addAttribute("productRemoved", productRemoved);
-        model.addAttribute("shoppingCartTotalPrice", Double.toString(getTotalShoppingCartPrice()));
+        model.addAttribute("shoppingCartTax", Double.toString(Math.round(getTotalShoppingCartPrice()*0.085)));
+        model.addAttribute("shoppingCartTotalPriceWithTax", Double.toString(Math.round((getTotalShoppingCartPrice()*0.085)+getTotalShoppingCartPrice())));
+        model.addAttribute("shoppingCartTotalPrice", Double.toString(Math.round(getTotalShoppingCartPrice())));
         model.addAttribute("shoppingCartProductListQuantity", Integer.toString(getTotalShoppingCartProductQuantity()));
-        model.addAttribute("shoppingCartProductTotalPrice", Double.toString(getTotalShoppingCartPrice()));
+        model.addAttribute("shoppingCartProductTotalPrice", Double.toString(Math.round(getTotalShoppingCartPrice())));
         return "shopping-cart";
     }
 
@@ -582,23 +648,23 @@ public class MainController {
     public Integer getQuantityOfProductInShoppingCart(Product product) {
         String sqlQuery = "SELECT quantity_in_cart FROM Shopping_Cart_Items WHERE product_id="+product.getId().toString();
         Integer result = 0;
-    
+
         try {
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/CampusTech",
-                "root", "praisethesun!!!");
-        Statement st = conn.createStatement();
-        ResultSet res = st.executeQuery(sqlQuery);
-        while (res.next()) {
-            result = res.getInt(1);
-        }
-        System.out.println("Quantity of product "+product.getId().toString()+": "+result.toString());
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/CampusTech",
+                    "root", "praisethesun!!!");
+            Statement st = conn.createStatement();
+            ResultSet res = st.executeQuery(sqlQuery);
+            while (res.next()) {
+                result = res.getInt(1);
+            }
+            System.out.println("Quantity of product "+product.getId().toString()+": "+result.toString());
         } catch (SQLException e1) {
             e1.printStackTrace();
         } catch (ClassNotFoundException e2) {
             e2.printStackTrace();
         }
-        
+
         return result;
     }
 

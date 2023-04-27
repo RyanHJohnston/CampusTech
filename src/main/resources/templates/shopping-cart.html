@@ -85,7 +85,7 @@
                                 <span >Q:<span
                                         th:text="${product.shoppingCartQuantity}"></span></span>
                             </div> 
-                                <div>
+                            <div>
                                 <form action="#" th:action="@{/shopping-cart}" th:object="${productRemoved}" method="post">
                                     <input type="hidden" th:attr="name='id'" th:value="${product.id}">
                                     <input type="hidden" th:attr="name='name'" th:value="${product.name}">
@@ -95,18 +95,23 @@
                                     <input type="hidden" th:attr="name='quantity'" th:value="${product.quantity}">
                                     <input type="hidden" th:attr="name='vendor'" th:value="${product.vendor}">
                                     <input type="hidden" th:attr="name='rating'" th:value="${product.rating}">
-                                    
+
                                     <button type="submit" class="btn btn-dark btn-primary btn-sm">Remove</button>
                                 </form>
                             </div>
                         </li>
                         <li class="list-group-item d-flex justify-content-between">
-                            <span>Total (USD)</span>
+                            <span>Price (USD)</span>
                             <span>$<span th:text="${shoppingCartProductTotalPrice}"></span></span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between">
                             <span>Tax (USD)</span>
-                            <span><span ></span></span>
+                            <span>$<span th:text="${shoppingCartTax}"></span></span>
+
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Total (USD)</span>
+                            <span>$<span th:text="${shoppingCartTotalPriceWithTax}"></span></span>
 
                         </li>
                         <form class="card p-2">
@@ -118,18 +123,16 @@
                             </div>
                         </form>
                     </ul>
-                </div>
-
-
+                </div> <!-- CHECKOUT ENDS -->
 
                 <!---------------- PAYMENT FORM ---------------------------------------->
-                <div class="col-md-8 order-md-1">
+                <div class="col-md-8 order-md-1"  >
                     <h4 class="mb-3">Billing address</h4>
-                    <form class="needs-validation" novalidate>
+                    <form class="needs-validation" th:action="@{/shopping-cart}" th:object="${invoice}" method="post"    novalidate>
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="firstName">First name</label>
-                                <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+                                <input type="text" class="form-control" id="firstName" th:field="*{firstName}">
                                 <div class="invalid-feedback">
                                     Valid first name is required.
                                 </div>
@@ -263,11 +266,12 @@
                             </div>
                         </div>
                         <hr class="mb-4">
-                        <a href="invoice" ><button class="btn btn-primary btn-lg btn-block"
+                        <a th:href="invoice" ><button class="btn btn-primary btn-lg btn-block"
                                 type="button">Continue to checkout</button></a>
                     </form>
                 </div>
             </div>
+
 
             <footer class="my-5 pt-5 text-muted text-center text-small">
                 <p class="mb-1">&copy; 2023 ScholarlyTech</p>
