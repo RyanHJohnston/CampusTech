@@ -163,10 +163,10 @@ public class MainController {
         this.shoppingCart.getProducts().add(productDTO);
         redirectAttributes.addFlashAttribute(productDTO);
         model.addAttribute("productList", loadProductList);
-        model.addAttribute("productDTO", product);
-        model.addAttribute("shoppingCartProductPrice", Double.toString(getTotalShoppingCartPrice()));
+        model.addAttribute("productDTO", productDTO);
+        // model.addAttribute("shoppingCartProductPrice", Double.toString(getTotalShoppingCartPrice()));
         model.addAttribute("shoppingCartProductListQuantity", Integer.toString(getTotalShoppingCartProductQuantity()));
-        model.addAttribute("shoppingCartProductTotalPrice", Double.toString(getTotalShoppingCartPrice() * getTotalShoppingCartProductQuantity()));
+        model.addAttribute("shoppingCartProductTotalPrice", Double.toString(getTotalShoppingCartPrice()));
 
         appendShoppingCart(productDTO);
 
@@ -186,7 +186,7 @@ public class MainController {
         model.addAttribute("shoppingCartTotalPrice", Double.toString(getTotalShoppingCartPrice()));
         model.addAttribute("shoppingCartProductListQuantity", Integer.toString(getTotalShoppingCartProductQuantity()));
         model.addAttribute("shoppingCartProductList", loadShoppingCartProductList());
-        model.addAttribute("shoppingCartProductTotalPrice", Double.toString(getTotalShoppingCartPrice() * getTotalShoppingCartProductQuantity()));
+        model.addAttribute("shoppingCartProductTotalPrice", Double.toString(getTotalShoppingCartPrice()));
         removeProductFromShoppingCart(productRemoved);
         return "shopping-cart";
             }
@@ -330,12 +330,12 @@ public class MainController {
     }
 
     @RequestMapping(value = "/shopping-cart", method = RequestMethod.GET)
-    public String showShoppingCartTemplate(Model model) throws Exception {
+    public String showShoppingCartTemplate(Model model, @ModelAttribute Product productRemoved) throws Exception {
         model.addAttribute("shoppingCartProductList", loadShoppingCartProductList());
-        model.addAttribute("productRemoved", product);
+        model.addAttribute("productRemoved", productRemoved);
         model.addAttribute("shoppingCartTotalPrice", Double.toString(getTotalShoppingCartPrice()));
         model.addAttribute("shoppingCartProductListQuantity", Integer.toString(getTotalShoppingCartProductQuantity()));
-        model.addAttribute("shoppingCartProductTotalPrice", Double.toString(getTotalShoppingCartPrice() * getTotalShoppingCartProductQuantity()));
+        model.addAttribute("shoppingCartProductTotalPrice", Double.toString(getTotalShoppingCartPrice()));
         return "shopping-cart";
     }
 
@@ -578,6 +578,31 @@ public class MainController {
         return exists = count > 0;
     }
 
+
+    public Integer getQuantityOfProductInShoppingCart(Product product) {
+        String sqlQuery = "SELECT quantity_in_cart FROM Shopping_Cart_Items WHERE product_id="+product.getId().toString();
+        Integer result = 0;
+    
+        try {
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/CampusTech",
+                "root", "praisethesun!!!");
+        Statement st = conn.createStatement();
+        ResultSet res = st.executeQuery(sqlQuery);
+        while (res.next()) {
+            result = res.getInt(1);
+        }
+        System.out.println("Quantity of product "+product.getId().toString()+": "+result.toString());
+        } catch (SQLException e1) {
+            e1.printStackTrace();
+        } catch (ClassNotFoundException e2) {
+            e2.printStackTrace();
+        }
+        
+        return result;
+    }
+
+
     @ModelAttribute
     public Integer getTotalShoppingCartProductQuantity() {
         String sqlQuery = "SELECT SUM(quantity_in_cart) FROM Shopping_Cart_Items";
@@ -605,7 +630,7 @@ public class MainController {
 
     @ModelAttribute 
     public Double getTotalShoppingCartPrice() {
-        String sqlQuery = "SELECT SUM(price) FROM Shopping_Cart_Items";
+        String sqlQuery = "SELECT SUM(quantity_in_cart * price) FROM Shopping_Cart_Items";
 
         Double totalPrice = 0.0;
 
@@ -627,6 +652,5 @@ public class MainController {
         }
         return totalPrice;
     }
-
 
 }

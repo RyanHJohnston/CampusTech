@@ -82,20 +82,8 @@
                                 <span>$<span class="text-muted" th:text="${product.price}"></span></span>
                             </div>
                             <div>
-                                <form action="#" th:action="@{/shopping-cart}" th:object="${productDTO}" method="post">
-                                    <input type="hidden" th:attr="name='id'" th:value="${product.id}">
-                                    <input type="hidden" th:attr="name='name'" th:value="${product.name}">
-                                    <input type="hidden" th:attr="name='type'" th:value="${product.type}">
-                                    <input type="hidden" th:attr="name='description'" th:value="${product.description}">
-                                    <input type="hidden" th:attr="name='price'" th:value="${product.price}">
-                                    <input type="hidden" th:attr="name='quantity'" th:value="${product.quantity}">
-                                    <input type="hidden" th:attr="name='vendor'" th:value="${product.vendor}">
-                                    <input type="hidden" th:attr="name='rating'" th:value="${product.rating}">
-                                   <button type="submit" class="btn btn-dark">+</button> 
-                                </form>
-                            </div>
-                            <div>
-                                <span th:text="${product.shoppingCartQuantity}"></span>
+                                <span >Q:<span
+                                        th:text="${product.shoppingCartQuantity}"></span></span>
                             </div> 
                                 <div>
                                 <form action="#" th:action="@{/shopping-cart}" th:object="${productRemoved}" method="post">
@@ -108,7 +96,7 @@
                                     <input type="hidden" th:attr="name='vendor'" th:value="${product.vendor}">
                                     <input type="hidden" th:attr="name='rating'" th:value="${product.rating}">
                                     
-                                    <button type="submit" class="btn btn-dark">-</button>
+                                    <button type="submit" class="btn btn-dark btn-primary btn-sm">Remove</button>
                                 </form>
                             </div>
                         </li>
