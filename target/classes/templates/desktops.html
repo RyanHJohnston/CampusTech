@@ -37,6 +37,12 @@
                         <a class="nav-link" href="home">Home<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="create-account">Create Account</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="desktops">Desktops</a>
                     </li>
                     <li class="nav-item">
@@ -64,8 +70,8 @@
         </nav>
     <!-----------------------------------product card------------------------------------------------------------>    
 
-    <div class="container d-flex">
-        <div class="d-flex row">
+    <div class="container flex-row d-flex">
+        <div class="container">
             <div th:each="product,iter: ${productList}" style="list-style-type: none;">
                 <div class="row p-2 bg-white border rounded">
                     <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1170&amp;q=80" width="100%" height="auto" alt="Temp Picture" title="Temp Picture"></div>
