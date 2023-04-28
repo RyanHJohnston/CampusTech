@@ -1,4 +1,4 @@
-!-- SHOPPING CART LIST PAGE -->
+<!-- SHOPPING CART LIST PAGE -->
 
 <!DOCTYPE>
 <html xmlns:th="http://www.thymeleaf.org">
@@ -6,9 +6,8 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" 
-        <!-- media="all" th:href="@{/js/index.css}" -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" type="text/css" />        <link rel="stylesheet" type="text/css" 
+        <!-- media="all" th:href="@{/js/index.css}" -->
         <title>Shopping Cart</title>
         <!-- THIS IS NEEDED IN EVERY HTML HEADER FOR BOOTSTRAP AND JQUERY TO WORK
         -->
@@ -20,7 +19,7 @@
     <body>
 
         <div class="container-fluid p-5 text-center" style="box-shadow: black;" th:style="'background: url(/images/blue.jpg) no-repeat center center fixed;'">
-            <h1 style = "color: #042359; font-weight: bold; text-shadow: black;" >Student Tech Store</h1>
+            <h1 style = "color: #042359; font-weight: bold; text-shadow: black;">CampusTech</h1>
             <p style = "color: #042359;">The best quality technology for college students just like you.</p>
         </div>
 
@@ -67,37 +66,8 @@
         <!-- SHOPPING CART DATA FOR EACH PRODUCT -->
         
         <!-----------------------------------product card------------------------------------------------------------>   
-   
-        <ul th:each="product,iter: ${shoppingCartProductList}">
-            <li>ID: <span th:text="${product.id}"></span></li>
-            <li>Name: <span th:text="${product.name}"></span></li>
-            <li>Type: <span th:text="${product.type}"></span></li>
-            <li>Description: <span th:text="${product.description}"></span></li>
-            <li>Price: <span th:text="${product.price}"></span></li>
-            <li>Quantity: <span th:text="${product.quantity}"></span></li>
-            <li>Vendor: <span th:text="${product.vendor}"></span></li>
-            <li>Rating: <span th:text="${product.rating}"></span>/5</li>
-            <li>Index: <span th:text="${iter.index}"></span></li>
-
-
-
-            <form action="#" th:action="@{/shopping-cart}" th:object="${productRemoved}"
-                method="post">
-                <input type="hidden" th:attr="name='id'" th:value="${product.id}">
-                <input type="hidden" th:attr="name='name'" th:value="${product.name}">
-                <input type="hidden" th:attr="name='type'" th:value="${product.type}">
-                <input type="hidden" th:attr="name='description'" th:value="${product.description}">
-                <input type="hidden" th:attr="name='price'" th:value="${product.price}">
-                <input type="hidden" th:attr="name='quantity'" th:value="${product.quantity}">
-                <input type="hidden" th:attr="name='vendor'" th:value="${product.vendor}">
-                <input type="hidden" th:attr="name='rating'" th:value="${product.rating}">
-
-                <button type="submit" th:onclick="alertProductRemoved([[${product.name}]])">Remove
-                    Item</button>
-            </form>
-        </ul>
         
-        <div class="container d-flex row">
+        <div class="container flex-row">
             <div th:each="product,iter: ${shoppingCartProductList}" style="list-style-type: none;">
                 <div class="row p-2 bg-white border rounded">
                     <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1170&amp;q=80" width="100%" height="auto" alt="Temp Picture" title="Temp Picture"></div>
