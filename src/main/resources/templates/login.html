@@ -7,7 +7,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" 
-        <!-- media="all" th:href="@{/index.css}" -->
+        -->
         <title>Student Technology Store</title>
         <!-- THIS IS NEEDED IN EVERY HTML HEADER FOR BOOTSTRAP AND JQUERY TO WORK
         -->
@@ -25,8 +25,7 @@
             <p>The best quality technology for college students just like you.</p>
         </div>
 
-        
-      
+             
 
         <style>
             .container{
@@ -71,16 +70,18 @@
         <div th:if="${param.error}">
             Invalid username and password.
         </div></div>
+        <div class="container3">
         <div th:if="${param.logout}">
             You have been logged out.
-        </div>
+        </div></div>
         
         <div class="container">
         <p>Sign in to CampusTech or <a th:href="@{/signup}">create an account</a></p></div>
+        
         <div class="container2">  
         <form th:action="@{/login}" method="post"> 
-            <div><label> User Name: <br><input type="text" name="username"/> </label></div>
-            <div><label> Password:  <br><input type="password" name="password"/> </label></div>
+            <div><label> User Name: <br><input id = "username" type="text" name="username"/> </label></div>
+            <div><label> Password:  <br><input id = "password"type="password" name="password"/> </label></div>
             
             <div class="button">  
             <button class="btn btn-primary btn-lg" type="submit">Sign In</button>
