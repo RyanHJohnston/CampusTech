@@ -1,13 +1,10 @@
 package com.example.softengproject.controller;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -93,8 +90,7 @@ public class MainController {
         String filename = "logs/purchases.txt";
         String sql = "DELETE FROM Shopping_Cart_Items";
         Integer result = 0;
-    
-        
+
         model.addAttribute("invoice", new Invoice());
         model.addAttribute("shoppingCartProductList", loadShoppingCartProductList());
         model.addAttribute("shoppingCartTax", Double.toString(Math.round(getTotalShoppingCartPrice()*0.085)));
@@ -121,23 +117,7 @@ public class MainController {
      */
     @RequestMapping(value={"/invoice"}, method=RequestMethod.POST)
     public String submitCheckout(@ModelAttribute Invoice invoice, Model model) throws Exception {
-        /*
-         *  String url = "jdbc:mysql://localhost:3306/mydatabase";
-         String user = "myuser";
-         String password = "mypassword";
 
-         try (Connection conn = DriverManager.getConnection(url, user, password)) {
-         String sql = "INSERT INTO users (name, email) VALUES (?, ?)";
-         PreparedStatement statement = conn.prepareStatement(sql);
-         statement.setString(1, "John Smith");
-         statement.setString(2, "john.smith@example.com");
-         int rowsInserted = statement.executeUpdate();
-         if (rowsInserted > 0) {
-         System.out.println("A new user was inserted successfully!");
-         }
-         } catch (SQLException ex) {
-         System.out.println("An error occurred while inserting the user: " + ex.getMessage());
-         } */
         String sql = "INSERT INTO Invoice (invoice_id, first_name, last_name, email) VALUES ('0000','Ryan','Johnston','@mail.com')";
         String url = "jdbc:mysql://localhost:3306/CampusTech";
         String user = "root";
@@ -153,7 +133,6 @@ public class MainController {
             System.err.println("An error occurred while inserting into Invoice: " + e.getMessage());
         }
 
-
         System.out.println("\nGet Invoice name: "+invoice.getFirstName()+"\n\n");
         model.addAttribute("invoice", invoice);
         model.addAttribute("shoppingCartTotalPrice", Double.toString(getTotalShoppingCartPrice()));
@@ -161,7 +140,7 @@ public class MainController {
         model.addAttribute("shoppingCartProductList", loadShoppingCartProductList());
         model.addAttribute("shoppingCartProductTotalPrice", Double.toString(getTotalShoppingCartPrice()));
 
-        return "redirect:/invoice";
+        return "redirect:/home";
     }
 
 
@@ -375,19 +354,19 @@ public class MainController {
 
     @RequestMapping(value = "/laptops", method = RequestMethod.GET)
     public String showLaptopTemplate(Model model) throws Exception {
-        model.addAttribute("productList", "Laptop products load here");
+        model.addAttribute("productList", loadProductTypeLaptopList());
         return "laptops";
     } 
 
     @RequestMapping(value = "/phones", method = RequestMethod.GET)
     public String showPhoneTemplate(Model model) throws Exception {
-        model.addAttribute("productList", "Phone products load here");
+        model.addAttribute("productList", loadProductTypePhoneList());
         return "phones";
     }
 
     @RequestMapping(value = "/accessories", method = RequestMethod.GET)
     public String showAccessoriesTemplate(Model model) throws Exception {
-        model.addAttribute("productList", "Accessory products load here");
+        model.addAttribute("productList", loadProductTypeAccessoriesList());
         return "accessories";
     }
 
