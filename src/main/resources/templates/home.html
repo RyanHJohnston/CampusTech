@@ -7,8 +7,8 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" 
-        <!-- media="all" th:href="@{/index.css}" -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet" type="text/css" />        <link rel="stylesheet" type="text/css" 
+        <!-- media="all" th:href="@{/js/index.css}" -->
         <title>Student Technology Store</title>
         <!-- THIS IS NEEDED IN EVERY HTML HEADER FOR BOOTSTRAP AND JQUERY TO WORK
         -->
@@ -17,11 +17,10 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
         crossorigin="anonymous">
     </head>
-    <body>
+    <body style="background-color: #e3e9f2">
 
         <div class="container-fluid p-5 text-center" style="box-shadow: black;" th:style="'background: url(/images/blue.jpg) no-repeat center center fixed;'">
             <h1 style = "color: #042359; font-weight: bold; text-shadow: black;" >CampusTech</h1>
-            <p style = "color: #042359;">The best quality technology for college students just like you.</p>
         </div>
 
         <!-------------------------------- NAVIGATION BAR ------------------------->
@@ -69,6 +68,44 @@
             </form>
         </nav>
 
+        <div class="align-items: center mt-5;" style="margin-top: 100px;">
+            <div class="d-flex justify-content-center mt-3 mt-5"  > <span class="text text-center"style="-webkit-text-fill-color: #131f35;">Finding Best Products Now<br> in Your Fingertips</span> </div>
+            <div class="row mt-2 g-4">
+                <div class="col-md-3" >
+                    <div class="card p-1">
+                        <div class="d-flex justify-content-between align-items-center p-2">
+                            <div class="flex-column lh-1 imagename"> <span>Mobile</span> <span>Phones</span> </div>
+                            <a href="http://localhost:8080/phones"> <img src="https://i.imgur.com/b9zkoz0.jpg" height="100" width="100" /> </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card p-2">
+                        <div class="d-flex justify-content-between align-items-center p-2">
+                            <div class="flex-column lh-1 imagename"> <span>Accessories</span> </div>
+                            <a href="http://localhost:8080/accessories"> <img src="https://i.imgur.com/SHWASPG.png" height="100" width="100" /> </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card p-2">
+                        <div class="d-flex justify-content-between align-items-center p-2">
+                            <div class="flex-column lh-1 imagename"> <span>Laptops</span> </div>
+                            <a href="http://localhost:8080/laptops"> <img src=" https://i.imgur.com/6pK5oZl.jpg" height="100" width="100" /> </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card p-2">
+                        <div class="d-flex justify-content-between align-items-center p-2">
+                            <div class="flex-column lh-1 imagename"> <span>Destops</span> </div>
+                            <a href="http://localhost:8080/desktops"> <img src="https://www.pngplay.com/wp-content/uploads/2/Desktop-PC-Transparent-PNG.png" height="100" width="100" /> </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center mt-3 mt-5" style="margin-left: 640px;"><h2 class="text text-center" style="-webkit-text-fill-color: #131f35;">The best quality technology for college students just like you.</h2></div>
+            </div>
+        </div>
 
         <!-- NEEDED IN EVERY HTML FILE FOR BOOTSTRAP AND JQUERY TO WORK -->
         <!-- Optional JavaScript -->
