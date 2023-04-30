@@ -1,0 +1,373 @@
+<!-- SHOPPING CART LIST PAGE -->
+
+<!DOCTYPE>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" type="text/css" />        <link rel="stylesheet" type="text/css" 
+        <!-- media="all" th:href="@{/js/index.css}" -->
+        <title>Shopping Cart</title>
+        <!-- THIS IS NEEDED IN EVERY HTML HEADER FOR BOOTSTRAP AND JQUERY TO WORK
+        -->
+        <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+    </head>
+    <body>
+
+        <div class="container-fluid p-5 text-center" style="box-shadow: black;" th:style="'background: url(/images/blue.jpg) no-repeat center center fixed;'">
+            <h1 style = "color: #042359; font-weight: bold; text-shadow: black;">CampusTech</h1>
+            <p style = "color: #042359;">The best quality technology for college students just like you.</p>
+        </div>
+
+        <!-------------------------------- NAVIGATION BAR ------------------------->
+        <nav class="navbar navbar-expand-lg navbar-light navbar-toggler" th:style="${'background-color: #b6cde9;'}">
+            <img th:src="@{/images/tech-store-logo.png}" style="width:80px;height:60px;">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="home">Home<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="create-account">Create Account</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="desktops">Desktops</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="laptops">Laptops</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="phones">Phones</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="accessories">Accessories</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="shopping-cart">Shopping Cart</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="home">About</a>
+                    </li>
+                </ul>
+            </div>
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </nav>
+
+
+        <!-- SHOPPING CART DATA FOR EACH PRODUCT -->
+        
+        <!-----------------------------------product card------------------------------------------------------------>   
+        
+        <div class="container flex-row">
+            <div th:each="product,iter: ${shoppingCartProductList}" style="list-style-type: none;">
+                <div class="row p-2 bg-white border rounded">
+                    <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1170&amp;q=80" width="100%" height="auto" alt="Temp Picture" title="Temp Picture"></div>
+                    <div class="col-md-6 mt-1">
+                        <h5 style="list-style-type: none;"><span th:text="${product.name}"></span></h5>
+                        <div class="d-flex flex-row">
+                            <div class="ratings mr-2 redtext"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></div>Rating: <span th:text="${product.rating}"></span>/5
+                        </div>
+                        <div class="text-success">
+                        <div class="mt-1 mb-1 spec-1"><span>Vendor: <span th:text="${product.vendor}"></span><span class="dot"></span><span>Type: <span th:text="${product.type}"></span><span class="dot"></span></div>
+                        <div class="mt-1 mb-1 spec-1"><span>ID: <span th:text="${product.id}"></span><span class="dot"></span>Quantity: <span th:text="${product.quantity}"></span></div>
+                        <div class="mt-1 mb-1 spec-1"><span>Description: <span th:text="${product.description}"></span></div>
+                        <div class="mt-1 mb-1 spec-1"><span>Index: <span th:text="${iter.index}"></span></div>
+                        </div>        
+                    </div>
+                    <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+                        <div class="d-flex flex-row align-items-center">
+                            <h4 class="mr-1">$<span th:text="${product.price}"></span></h4>
+                        </div>
+                        <h6 class="text-success">Free shipping</h6>
+                        <div class="d-flex flex-column mt-4"><button type="submit" class="btn btn-primary" name="Submit" th:onclick="alertProductRemoved([[${product.name}]])"
+                            >Remove Item</button></div>
+                    </div>
+                </div>
+                <form action="#" th:action="@{/shopping-cart}" th:object="${productRemoved}"
+                method="post">
+                    <input type="hidden" th:attr="name='id'" th:value="${product.id}">
+                    <input type="hidden" th:attr="name='name'" th:value="${product.name}">
+                    <input type="hidden" th:attr="name='type'" th:value="${product.type}">
+                    <input type="hidden" th:attr="name='description'" th:value="${product.description}">
+                    <input type="hidden" th:attr="name='price'" th:value="${product.price}">
+                    <input type="hidden" th:attr="name='quantity'" th:value="${product.quantity}">
+                    <input type="hidden" th:attr="name='vendor'" th:value="${product.vendor}">
+                    <input type="hidden" th:attr="name='rating'" th:value="${product.rating}">
+                  </form> 
+            </div>
+        </div>
+        <!-- CHECKOUT -->
+        <div class="container">
+            <div class="py-5 text-center">
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 order-md-2 mb-4">
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-muted">Your cart</span>
+                        <span class="badge badge-secondary badge-pill"
+                            th:text="${shoppingCartProductListQuantity}"></span>
+                    </h4>
+                    <ul class="list-group mb-3" >
+                        <li class="list-group-item d-flex justify-content-between lh-condensed"
+                            th:each="product, iter: ${shoppingCartProductList}">
+                            <div>
+                                <h6 class="my-0" th:text="${product.name}">Product name</h6>
+                                <small class="text-muted">Brief description</small>
+                            </div>
+                            <div>
+                                <span>$<span class="text-muted" th:text="${product.price}"></span></span>
+                            </div>
+                            <div>
+                                <form action="#" th:action="@{/desktops}" th:object="${productDTO}" method="post">
+                                    <input type="hidden" th:attr="name='id'" th:value="${product.id}">
+                                    <input type="hidden" th:attr="name='name'" th:value="${product.name}">
+                                    <input type="hidden" th:attr="name='type'" th:value="${product.type}">
+                                    <input type="hidden" th:attr="name='description'" th:value="${product.description}">
+                                    <input type="hidden" th:attr="name='price'" th:value="${product.price}">
+                                    <input type="hidden" th:attr="name='quantity'" th:value="${product.quantity}">
+                                    <input type="hidden" th:attr="name='vendor'" th:value="${product.vendor}">
+                                    <input type="hidden" th:attr="name='rating'" th:value="${product.rating}">
+
+                                </form>
+                                <form action="#" th:action="@{/shopping-cart}" th:object="${productRemoved}" method="post">
+                                    <input type="hidden" th:attr="name='id'" th:value="${product.id}">
+                                    <input type="hidden" th:attr="name='name'" th:value="${product.name}">
+                                    <input type="hidden" th:attr="name='type'" th:value="${product.type}">
+                                    <input type="hidden" th:attr="name='description'" th:value="${product.description}">
+                                    <input type="hidden" th:attr="name='price'" th:value="${product.price}">
+                                    <input type="hidden" th:attr="name='quantity'" th:value="${product.quantity}">
+                                    <input type="hidden" th:attr="name='vendor'" th:value="${product.vendor}">
+                                    <input type="hidden" th:attr="name='rating'" th:value="${product.rating}">
+                                    
+                                    <button type="submit" class="btn btn-dark">-</button>
+                                </form>
+                            </div>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Total (USD)</span>
+                            <span>$<span th:text="${shoppingCartTotalPrice}"></span></span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>Tax (USD)</span>
+                            <span><span ></span></span>
+
+                        </li>
+                        <form class="card p-2">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Promo code">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-secondary">Redeem</button>
+                                </div>
+                            </div>
+                        </form>
+                    </ul>
+                </div>
+
+
+
+                <!---------------- PAYMENT FORM ---------------------------------------->
+                <div class="col-md-8 order-md-1">
+                    <h4 class="mb-3">Billing address</h4>
+                    <form class="needs-validation" novalidate>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">First name</label>
+                                <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+                                <div class="invalid-feedback">
+                                    Valid first name is required.
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="lastName">Last name</label>
+                                <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+                                <div class="invalid-feedback">
+                                    Valid last name is required.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="username">Username</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">@</span>
+                                </div>
+                                <input type="text" class="form-control" id="username" placeholder="Username" required>
+                                <div class="invalid-feedback" style="width: 100%;">
+                                    Your username is required.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email">Email <span class="text-muted">(Optional)</span></label>
+                            <input type="email" class="form-control" id="email" placeholder="you@example.com">
+                            <div class="invalid-feedback">
+                                Please enter a valid email address for shipping updates.
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="address">Address</label>
+                            <input type="text" class="form-control" id="address" placeholder="1234 Main St" required>
+                            <div class="invalid-feedback">
+                                Please enter your shipping address.
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
+                            <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-5 mb-3">
+                                <label for="country">Country</label>
+                                <select class="custom-select d-block w-100" id="country" required>
+                                    <option value="">Choose...</option>
+                                    <option>United States</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Please select a valid country.
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="state">State</label>
+                                <select class="custom-select d-block w-100" id="state" required>
+                                    <option value="">Choose...</option>
+                                    <option>California</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Please provide a valid state.
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="zip">Zip</label>
+                                <input type="text" class="form-control" id="zip" placeholder="" required>
+                                <div class="invalid-feedback">
+                                    Zip code required.
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="mb-4">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="same-address">
+                            <label class="custom-control-label" for="same-address">Shipping address is the same as my billing address</label>
+                        </div>
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="save-info">
+                            <label class="custom-control-label" for="save-info">Save this information for next time</label>
+                        </div>
+                        <hr class="mb-4">
+
+                        <h4 class="mb-3">Payment</h4>
+
+                        <div class="d-block my-3">
+                            <div class="custom-control custom-radio">
+                                <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
+                                <label class="custom-control-label" for="credit">Credit card</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
+                                <label class="custom-control-label" for="debit">Debit card</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="cc-name">Name on card</label>
+                                <input type="text" class="form-control" id="cc-name" placeholder="" required>
+                                <small class="text-muted">Full name as displayed on card</small>
+                                <div class="invalid-feedback">
+                                    Name on card is required
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="cc-number">Credit card number</label>
+                                <input type="text" class="form-control" id="cc-number" placeholder="" required>
+                                <div class="invalid-feedback">
+                                    Credit card number is required
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <label for="cc-expiration">Expiration</label>
+                                <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
+                                <div class="invalid-feedback">
+                                    Expiration date required
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="cc-expiration">CVV</label>
+                                <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
+                                <div class="invalid-feedback">
+                                    Security code required
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="mb-4">
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+                    </form>
+                </div>
+            </div>
+
+            <footer class="my-5 pt-5 text-muted text-center text-small">
+                <p class="mb-1">&copy; 2023 ScholarlyTech</p>
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="#">Privacy</a></li>
+                    <li class="list-inline-item"><a href="#">Terms</a></li>
+                    <li class="list-inline-item"><a href="#">Support</a></li>
+                </ul>
+            </footer>
+
+
+            <script type="text/javascript" th:inline="javascript">
+                // Keeps the current scroll position after page reload
+                document.addEventListener("DOMContentLoaded", function(event) {
+                    var scrollPosition = localStorage.getItem('scrollPosition');
+                    if (scrollPosition) window.scrollTo(0, scrollPosition);
+                });
+
+                window.onbeforeunload = function(e) {
+                    localStorage.setItem("scrollPosition", window.scrollY);
+                };
+
+                function alertProductRemoved(name) {
+                    alert("Product "+name+" removed.");
+                }
+            </script>
+
+            <!-- NEEDED IN EVERY HTML FILE FOR BOOTSTRAP AND JQUERY TO WORK -->
+            <!-- Optional JavaScript -->
+            <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"></script>
+            <script
+                src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+                crossorigin="anonymous"></script>
+            <script
+                src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+                crossorigin="anonymous"></script>
+
+    </body>
+</html>
+

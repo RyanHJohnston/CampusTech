@@ -1,0 +1,362 @@
+package com.example.softengproject.controller;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+
+import com.example.softengproject.entity.Product;
+import com.example.softengproject.entity.ProductList;
+import com.example.softengproject.entity.ShoppingCart;
+import com.example.softengproject.entity.Product.Type;
+
+import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+
+/* 
+ * A simple controller class must do the following:
+ * Handle HTTP GET requests where the request path is /demo
+ * Build a list of DemoModelAgain objects of DemoModel
+ * Hand the request and the data off to a view template to be rendered as HTML
+ * and sent to the request web browser
+ */
+
+@Controller
+@Slf4j
+@RequestMapping("/")
+public class MainController {
+
+    Product product;
+
+    ShoppingCart shoppingCart;
+
+    @RequestMapping("/403") 
+    public String accessDenied() {
+        return "/403";
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET) 
+    public String showHomeTemplate() throws Exception {
+        return "home";
+    }
+
+    /*
+     * Fetch index of item
+     * Get the values from the item
+     * Add the product object to array list of products in shopping cart class
+     * Populate csv file with product data
+     * Load shopping-cart.html with shopping-cart.csv data
+     * Subtract 1 from product quantity in desktops.html
+     * Give notification that item has been added to cart
+     */
+    @RequestMapping(value="/desktops", method=RequestMethod.POST)
+    public String addProductToShoppingCart(
+            @ModelAttribute Product productDTO, Model model, 
+            final RedirectAttributes redirectAttributes) throws Exception {
+
+        System.out.println("\nAdding product to cart: \n\n"
+                + "ID: " + productDTO.getId() + "\n"
+                + "Name: " + productDTO.getName() + "\n"
+                + "Type: " + productDTO.getType() + "\n"
+                + "Description: " + productDTO.getDescription() + "\n"
+                + "Price: " + productDTO.getPrice() + "\n"
+                + "Quantity: " + productDTO.getQuantity() + "\n"
+                + "Vendor: " + productDTO.getVendor() + "\n"
+                + "Rating: " + productDTO.getRating() + "/5\n");
+
+
+        redirectAttributes.addFlashAttribute(productDTO);
+        model.addAttribute("productList", loadProductTypeDesktopList());
+        model.addAttribute("productDTO", product);
+        appendShoppingCartCSV(productDTO);
+        return "desktops";
+            }
+
+    @RequestMapping(value="/shopping-cart", method=RequestMethod.POST) 
+    public String removeProductFromShopping(
+            @ModelAttribute Product productRemoved, Model model,
+            final RedirectAttributes redirectAttributes) throws Exception {
+
+        System.out.println("\nRemoving "+productRemoved.getId()+" from shopping cart.\n");
+
+        redirectAttributes.addFlashAttribute(productRemoved);
+        model.addAttribute("shoppingCartProductList", loadShoppingCartProductList());
+        model.addAttribute("productRemoved", productRemoved);
+        removeProductFromShoppingCartCSV(productRemoved);
+        return "shopping-cart";
+            }
+
+    /*
+     * This is where the data will be rendered into the Thymeleaf template
+     * this method sends a GET request to render the new data from the Model
+     */
+    @RequestMapping(value = "/desktops", method = RequestMethod.GET)
+    public String showDesktopTemplate(Model model) throws Exception {
+        model.addAttribute("productList", loadProductTypeDesktopList());
+        model.addAttribute("productDTO", product); 
+        return "desktops";
+    }
+
+    @RequestMapping(value = "/laptops", method = RequestMethod.GET)
+    public String showLaptopTemplate(Model model) throws Exception {
+        model.addAttribute("productList", "Laptop products load here");
+        return "laptops";
+    } 
+
+    @RequestMapping(value = "/phones", method = RequestMethod.GET)
+    public String showPhoneTemplate(Model model) throws Exception {
+        model.addAttribute("productList", "Phone products load here");
+        return "phones";
+    }
+
+    @RequestMapping(value = "/accessories", method = RequestMethod.GET)
+    public String showAccessoriesTemplate(Model model) throws Exception {
+        model.addAttribute("productList", "Accessory products load here");
+        return "accessories";
+    }
+
+    @RequestMapping(value = "/shopping-cart", method = RequestMethod.GET)
+    public String showShoppingCartTemplate(Model model) throws Exception {
+        model.addAttribute("shoppingCartProductList", loadShoppingCartProductList());
+        return "shopping-cart";
+    }
+
+    @RequestMapping(value = "/home")
+    public String redirectToAboutTemplate(Model model) throws Exception {
+        return "home";
+    }
+
+    /**
+     * Loads data from desktops.csv into an ArrayList of Product objects
+     *
+     * @return ArrayList<Product> productList
+     *
+     * @throws Exception 
+     */
+    @ModelAttribute
+    private ArrayList<Product> loadProductTypeDesktopList() throws Exception {
+        ArrayList<Product> productList = new ArrayList<Product>();
+        String filename = "src/main/java/com/example/softengproject/data/desktops.csv";
+        try {
+            productList = readCSVFile(productList, filename);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return productList;
+    }
+
+    @ModelAttribute
+    private ArrayList<Product> loadProductTypeLaptopList() throws Exception {
+        ArrayList<Product> productList = new ArrayList<Product>();
+        String filename = "src/main/java/com/example/softengproject/data/laptops.csv";
+        try {
+            productList = readCSVFile(productList, filename);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return productList;
+    }
+
+    @ModelAttribute
+    private ArrayList<Product> loadProductTypePhoneList() throws Exception{
+        ArrayList<Product> productList = new ArrayList<Product>();
+        String filename = "src/main/java/com/example/softengproject/data/phones.csv";
+        try {
+            productList = readCSVFile(productList, filename);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return productList;
+    }
+
+    @ModelAttribute
+    private ArrayList<Product> loadProductTypeAccessoriesList() throws Exception{
+        ArrayList<Product> productList = new ArrayList<Product>();
+        String filename = "src/main/java/com/example/softengproject/data/accessories.csv";
+        try {
+            productList = readCSVFile(productList, filename);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return productList;
+    }
+
+    @ModelAttribute
+    private ArrayList<Product> loadShoppingCartProductList() throws Exception {
+        ArrayList<Product> productList = new ArrayList<Product>();
+        final String filename = "src/main/java/com/example/softengproject/data/shopping-cart.csv";
+        try {
+            productList = readCSVFile(productList, filename);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return productList; 
+    }
+
+
+    /**
+     * Reads product CSV files line by line and stores the info into an array of
+     * Product objects
+     *
+     * @param filename The file name to best read
+     *
+     * @return An array list of Product objects with updated info
+     */
+    private ArrayList<Product> readCSVFile(ArrayList<Product> productList, String filename) {
+        File readFileObj = new File(filename);
+        String line = "";
+        String splitBy = ",";
+
+        try (BufferedReader reader = new BufferedReader(
+                    new FileReader(readFileObj))) {
+            System.out.println("Reading file: " + filename);
+            reader.readLine();
+            while ( (line = reader.readLine()) != null) {
+                String[] columns = line.split(splitBy);
+
+                Integer id = Integer.parseInt(columns[0]);
+                String name = columns[1].replaceAll("\"", "");
+                Type type = Type.valueOf(columns[2].replaceAll("\\s+", "").replaceAll("\"", ""));
+                String description = columns[3].replaceAll("\"", "");
+                Double price = Double.parseDouble(columns[4]);
+                Integer quantity = Integer.parseInt(columns[5]);
+                String vendor = columns[6].replaceAll("\"", "");
+                Integer rating = Integer.parseInt(columns[7]);
+
+                productList.add(new Product(id, name, type, description, price, quantity, vendor, rating));
+            }
+
+        } catch (FileNotFoundException e1) {
+            // e1.printStackTrace();
+            System.err.println("\n" + filename + " not found\n");
+            System.out.println(new File(".").getAbsoluteFile());
+            System.exit(0);
+        } catch (IOException e2) {
+            e2.printStackTrace();
+            System.err.println(filename + " is not read");
+        }
+
+        return productList;
+    }
+
+    /**
+     * Appends shopping-cart.csv with Product data
+     *
+     * @param product Product object
+     *
+     * @throws IOException Input/Output exception
+     */
+    private void appendShoppingCartCSV(Product product) 
+            throws IOException {
+
+            final String filename = "src/main/java/com/example/softengproject/data/shopping-cart.csv";
+            try {
+                FileWriter fileWriter = new FileWriter(filename, true);
+                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+                System.out.println("\nAppending shopping-cart.csv...\n\n");
+
+                bufferedWriter.write(
+                        product.getId().toString() + "," +
+                        "\"" + product.getName() + "\"" + "," +
+                        "\"" + product.getType().toString() + "\"" + "," + 
+                        product.getDescription() + "," +
+                        product.getPrice().toString() + "," +
+                        product.getQuantity().toString() + "," +
+                        "\"" + product.getVendor() + "\"" + "," +
+                        product.getRating().toString() + "\n");
+
+                bufferedWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+    }
+
+    private void removeProductFromShoppingCartCSV(Product product) throws IOException {
+
+        final String filename = "src/main/java/com/example/softengproject/data/shopping-cart.csv";
+        final String filenameTemp = "src/main/java/com/example/softengproject/data/shopping-cart-temp.csv";
+
+        try {
+            File inputFile = new File(filename);
+            File tempFile = new File(filenameTemp);
+
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(filename));
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filenameTemp));
+
+            String productToRemove = product.getId().toString();
+            String currentLine = "";
+
+            System.out.println("\nRemoving " + product.getId() + " from shopping cart.\n\n");
+
+            while (currentLine != bufferedReader.readLine()) {
+                String trimmedLine = currentLine.trim();
+                if (trimmedLine.equals(productToRemove)) continue;
+                bufferedWriter.write(currentLine + System.getProperty("line.separator"));
+            }
+
+            bufferedReader.close();
+            bufferedWriter.close();
+            Boolean successful = tempFile.renameTo(inputFile);
+
+            if (!successful) {
+                System.err.println(
+                        "Temporary file "+filenameTemp+" was unsuccessful in renaming it to "+filename);
+                System.exit(1);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void remoteFromShoppingCartTest(Product product) {
+        
+        
+        final String filename = "src/main/java/com/example/softengproject/data/shopping-cart.csv";
+ 
+        try {
+            // Read in the file
+            File inputFile = new File(filename);
+            FileInputStream inputStream = new FileInputStream(inputFile);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            StringBuilder sb = new StringBuilder();
+            String line;
+            int currentLineNumber = 1;
+            while ((line = reader.readLine()) != null) {
+                // Skip the line to be removed
+                if (currentLineNumber != lineNumber) {
+                    sb.append(line).append("\n");
+                }
+                currentLineNumber++;
+            }
+            reader.close();
+
+            // Rewrite the file with the remaining data
+            FileWriter writer = new FileWriter(filePath);
+            writer.write(sb.toString());
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
+
