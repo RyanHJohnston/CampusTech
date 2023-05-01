@@ -95,6 +95,10 @@ public class MainController {
             return "login";
         }
 
+        if (user.getUsername().equals("admin") && user.getPassword().equals("admin")) {
+            return "admin"; 
+        }
+
         return "redirect:/home";
     }
 
