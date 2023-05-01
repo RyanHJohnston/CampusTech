@@ -126,7 +126,7 @@ public class MainController {
             e.printStackTrace();
         }
 
-        return "redirect:/login";
+        return "login";
     }
 
 
