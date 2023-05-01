@@ -1,17 +1,26 @@
 package com.example.softengproject.entity;
 
 public class CreateUser {
-
+    
+    private Integer autoId;
     private String username;
     private String email;
     private String password;
-
     // public CreateUser(String newUsername, String newPassword){
     //   this.username = newUsername;
     //   this.password = newPassword;
     // }
     
     // getters and setters
+    
+    public CreateUser(){}
+    
+    public CreateUser(Integer autoId, String username, String password, String email) {
+        this.autoId = autoId; 
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
 
     
     public String getUsername() {
@@ -38,4 +47,11 @@ public class CreateUser {
       this.password = password;
     }
     
+    public Integer getAutoId() {
+        return autoId;
+    }
+
+    public void setAutoId(Integer autoId) {
+        this.autoId = autoId;
+    }
 }

@@ -1,6 +1,10 @@
 package com.example.softengproject.config;
 
+import javax.sql.DataSource;
+
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -20,5 +24,10 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
     
     registry.addViewController("/login").setViewName("login");
   }
+
+    @Bean
+    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
+    }
 
 }

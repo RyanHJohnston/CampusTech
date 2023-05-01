@@ -2,13 +2,13 @@
 <!-- HOME PAGE -->
 
 <!DOCTYPE>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec ="https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity6">
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" 
-        <!-- media="all" th:href="@{/index.css}" -->
+          -->
         <title>Student Technology Store</title>
         <!-- THIS IS NEEDED IN EVERY HTML HEADER FOR BOOTSTRAP AND JQUERY TO WORK
         -->
@@ -19,6 +19,18 @@
     </head>
     <body>
 
+        
+        <div sec:authorize = "isAnonymous()">
+        <p>Hello! <a th:href="@{/login}" id="loginBtn">Sign in</a> or <a th:href="@{/signup}">Register</a></p>
+        </div>
+        
+        
+        <div sec:authorize = "isAuthenticated()">
+            <p><h4>Welcome <span th:remove="tag" sec:authentication="name">thymeleaf</span>!</h4></p>
+            <form th:action="@{/logout}" method="post">
+                <input type="submit"  value="Sign Out"/>
+            </form>
+        </div>
         <div class="container-fluid p-5 bg-primary text-white text-center">
             <h1>Student Tech Store</h1>
             <p>The best quality technology for college students just like you.</p>

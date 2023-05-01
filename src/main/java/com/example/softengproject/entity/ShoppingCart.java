@@ -8,7 +8,6 @@ import jakarta.persistence.Entity;
 import lombok.Data;
 import javax.validation.constraints.NotNull;
 
-@Entity
 @Data
 public class ShoppingCart implements Serializable {
 

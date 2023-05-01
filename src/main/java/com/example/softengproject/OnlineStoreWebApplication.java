@@ -2,6 +2,7 @@ package com.example.softengproject;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -12,8 +13,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * Application will not run unless DataSourceAutoConfiguration.class is 
  *  excluded in the SpringBootAppplication annotation
  */
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+// @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+@SpringBootApplication
 @AutoConfiguration
+@EnableAutoConfiguration
 public class OnlineStoreWebApplication implements WebMvcConfigurer{
 
     /**
