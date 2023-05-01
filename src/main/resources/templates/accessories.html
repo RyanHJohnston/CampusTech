@@ -54,6 +54,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="home">About</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="register">Register</a>
+                    </li>
                 </ul>
             </div>
             <form class="d-flex" method="GET">
@@ -89,7 +95,7 @@
                                         <input type="hidden" th:attr="name='quantity'" th:value="${product.quantity}">
                                         <input type="hidden" th:attr="name='vendor'" th:value="${product.vendor}">
                                         <input type="hidden" th:attr="name='rating'" th:value="${product.rating}">
-                                        <button type="submit" class="btn btn-primary" name="Submit">Add to Cart</button>
+                                        <button type="submit" class="btn btn-primary btn-dark" name="Submit">Add to Cart</button>
                                     </form>
 
                                 </ul>
@@ -104,7 +110,7 @@
 
 
             </div>
-            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" style="border: 1px solid lightgrey;">
+            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 position-fixed" style="border: 1px solid lightgrey;">
                 <div class="card">
                     <div class="card-body">
                         <h4>Filter</h4>
@@ -171,6 +177,9 @@
                 </div>
             </div>
 
+                <div class="navbar bg-primary navbar-light bg-light fixed-bottom">
+            <p class="text text-center">CampusTech Inc.</p>
+        </div>
 
             <script type="text/javascript" th:inline="javascript">
                 // Keeps the current scroll position after page reload
@@ -183,6 +192,12 @@
                     localStorage.setItem("scrollPosition", window.scrollY);
                 };
             </script>
+
+                        <style>
+.position-fixed {
+    right: 0;
+}
+            </style>
 
             <!----------------------------  PRODUCT CARD -------------------------->
             <!-- <div class="container d-flex justify-content-center" th:each="product: ${productList}">

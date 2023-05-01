@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.Comparator;
 
@@ -27,6 +28,7 @@ import com.example.softengproject.entity.Invoice;
 import com.example.softengproject.entity.Product;
 import com.example.softengproject.entity.ShoppingCart;
 import com.example.softengproject.entity.Product.Type;
+import com.example.softengproject.entity.User;
 
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
@@ -67,10 +69,65 @@ public class MainController {
         return "/403";
     }
 
+
+
     @RequestMapping(value = "/", method = RequestMethod.GET) 
     public String showHomeTemplate() throws Exception {
         return "home";
     }
+
+
+    @RequestMapping(value="/login",method=RequestMethod.GET) 
+    public String showLoginForm(Model model) {
+        model.addAttribute("user", new User());
+        return "login";
+    }
+
+    @RequestMapping(value="/login",method=RequestMethod.POST)
+    public String submitLoginForm(Model model, @ModelAttribute User user) {
+
+        String sqlQuery = "SELECT COUNT(*) FROM Users WHERE username = ? AND password = ?";
+        Boolean exists = false;
+        Integer count = jdbcTemplate.queryForObject(sqlQuery, new Object[] { user.getUsername(), user.getPassword() }, Integer.class);
+        
+        if (count == 0) {
+            model.addAttribute("errorMessage", "User not found");
+            return "login";
+        }
+
+        return "redirect:/home";
+    }
+
+
+    @RequestMapping(value="/register",method=RequestMethod.GET)
+    public String showRegisterForm(Model model) {
+        model.addAttribute("user", new User());
+        return "register";
+    }
+
+
+    @RequestMapping(value="/register",method=RequestMethod.POST)
+    public String submitRegisterForm(Model model, @ModelAttribute User user) {
+        Random random = new Random(); 
+        String sqlQueryAddUser = 
+            "INSERT INTO Users (auto_id, username, password, email) VALUES (?,?,?,?)";
+        Integer result = 0;
+        try {
+            result = jdbcTemplate.update(sqlQueryAddUser, random.nextInt(10000000, 99999999), user.getUsername(), user.getPassword(), user.getEmail());
+
+            if (result > 0) {
+                System.out.println("\n\nUser: + " + user.getUsername() + " has successfully been added to the User table\n\n");
+            }
+        } catch (JDBCException e) {
+            e.printStackTrace();
+        }
+
+        return "redirect:/login";
+    }
+
+
+
+
 
     /**
      * Fetches data from Invoice template
@@ -669,6 +726,13 @@ public class MainController {
         String sqlQuerySelectAll = "SELECT COUNT(*) FROM Shopping_Cart_Items WHERE product_id = ?";
         Boolean exists = false;
         Integer count = jdbcTemplate.queryForObject(sqlQuerySelectAll, new Object[] { product.getId().toString() }, Integer.class);
+        return exists = count > 0;
+    }
+
+    private Boolean userExists(String id) {
+        String sqlQuery = "SELECT COUNT(*) FROM Users WHERE auto_id = ?";
+        Boolean exists = false;
+        Integer count = jdbcTemplate.queryForObject(sqlQuery, new Object[] { id }, Integer.class);
         return exists = count > 0;
     }
 

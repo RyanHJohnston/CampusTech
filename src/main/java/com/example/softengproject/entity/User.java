@@ -9,12 +9,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 
-@Data // SUPER IMPORTANT, it generates helper methods during runtime!!! 
 public class User {
+    
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Integer id;
 
     @NotBlank(message = "User's firstName cannot be empty")
     @NotNull(message = "User's firstName cannot be NULL")
@@ -36,20 +34,16 @@ public class User {
     @NotNull(message = "User's password cannot be NULL")
     private String password;
 
-    @NotBlank(message = "User's dateOfBirth cannot be empty")
-    @NotNull(message = "User's dateOfBirth cannot be NULL")
-    private Long dateOfBirth;
-
     public User() {}
 
-    public User(String firstName, String lastName, String email, String username, 
-            String password, Long dateOfBirth) {
+    public User(Integer id, String firstName, String lastName, String email, String username, 
+            String password) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.username = username;
         this.password = password;
-        this.dateOfBirth = dateOfBirth;
     }
 
     /**
@@ -64,16 +58,6 @@ public class User {
         } catch (Exception exception) {
             exception.printStackTrace();
         }
-    }
-
-
-    /**
-     * Gets the User's ID
-     *
-     * @return id
-     */
-    public Long getId() {
-        return id;
     }
 
 
@@ -126,15 +110,6 @@ public class User {
     }
 
     /**
-     * Sets the User's ID
-     *
-     * @param id Long id
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /**
      * Sets the User's first name
      *
      * @param firstName String firstName
@@ -181,18 +156,19 @@ public class User {
         this.password = password;
     }
 
-    /**
-     * Sets the User's date of birth
-     *
-     * @param dateOfBirth Long dateOfBirth
-     */
-    public void setDateOfBirth(Long dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
 
     @Override
     public String toString() {
         return super.toString();
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
 
 }
