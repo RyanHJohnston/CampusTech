@@ -244,7 +244,9 @@ public class MainController {
        return "desktops";
        }
        */
-    //New
+
+
+    //Load and Search Desktop Products
     @RequestMapping(value = "/desktops", method = RequestMethod.GET)
     public String showDesktopTemplate(Model model, @RequestParam(name="searchTerm", required=false) String searchTerm, 
             @RequestParam(name="priceRange", required=false) String priceRange, 
@@ -252,68 +254,130 @@ public class MainController {
             @RequestParam(name="sortOrder", required=false) String sortOrder) throws Exception {
             ArrayList<Product> productList = loadProductTypeDesktopList();
 
+            productList = searchConditional(productList, searchTerm, priceRange, rating, sortOrder);
 
-            if (sortOrder != null && !sortOrder.isEmpty()) {
-                switch (sortOrder) {
-                    case "nameAZ":
-                        productList.sort(Comparator.comparing(Product::getName));
-                        break;
-                    case "nameZA":
-                        productList.sort(Comparator.comparing(Product::getName).reversed());
-                        break;
-                    case "vendorAZ":
-                        productList.sort(Comparator.comparing(Product::getVendor));
-                        break;
-                    case "vendorZA":
-                        productList.sort(Comparator.comparing(Product::getVendor).reversed());
-                        break;
-                    case "priceLtoH":
-                        productList.sort(Comparator.comparing(Product::getPrice));
-                        break;
-                    case "priceHtoL":
-                        productList.sort(Comparator.comparing(Product::getPrice).reversed());
-                        break;
-                    default:
-                        break;
-                }
-            }
-            if (searchTerm != null && !searchTerm.isEmpty()) {
-                productList = searchProductList(productList, searchTerm);
-            }
-            if (priceRange != null && !priceRange.isEmpty()) {
-                int minPrice = 0;
-                int maxPrice = Integer.MAX_VALUE;
-                switch (priceRange) {
-                    case "1":
-                        maxPrice = 200;
-                        break;
-                    case "2":
-                        minPrice = 200;
-                        maxPrice = 400;
-                        break;
-                    case "3":
-                        minPrice = 400;
-                        maxPrice = 700;
-                        break;
-                    case "4":
-                        minPrice = 700;
-                        maxPrice = 1000;
-                        break;
-                    case "5":
-                        minPrice = 1000;
-                        break;
-                }
-                productList = filterProductListByPrice(productList, minPrice, maxPrice);
-            }
-            if (rating != null && !rating.isEmpty()) {
-                productList = filterProductListByRating(productList, Integer.parseInt(rating));
-            }
 
             model.addAttribute("productList", productList);
             model.addAttribute("productDTO", product); 
 
             return "desktops";
     }
+
+    //Load and Search Laptop Products
+    @RequestMapping(value = "/laptops", method = RequestMethod.GET)
+    public String showLaptopTemplate(Model model, @RequestParam(name="searchTerm", required=false) String searchTerm, 
+            @RequestParam(name="priceRange", required=false) String priceRange, 
+            @RequestParam(name="rating", required=false) String rating,
+            @RequestParam(name="sortOrder", required=false) String sortOrder) throws Exception {
+            ArrayList<Product> productList = loadProductTypeLaptopList();
+
+            productList = searchConditional(productList, searchTerm, priceRange, rating, sortOrder);
+
+
+            model.addAttribute("productList", productList);
+            model.addAttribute("productDTO", product); 
+
+            return "laptops";
+    } 
+
+    //Load and Search Phone Products
+    @RequestMapping(value = "/phones", method = RequestMethod.GET)
+    public String showPhoneTemplate(Model model, @RequestParam(name="searchTerm", required=false) String searchTerm, 
+            @RequestParam(name="priceRange", required=false) String priceRange, 
+            @RequestParam(name="rating", required=false) String rating,
+            @RequestParam(name="sortOrder", required=false) String sortOrder) throws Exception {
+            ArrayList<Product> productList = loadProductTypePhoneList();
+
+            productList = searchConditional(productList, searchTerm, priceRange, rating, sortOrder);
+
+
+            model.addAttribute("productList", productList);
+            model.addAttribute("productDTO", product); 
+
+            return "phones";
+    }
+
+    //Load and Search Accessories Products
+    @RequestMapping(value = "/accessories", method = RequestMethod.GET)
+    public String showAccessoriesTemplatepublic(Model model, @RequestParam(name="searchTerm", required=false) String searchTerm, 
+            @RequestParam(name="priceRange", required=false) String priceRange, 
+            @RequestParam(name="rating", required=false) String rating,
+            @RequestParam(name="sortOrder", required=false) String sortOrder) throws Exception {
+            ArrayList<Product> productList = loadProductTypeAccessoriesList();
+
+            productList = searchConditional(productList, searchTerm, priceRange, rating, sortOrder);
+
+
+            model.addAttribute("productList", productList);
+            model.addAttribute("productDTO", product); 
+
+
+            return "accessories";
+    }
+
+    //return productList of combined search/sort/filters
+    private ArrayList<Product>  searchConditional(ArrayList<Product> productList, String searchTerm, String priceRange, String rating, String sortOrder){
+        if (sortOrder != null && !sortOrder.isEmpty()) {
+            switch (sortOrder) {
+                case "nameAZ":
+                    productList.sort(Comparator.comparing(Product::getName));
+                    break;
+                case "nameZA":
+                    productList.sort(Comparator.comparing(Product::getName).reversed());
+                    break;
+                case "vendorAZ":
+                    productList.sort(Comparator.comparing(Product::getVendor));
+                    break;
+                case "vendorZA":
+                    productList.sort(Comparator.comparing(Product::getVendor).reversed());
+                    break;
+                case "priceLtoH":
+                    productList.sort(Comparator.comparing(Product::getPrice));
+                    break;
+                case "priceHtoL":
+                    productList.sort(Comparator.comparing(Product::getPrice).reversed());
+                    break;
+                default:
+                    break;
+            }
+        }
+        if (searchTerm != null && !searchTerm.isEmpty()) {
+            productList = searchProductList(productList, searchTerm);
+        }
+        if (priceRange != null && !priceRange.isEmpty()) {
+            int minPrice = 0;
+            int maxPrice = Integer.MAX_VALUE;
+            switch (priceRange) {
+                case "1":
+                    maxPrice = 200;
+                    break;
+                case "2":
+                    minPrice = 200;
+                    maxPrice = 400;
+                    break;
+                case "3":
+                    minPrice = 400;
+                    maxPrice = 700;
+                    break;
+                case "4":
+                    minPrice = 700;
+                    maxPrice = 1000;
+                    break;
+                case "5":
+                    minPrice = 1000;
+                    break;
+                default:
+                    break;
+            }
+            productList = filterProductListByPrice(productList, minPrice, maxPrice);
+        }
+        if (rating != null && !rating.isEmpty()) {
+            productList = filterProductListByRating(productList, Integer.parseInt(rating));
+        }
+
+        return productList;
+    }
+
 
     /* Searches through Product List if search button is enabled */
     private ArrayList<Product>  searchProductList(ArrayList<Product> productList, String searchTerm) {
@@ -352,23 +416,8 @@ public class MainController {
 
     }
 
-    @RequestMapping(value = "/laptops", method = RequestMethod.GET)
-    public String showLaptopTemplate(Model model) throws Exception {
-        model.addAttribute("productList", loadProductTypeLaptopList());
-        return "laptops";
-    } 
 
-    @RequestMapping(value = "/phones", method = RequestMethod.GET)
-    public String showPhoneTemplate(Model model) throws Exception {
-        model.addAttribute("productList", loadProductTypePhoneList());
-        return "phones";
-    }
 
-    @RequestMapping(value = "/accessories", method = RequestMethod.GET)
-    public String showAccessoriesTemplate(Model model) throws Exception {
-        model.addAttribute("productList", loadProductTypeAccessoriesList());
-        return "accessories";
-    }
 
     @RequestMapping(value = "/shopping-cart", method = RequestMethod.GET)
     public String showShoppingCartTemplate(Model model, @ModelAttribute Product productRemoved) throws Exception {
