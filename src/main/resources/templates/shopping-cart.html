@@ -304,7 +304,7 @@
                             </div>
                         </div>
                         <hr class="mb-4">
-                        <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+                        <button class="btn btn-primary btn-lg btn-block" id="checkout" type="submit" onClick="checkForm()">Continue to checkout</button>
                     </form>
                 </div>
             </div>
@@ -350,146 +350,76 @@
                 integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
                 crossorigin="anonymous"></script>
             <script type="text/javascript" th:inline="javascript">
-				function checkUsername()
-				{                             								// Declare function
-					var elMsg = document.getElementById('feedbackUN');     	// Get feedback element
-					var elUsername = document.getElementById('username');	// Get username input
-					if (elUsername.value.length < 5)
-					{                   									// If username too short
-						elMsg.innerHTML = '<p><b>Username must be 5 characters or more</b></p>'; // Set msg
-					}
-					else
-					{                                              			// Otherwise
-						elMsg.innerHTML = ''; 								// Clear message
-					}
-				}
+		    function checkForm()
+		    {
+			var Fname = document.getElementById('firstName');
+			var LN = document.getElementById('lastName');
+			var elUsername = document.getElementById('username');
+			var address = document.getElementById('address');
+			var email = document.getElementById('email');
+			var ZIP = document.getElementById('zip');
+			var CCname = document.getElementById('cc-name');
+			var CCnum = document.getElementById('cc-number');
+			var CCexp = document.getElementById('cc-expiration');
+			var CCCVV = document.getElementById('cc-cvv');
 
-				function checkAddress()
-				{
-					var elMsg = document.getElementById('invalid-feedbackAD');     	// Get feedback element
-					var address = document.getElementById('address');	// Get username input
-					if (address.value.length < 10)
-					{                   									// If username too short
-						elMsg.innerHTML = '<p><b>Address must be 10 characters or more</b></p>'; // Set msg
-					}
-					else
-					{                                              			// Otherwise
-						elMsg.innerHTML = ''; 								// Clear message
-					}
-				}
+			var canSubmit = true;
+			if (Fname.value.length == 0)
+			{
+				canSubmit = false;
+			}
 
-				function checkEmail()
-				{
-					var elMsg = document.getElementById('invalid-feedbackEM');     	// Get feedback element
-					var email = document.getElementById('email');	// Get username input
-					if (email.value.length < 10)
-					{                   									// If username too short
-						elMsg.innerHTML = '<p><b>Email must be 10 characters or more</b></p>'; // Set msg
-					}
-					else
-					{                                              			// Otherwise
-						elMsg.innerHTML = ''; 								// Clear message
-					}
-				}
+			if (LN.value.length == 0)
+			{
+				canSubmit = false;
+			}
 
-				function checkFN()
-				{
-					var elMsg = document.getElementById('invalid-feedbackFN');     	// Get feedback element
-					var FN = document.getElementById('firstName');	// Get username input
-					if (FN.value.length < 2)
-					{                   									// If username too short
-						elMsg.innerHTML = '<p><b>First name must be 2 characters or more</b></p>'; // Set msg
-					}
-					else
-					{                                              			// Otherwise
-						elMsg.innerHTML = ''; 								// Clear message
-					}
-				}
+			if (elUsername.value.length == 0)
+			{
+				canSubmit = false;
+			}
 
-				function checkLN()
-				{
-					var elMsg = document.getElementById('invalid-feedbackLN');     	// Get feedback element
-					var LN = document.getElementById('lastName');	// Get username input
-					if (LN.value.length < 2)
-					{                   									// If username too short
-						elMsg.innerHTML = '<p><b>Last name must be 2 characters or more</b></p>'; // Set msg
-					}
-					else
-					{                                              			// Otherwise
-						elMsg.innerHTML = ''; 								// Clear message
-					}
-				}
+			if (address.value.length == 0)
+			{
+				canSubmit = false;
+			}
 
-				function checkZIP()
-				{
-					var elMsg = document.getElementById('invalid-feedbackZIP');     	// Get feedback element
-					var ZIP = document.getElementById('zip');	// Get username input
-					if (ZIP.value.length < 5 || ZIP.value.length > 5)
-					{                   									// If username too short
-						elMsg.innerHTML = '<p><b>ZIP code must be 5 digits long</b></p>'; // Set msg
-					}
-					else
-					{                                              			// Otherwise
-						elMsg.innerHTML = ''; 								// Clear message
-					}
-				}
+			if (email.value.length == 0)
+			{
+				canSubmit = false;
+			}
 
-				function checkCCName()
-				{
-					var elMsg = document.getElementById('invalid-feedbackCCName');     	// Get feedback element
-					var CCname = document.getElementById('cc-name');	// Get username input
-					if (CCname.value.length < 8)
-					{                   									// If username too short
-						elMsg.innerHTML = '<p><b>Name must be longer than 8 characters</b></p>'; // Set msg
-					}
-					else
-					{                                              			// Otherwise
-						elMsg.innerHTML = ''; 								// Clear message
-					}
-				}
+			if (ZIP.value.length == 0)
+			{
+				canSubmit = false;
+			}
 
-				function checkCCNum()
-				{
-					var elMsg = document.getElementById('invalid-feedbackCCNum');     	// Get feedback element
-					var CCnum = document.getElementById('cc-number');	// Get username input
-					if (CCnum.value.length < 16 || CCnum.value.length > 16)
-					{                   									// If username too short
-						elMsg.innerHTML = '<p><b>Card number must be 16 characters long</b></p>'; // Set msg
-					}
-					else
-					{                                              			// Otherwise
-						elMsg.innerHTML = ''; 								// Clear message
-					}
-				}
+			if (CCname.value.length == 0)
+			{
+				canSubmit = false;
+			}
 
-				function checkCCExp()
-				{
-					var elMsg = document.getElementById('invalid-feedbackCCEXP');     	// Get feedback element
-					var CCexp = document.getElementById('cc-expiration');	// Get username input
-					if (CCexp.value.length < 4 || CCexp.value.length > 4)
-					{                   									// If username too short
-						elMsg.innerHTML = '<p><b>Card expiration must be 4 characters long</b></p>'; // Set msg
-					}
-					else
-					{                                              			// Otherwise
-						elMsg.innerHTML = ''; 								// Clear message
-					}
-				}
+			if (CCnum.value.length == 0)
+			{
+				canSubmit = false;
+			}
 
-				function checkCCCVV()
-				{
-					var elMsg = document.getElementById('invalid-feedbackCCCVV');     	// Get feedback element
-					var CCCVV = document.getElementById('cc-cvv');	// Get username input
-					if (CCCVV.value.length < 3 || CCexp.value.length > 3)
-					{                   									// If username too short
-						elMsg.innerHTML = '<p><b>Card CVV must be 3 characters long</b></p>'; // Set msg
-					}
-					else
-					{                                              			// Otherwise
-						elMsg.innerHTML = ''; 								// Clear message
-					}
-				}
-			</script>
+			if (CCexp.value.length == 0)
+			{
+				canSubmit = false;
+			}
+
+			if (CCCVV.value.length == 0)
+			{
+				canSubmit = false;
+			}
+
+			if (canSubmit)
+			{
+				document.getElementById("checkout").disabled = false;
+			}
+		}
+	</script>
 
     </body>
 </html>
