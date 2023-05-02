@@ -1,0 +1,151 @@
+
+<!-- HOME PAGE -->
+
+<!DOCTYPE>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" 
+        <!-- media="all" th:href="@{/index.css}" -->
+        <title>Home</title>
+        <!-- THIS IS NEEDED IN EVERY HTML HEADER FOR BOOTSTRAP AND JQUERY TO WORK
+        -->
+        <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+    </head>
+    <body>
+
+        <div class="container-fluid p-5 bg-primary text-white text-center">
+            <h1>CampusTech</h1>
+            <p>The best quality technology for college students just like you.</p>
+        </div>
+
+        <!-------------------------------- NAVIGATION BAR ------------------------->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="home">Home<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="desktops">Desktops</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="laptops">Laptops</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="phones">Phones</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="accessories">Accessories</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="shopping-cart">Shopping
+                            Cart</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="home">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="register">Register</a>
+                    </li>
+                </ul>
+            </div>
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </nav>
+
+
+        <div class="align-items: center mt-5;" style="margin-top: 100px;">
+            <div class="d-flex justify-content-center mt-3 mt-5"  > <h3 class="text text-center">Finding Best Products Now<br> in Your Fingertips</h3> </div>
+            <div class="row mt-2 g-4">
+                <div class="col-md-3" >
+                    <div class="card p-1">
+                        <img class="card-img-top" src="https://images.unsplash.com/photo-1593640408182-31c70c8268f5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MzJ8fERlc2t0b3AlMjBQQ3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Desktops</h5>
+                            <p class="card-text">Desktops can be very powerful and reliable machines, making them a great choice for tasks such as gaming, video editing, and other intensive computing needs.</p>
+                            <a href="desktops" class="btn btn-primary btn-dark">Shop for desktops</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card p-2">
+                            <img class="card-img-top" src=" https://images.unsplash.com/photo-1593642634315-48f5414c3ad9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTR8fGxhcHRvcHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">Laptops</h5>
+                                <p class="card-text">Laptops are portable and versatile, allowing users to work, study, or enjoy videos from anywhere, making them a great choice for people who need mobility.</p>
+                                <a href="laptops" class="btn btn-primary btn-dark">Shop for laptops</a>
+                            </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card p-2">
+                        <img class="card-img-top" src="https://images.unsplash.com/photo-1571239982287-9a7a17c1b9c1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mzl8fHNtYXJ0cGhvbmV8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">Phones</h5>
+                                <p class="card-text">Smartphones are devices that provide users with a range of features, including communication, entertainment, and productivity tools in a pocket device.</p>
+                                <a href="phones" class="btn btn-primary btn-dark">Shop for phones</a>
+                            </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card p-2">
+                       <img class="card-img-top" src="https://images.unsplash.com/photo-1596207891316-23851be3cc20?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDB8fENoYXJnZXJ8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60" alt="Card image cap">
+                            <div class="card-body">
+                                <h5 class="card-title">Accessories</h5>
+                                <p class="card-text">Tech accessories, such as wireless headphones, smartwatches, and portable chargers, can enhance the functionality and convenience of tech devices.</p>
+                                <a href="accessories" class="btn btn-primary btn-dark">Shop for accesories</a>
+                            </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center mt-3 mt-5" style="margin-left: 500px;"><h2 class="text text-center">The best quality technology for college students just like you.</h2></div>
+            </div>
+        </div>
+
+        <div class="navbar bg-primary navbar-light bg-light fixed-bottom">
+            <p class="text text-center">CampusTech Inc.</p>
+        </div>
+
+
+        <style>
+        img {
+    float: left;
+    width:  300px;
+    height: 300px;
+    object-fit: cover;
+}
+        </style>
+      
+
+        <!-- NEEDED IN EVERY HTML FILE FOR BOOTSTRAP AND JQUERY TO WORK -->
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+
+    </body>
+</html>
+
