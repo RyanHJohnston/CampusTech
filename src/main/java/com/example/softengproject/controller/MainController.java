@@ -1,3 +1,4 @@
+
 package com.example.softengproject.controller;
 
 import java.io.BufferedReader;
@@ -39,7 +40,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 /* 
  * A simple controller class must do the following:
  * Handle HTTP GET requests where the request path is /demo
@@ -70,7 +70,6 @@ public class MainController {
     }
 
 
-
     @RequestMapping(value = "/", method = RequestMethod.GET) 
     public String showHomeTemplate() throws Exception {
         return "home";
@@ -89,7 +88,7 @@ public class MainController {
         String sqlQuery = "SELECT COUNT(*) FROM Users WHERE username = ? AND password = ?";
         Boolean exists = false;
         Integer count = jdbcTemplate.queryForObject(sqlQuery, new Object[] { user.getUsername(), user.getPassword() }, Integer.class);
-        
+
         if (count == 0) {
             model.addAttribute("errorMessage", "User not found");
             return "login";
@@ -101,7 +100,6 @@ public class MainController {
 
         return "redirect:/home";
     }
-
 
     @RequestMapping(value="/register",method=RequestMethod.GET)
     public String showRegisterForm(Model model) {
@@ -129,10 +127,6 @@ public class MainController {
         return "login";
     }
 
-
-
-
-
     /**
      * Fetches data from Invoice template
      *
@@ -159,41 +153,28 @@ public class MainController {
         model.addAttribute("shoppingCartTotalPrice", Double.toString(Math.round(getTotalShoppingCartPrice())));
         model.addAttribute("shoppingCartProductListQuantity", Integer.toString(getTotalShoppingCartProductQuantity()));
         model.addAttribute("shoppingCartProductTotalPrice", Double.toString(Math.round(getTotalShoppingCartPrice())));
-
         result = jdbcTemplate.update(sql);
 
         return "invoice";
     }
-
-
-    /**
-     * Sends submitted data to Invoice
-     *
-     * @param product [TODO:description]
-     * @param model [TODO:description]
-     *
-     * @return [TODO:description]
-     *
-     * @throws Exception [TODO:description]
-     */
+    
     @RequestMapping(value={"/invoice"}, method=RequestMethod.POST)
     public String submitCheckout(@ModelAttribute Invoice invoice, Model model) throws Exception {
-
-        String sql = "INSERT INTO Invoice (invoice_id, first_name, last_name, email) VALUES ('0000','Ryan','Johnston','@mail.com')";
+        String sqlQuery = "INSERT INTO Invoice (invoice_id,first_name,last_name,email) VALUES ('0000','Ryan','Johnston','@mail.com')";
         String url = "jdbc:mysql://localhost:3306/CampusTech";
         String user = "root";
         String password = "praisethesun!!!";
 
-        try (Connection conn = DriverManager.getConnection(url, user, password)) {
-            PreparedStatement statement = conn.prepareStatement(sql);
+        try (Connection connection = DriverManager.getConnection(url, user, password)) {
+            PreparedStatement statement = connection.prepareStatement(sqlQuery);
             Integer rowInserted = statement.executeUpdate();
             if (rowInserted > 0) {
-                System.out.println("\nInsert into Invoice was successfull\n\n");
+                System.err.println("\nERROR: Insert into Invoice failed\n\n");
             }
-        } catch (SQLException e) {
-            System.err.println("An error occurred while inserting into Invoice: " + e.getMessage());
+        } catch (SQLException exception) {
+            System.err.println("ERROR: Unable to query into Invoice Table: " + exception.getMessage());
         }
-
+         
         System.out.println("\nGet Invoice name: "+invoice.getFirstName()+"\n\n");
         model.addAttribute("invoice", invoice);
         model.addAttribute("shoppingCartTotalPrice", Double.toString(getTotalShoppingCartPrice()));
@@ -203,7 +184,6 @@ public class MainController {
 
         return "redirect:/home";
     }
-
 
     /*
      * Fetch index of item
@@ -476,9 +456,6 @@ public class MainController {
             .collect(Collectors.toCollection(ArrayList::new));
 
     }
-
-
-
 
     @RequestMapping(value = "/shopping-cart", method = RequestMethod.GET)
     public String showShoppingCartTemplate(Model model, @ModelAttribute Product productRemoved) throws Exception {
@@ -764,28 +741,31 @@ public class MainController {
         return result;
     }
 
-
+    /**
+     * Gets total shopping cart quantity
+     *
+     * @return sum of quantity column in shopping cart table
+     */
     @ModelAttribute
     public Integer getTotalShoppingCartProductQuantity() {
         String sqlQuery = "SELECT SUM(quantity_in_cart) FROM Shopping_Cart_Items";
-
         Integer sum = 0;
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/CampusTech",
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/CampusTech",
                     "root", "praisethesun!!!");
-            Statement st = con.createStatement();
-            ResultSet res = st.executeQuery(sqlQuery);
-            while (res.next()) {
-                Integer c = res.getInt(1);
-                sum = sum + c;
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sqlQuery);
+            while (resultSet.next()) {
+                Integer count = resultSet.getInt(1);
+                sum += count;
             }
-            System.out.println("Sum of column = " + sum);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e1) {
+            System.out.println("Sum of column: " + sum);
+        } catch (SQLException e1) {
             e1.printStackTrace();
+        } catch (ClassNotFoundException e2) {
+            e2.printStackTrace();
         }
         return sum;
     }

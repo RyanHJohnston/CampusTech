@@ -101,7 +101,6 @@
                                     <input type="hidden" th:attr="name='quantity'" th:value="${product.quantity}">
                                     <input type="hidden" th:attr="name='vendor'" th:value="${product.vendor}">
                                     <input type="hidden" th:attr="name='rating'" th:value="${product.rating}">
-
                                     <button type="submit" class="btn btn-dark btn-primary btn-sm">Remove</button>
                                 </form>
                             </div>
@@ -287,8 +286,7 @@
                     <li class="list-inline-item"><a href="#">Support</a></li>
                 </ul>
             </footer>
-
-
+            
             <script type="text/javascript" th:inline="javascript">
                 // Keeps the current scroll position after page reload
                 document.addEventListener("DOMContentLoaded", function(event) {
