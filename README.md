@@ -3,14 +3,14 @@ This was a final project for my Software Engineering class that I took in colleg
 
 ### Old Tech Stack ###
 Languages: Java, JavaScript, HTML, CSS, MySQL, XML <br>
-Backend: Spring MVC, MySQL Oracle Database, Tomcat9 Server, AWS with Ubuntu
-Frontend: Thymeleaf
+Backend: Spring MVC, MySQL Oracle Database, Tomcat9 Server, AWS with Ubuntu <br>
+Frontend: Thymeleaf <br>
 
 ### New Tech Stack ###
-Languages: Java, JSX, MySQL, XML, Python, and possibly Rust
-Backend: Spring MVC, MySQL MariaDB, Tomcat9 Server, AWS with Ubuntu
-Frontend: React, Thymeleaf
+Languages: Java, JSX, MySQL, XML, Python, and possibly Rust <br>
+Backend: Spring MVC, MySQL MariaDB, Tomcat9 Server, AWS with Ubuntu <br>
+Frontend: React, Thymeleaf <br>
 
 ### Deployed on AWS, Visit Link Here to See Store ###
-[CampusTech](http://ec2-18-220-27-75.us-east-2.compute.amazonaws.com:8081/)
+[CampusTech](http://ec2-18-220-27-75.us-east-2.compute.amazonaws.com:8081/) <br>
 The store may be down since I'm using the free trial for AWS EC2 instances and I'm currently in school.
