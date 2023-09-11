@@ -297,6 +297,14 @@
                 window.onbeforeunload = function(e) {
                     localStorage.setItem("scrollPosition", window.scrollY);
                 };
+                
+                function checkFormTest() {
+                    let Fname = document.getElementById("firstName");
+                    let Lname = document.getElementById("lastName");
+                    var canSubmit = Fname.value.length > 0
+                        && Lname.value.length > 0;
+                    document.getElementById("checkout").disabled = !canSubmit;
+                }
 
                 function checkForm()
                 {

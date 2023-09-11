@@ -85,7 +85,6 @@
                                     <li>Rating: <span th:text="${product.rating}"></span>/5</li>
                                     <li>Index: <span th:text="${iter.index}"></span></li>
                                     <li>Description: <span th:text="${product.description}"></span></li>
-
                                     <form action="#" th:action="@{/desktops}" th:object="${productDTO}" method="post">
                                         <input type="hidden" th:attr="name='id'" th:value="${product.id}">
                                         <input type="hidden" th:attr="name='name'" th:value="${product.name}">

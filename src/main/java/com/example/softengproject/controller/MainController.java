@@ -157,7 +157,7 @@ public class MainController {
 
         return "invoice";
     }
-    
+   
     @RequestMapping(value={"/invoice"}, method=RequestMethod.POST)
     public String submitCheckout(@ModelAttribute Invoice invoice, Model model) throws Exception {
         String sqlQuery = "INSERT INTO Invoice (invoice_id,first_name,last_name,email) VALUES ('0000','Ryan','Johnston','@mail.com')";
@@ -794,5 +794,6 @@ public class MainController {
         }
         return totalPrice;
     }
-
 }
+
+
